@@ -2,7 +2,7 @@
 import { derived, writable, type Writable, get } from 'svelte/store';
 import { browser } from '$app/environment';
 import { translations, available_locales } from './translations';
-import type { Locale, Translation } from './translations';
+import type { Locale, Translation } from "$lib/types/translations";
 
 /* -----------------------------------------
  * Types
@@ -192,6 +192,7 @@ export const trans: Writable<Translation | null> = writable(null);
 export const browser_name: Writable<string | null> = writable(null);
 export const window_height: Writable<number | null> = writable(null);
 export const window_width: Writable<number | null> = writable(null);
+export const theme_color: Writable<"light" | "dark"> = writable("dark");
 
 export const landing_on: Writable<string> = writable('');
 export const api_url: Writable<string> = writable('https://deck.cairngit.eu/v1');

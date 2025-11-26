@@ -21,3 +21,10 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Production projects data (keep sample only)
+src/lib/data/projects.json
+
+# Production data 
+static/assets/
+!static/assets/.gitkeep

@@ -1,0 +1,440 @@
+    {
+    "software": [
+        {
+        "id": "tabula-banquet-archive",
+        "display": true,
+        "origin": "domestica",
+        "partners": [
+            {
+            "name": "Livie",
+            "avatar": "/people/livie.png",
+            "fr": "Protocole de rangement",
+            "en": "Storage protocol"
+            },
+            {
+            "name": "Cicéron",
+            "avatar": "/people/ciceron.png",
+            "fr": "Classification archivistique",
+            "en": "Archival classification"
+            }
+        ],
+        "title": {
+            "fr": "Système d'archivage de banquets en tablettes",
+            "en": "Banquet archival system in tablets"
+        },
+        "description": {
+            "fr": "Les triclinium des patriciens étaient planifiés chaotiquement. Nous avons conçu un casier en bois massif comportant sept rangées de tablettes en argile. Chaque tablette enregistre : disposition des invités, menu, timing des services, notes politiques, incidents diplomatiques. Un système de codage par encoches dans les coins permet de retrouver rapidement une tablette (rangée 3, position 5, type \"banquet d'ambassadeurs\"). Les archivistes peuvent consulter des centaines de banquets passés pour répliquer les succès ou éviter les scandales précédents.",
+            "en": "Patrician triclinium were planned chaotically. We engineered a solid wood cabinet with seven rows of clay tablets. Each tablet records: guest arrangement, menu, service timing, political notes, diplomatic incidents. A notch-coding system in corners enables rapid retrieval (row 3, position 5, type \"ambassador banquet\"). Archivists can consult hundreds of past feasts to replicate successes or avoid previous scandals."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/tabula/cabinet-facade.png"
+            },
+            {
+            "type": "image",
+            "src": "/tabula/tablet-samples.webp"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Organisation archivistique", "Système de classement", "Gestion mémoire institutionnelle"],
+            "en": ["Archival organisation", "Classification system", "Institutional memory management"]
+        }
+        },
+        {
+        "id": "legio-roster-system",
+        "display": true,
+        "origin": "militare",
+        "partners": [
+            {
+            "name": "César",
+            "avatar": "/people/cesar.png",
+            "fr": "Stratégie d'allocation",
+            "en": "Allocation strategy"
+            },
+            {
+            "name": "Pompée",
+            "avatar": "/people/pompee.png",
+            "fr": "Protocole de mobilité",
+            "en": "Mobility protocol"
+            }
+        ],
+        "title": {
+            "fr": "Registre de gestion de légion en tablettes",
+            "en": "Legion management roster in tablets"
+        },
+        "description": {
+            "fr": "Les légions comptaient 5 000 hommes. Les centurions ne savaient pas qui était où, qui était blessé, qui était en permission. Nous avons conçu un système de tablettes organisées par cohorte, puis par centurie. Chaque légionnaire a sa propre tablette : nom, rang (hastatus, princeps, pilus), affectation actuelle, historique de blessures, permissions prises, dates de récupération. Un casier central avec index par grade permet au préfet de localiser instantanément tous les centurions disponibles ou d'identifier les hommes prêts à la retraite. Les mutations et changements sont gravés chaque jour. Les statistiques (taux de blessures, absentéisme, promotions) sont compilées mensuellement sur tablette de synthèse.",
+            "en": "Legions numbered 5,000 men. Centurions didn't know who was where, who was injured, who was on leave. We engineered a tablet system organised by cohort, then by century. Each legionnaire has his own tablet: name, rank (hastatus, princeps, pilus), current assignment, injury history, leaves taken, recovery dates. A central cabinet with index by grade lets the prefect instantly locate available centurions or identify men ready for discharge. Transfers and changes are engraved daily. Statistics (injury rates, absenteeism, promotions) are compiled monthly on summary tablets."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/legio/cabinet-organisation.png"
+            },
+            {
+            "type": "image",
+            "src": "/legio/legionnaire-tablet-format.webp"
+            },
+            {
+            "type": "image",
+            "src": "/legio/index-system.png"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Gestion de ressources humaines", "Système d'indexation", "Historique et traçabilité"],
+            "en": ["Human resources management", "Indexing system", "History and traceability"]
+        }
+        },
+        {
+        "id": "horrea-inventory-ledger",
+        "display": true,
+        "origin": "commerciale",
+        "partners": [
+            {
+            "name": "Pline l'Ancien",
+            "avatar": "/people/pline.png",
+            "fr": "Documentation d'inventaire",
+            "en": "Inventory documentation"
+            },
+            {
+            "name": "Cléopâtre",
+            "avatar": "/people/cleopatre.png",
+            "fr": "Logistique d'approvisionnement",
+            "en": "Supply logistics"
+            }
+        ],
+        "title": {
+            "fr": "Registre de gestion d'entrepôt en tablettes",
+            "en": "Warehouse management ledger in tablets"
+        },
+        "description": {
+            "fr": "Les horrea (entrepôts portuaires) romains géraient des milliers d'amphores de grain, vin, huile. Les pertes étaient énormes : marchandises oubliées, vols, erreurs de décompte. Nous avons conçu un système de tablettes par type de marchandise (grain, vin blanc, vin rouge, huile pressée, etc.). Chaque entrée/sortie est gravée : date, quantité (en modii pour le grain, amphorae pour les liquides), fournisseur/acheteur, n° de paquet physique. Un index par date permet de retracer tout mouvement. Les pertes sont tracées : tablette de \"marchandise manquante\" avec accusations potentielles du magister horreum. Un audit mensuel compile le stock réel vs déclaré. Les discordances sont enquêtées.",
+            "en": "Roman horrea (warehouse ports) managed thousands of amphores of grain, wine, oil. Losses were massive: forgotten goods, theft, counting errors. We engineered a tablet system by commodity type (grain, white wine, red wine, pressed oil, etc.). Each entry/exit is engraved: date, quantity (in modii for grain, amphorae for liquids), supplier/buyer, physical package number. A date index traces every movement. Losses are tracked: \"missing goods\" tablet with potential accusations by the magister horreum. Monthly audit compares actual stock vs declared. Discrepancies are investigated."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/horrea/cabinet-layout.webp"
+            },
+            {
+            "type": "image",
+            "src": "/horrea/commodity-tablets.png"
+            },
+            {
+            "type": "gif",
+            "src": "/horrea/data-entry-process.gif"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Gestion de stocks", "Traçabilité de flux", "Audit et comptabilité"],
+            "en": ["Stock management", "Flow traceability", "Audit and accounting"]
+        }
+        },
+        {
+        "id": "viae-relay-navigator",
+        "display": true,
+        "origin": "communicatio",
+        "partners": [
+            {
+            "name": "Pompée",
+            "avatar": "/people/pompee.png",
+            "fr": "Infrastructure routière",
+            "en": "Road infrastructure"
+            },
+            {
+            "name": "Cicéron",
+            "avatar": "/people/ciceron.png",
+            "fr": "Classification systématique",
+            "en": "Systematic classification"
+            }
+        ],
+        "title": {
+            "fr": "Catalogue routier de relais et distances",
+            "en": "Road relay and distance catalogue"
+        },
+        "description": {
+            "fr": "Les courriers de l'empire (cursus publicus) devaient connaître les routes, les relais de chevaux, les auberges. Les informations étaient fragmentées, souvent fausses. Nous avons conçu un catalogue sur tablettes : une tablette par grande voie (Via Appia, Via Aurelia, etc.). Chaque tablette liste séquentiellement : relais, distance depuis le dernier, type de chevaux disponibles (rapides, lourds), qualité de l'auberge, magistrat responsable. Un code géométrique sur les bords permet de classifier par région. Les courriers consultent rapidement le trajet optimal. Les mises à jour sont gravées chaque saison (changements de magistrats, nouveau relais construit, ancien relais fermé). Un index régional permet de croiser les voies par destination.",
+            "en": "Empire messengers (cursus publicus) needed to know roads, horse relays, inns. Information was fragmented, often wrong. We engineered a tablet catalogue: one tablet per major road (Via Appia, Via Aurelia, etc.). Each tablet lists sequentially: relays, distance from last one, available horse types (fast, heavy), inn quality, responsible magistrate. Geometric coding on edges enables regional classification. Messengers quickly consult optimal route. Updates are engraved each season (magistrate changes, new relay built, old relay closed). Regional index cross-references roads by destination."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/viae/tablet-layout.png"
+            },
+            {
+            "type": "image",
+            "src": "/viae/regional-index.webp"
+            },
+            {
+            "type": "video",
+            "src": "/viae/route-consultation.mp4"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Cartographie et navigation", "Système de classement multi-critères", "Logistique de communication"],
+            "en": ["Mapping and navigation", "Multi-criteria classification system", "Communication logistics"]
+        }
+        },
+        {
+        "id": "basilica-architect-portfolio",
+        "display": true,
+        "origin": "architectura",
+        "partners": [
+            {
+            "name": "Vitruve",
+            "avatar": "/people/vitruve.png",
+            "fr": "Systématisation des proportions",
+            "en": "Proportions systematisation"
+            },
+            {
+            "name": "Livie",
+            "avatar": "/people/livie.png",
+            "fr": "Gestion de devis",
+            "en": "Quote management"
+            }
+        ],
+        "title": {
+            "fr": "Catalogue architectural d'édifices réalisés",
+            "en": "Architectural catalogue of completed buildings"
+        },
+        "description": {
+            "fr": "Les architectes romains reproduisaient les mêmes designs mais sans système de documentation centralisé. Chaque nouveau projet repartait de zéro. Nous avons conçu un catalogage systématique : une tablette par bâtiment réalisé. Chaque tablette grave : type d'édifice (basilique, temple, théâtre), dimensions principales (longueur, largeur, hauteur en pied romain), matériaux utilisés et coûts (marbre blanc vs travertin vs tuf), ordre architectural (dorique, ionique, corinthien), date de construction, magistrat commanditaire. Des symboles géométriques dans les marges classent par fonction (commerce, religieux, public). Les architectes peut consulter rapidement : \"tous les temples en marbre de moins de 100 pieds\" ou \"toutes les basiliques avec colonnes corinthiennes construites depuis 10 ans\". Les proportions gagnantes sont gravées en détail. Les coûts sont comparés, permettant des devis plus précis pour les nouveaux projets.",
+            "en": "Roman architects repeated designs but lacked centralised documentation. Each new project started from scratch. We engineered systematic cataloguing: one tablet per completed building. Each tablet records: building type (basilica, temple, theatre), main dimensions (length, width, height in Roman feet), materials used and costs (white marble vs travertine vs tufa), architectural order (Doric, Ionic, Corinthian), construction date, commissioning magistrate. Geometric symbols in margins classify by function (commerce, religious, public). Architects quickly consult: \"all marble temples under 100 feet\" or \"all basilicas with Corinthian columns built in last 10 years\". Winning proportions are recorded in detail. Costs are compared, enabling more accurate quotes for new projects."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/basilica/cabinet-sections.webp"
+            },
+            {
+            "type": "image",
+            "src": "/basilica/tablet-specifications.png"
+            },
+            {
+            "type": "3d",
+            "models": [
+                {
+                "file": "basilica/models/architectural-order-example.stl",
+                "color": "#F5DEB3",
+                "textureParams": {
+                    "scale": 1,
+                    "rotation": 0,
+                    "offsetX": 0,
+                    "offsetY": 0
+                }
+                }
+            ]
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Gestion de portfolio", "Documentation technique", "Analyse comparative de coûts"],
+            "en": ["Portfolio management", "Technical documentation", "Comparative cost analysis"]
+        }
+        }
+    ],
+    "hardware": [
+        {
+        "id": "amphora-authenticity-seal",
+        "display": true,
+        "origin": "commerciale",
+        "partners": [
+            {
+            "name": "César",
+            "avatar": "/people/cesar.png",
+            "fr": "Standardisation fiscale",
+            "en": "Fiscal standardisation"
+            },
+            {
+            "name": "Pline l'Ancien",
+            "avatar": "/people/pline.png",
+            "fr": "Documentation de procédé",
+            "en": "Process documentation"
+            }
+        ],
+        "title": {
+            "fr": "Presse à cacheter amphores avec signature mécanique",
+            "en": "Amphora seal press with mechanical signature"
+        },
+        "description": {
+            "fr": "Les marchands contrefaisaient les sceaux des amphores de vin et d'huile. Impossible de vérifier l'authenticité sans détuire l'amphore. Nous avons conçu une presse mécanique à cadran rotatif gravé de symboles multiples. Le cabaletier positionne le cadran selon : jour du mois (symbole A-XXX), producteur (symbole romain I-XII), qualité du lot (symbole géométrique). Le sceau résultant est une combinaison unique, gravée en relief. Les douaniers disposent d'une \"clé de déchiffrage\" (tablette maîtresse) pour vérifier rapidement.",
+            "en": "Merchants counterfeited wine and oil amphora seals. No way to verify authenticity without destroying the vessel. We engineered a mechanical press with a rotary dial engraved with multiple symbols. The press operator positions the dial by: day of month (symbol A-XXX), producer (Roman numeral I-XII), batch quality (geometric symbol). The resulting seal is a unique combination, embossed in relief. Tax collectors have a \"decryption key\" (master tablet) for rapid verification."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/amphora/press-mechanism.webp"
+            },
+            {
+            "type": "image",
+            "src": "/amphora/seal-samples.png"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Mécanique de scellement", "Cryptographie mécanique", "Contrôle fiscal"],
+            "en": ["Sealing mechanics", "Mechanical cryptography", "Fiscal control"]
+        }
+        },
+        {
+        "id": "milliarium-distance-gauge",
+        "display": true,
+        "origin": "viae",
+        "partners": [
+            {
+            "name": "Pompée",
+            "avatar": "/people/pompee.png",
+            "fr": "Infrastructure routière",
+            "en": "Road infrastructure"
+            }
+        ],
+        "title": {
+            "fr": "Jauge de distance pour milliaire calibré",
+            "en": "Distance gauge for calibrated millistone"
+        },
+        "description": {
+            "fr": "Les routes romaines avaient des milliaires (bornes kilométriques) mal placés. Les distances écrites étaient souvent fausses. Nous avons conçu une chaîne d'arpentage en bronze avec des nœuds tous les mille pas. En tirant la chaîne entre deux points de route, on obtient immédiatement la distance exacte. Cette distance est inscrite sur tablette, puis transférée sur le milliaire en pierre par le lapidaire. Système simple, fiable, reproductible.",
+            "en": "Roman roads had poorly positioned milliaries (distance markers). Recorded distances were often wrong. We engineered a bronze surveying chain with knots every thousand paces. By stretching the chain between two road points, one obtains exact distance immediately. This distance is recorded on tablet, then transferred to the stone milliaire by the stonemason. Simple, reliable, reproducible system."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/milliarium/chain-detail.webp"
+            },
+            {
+            "type": "video",
+            "src": "/milliarium/measurement-process.mp4"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Arpentage", "Métrologie", "Ingénierie routière"],
+            "en": ["Surveying", "Metrology", "Road engineering"]
+        }
+        },
+        {
+        "id": "columba-letter-capsule",
+        "display": true,
+        "origin": "communicatio",
+        "partners": [
+            {
+            "name": "Cléopâtre",
+            "avatar": "/people/cleopatre.png",
+            "fr": "Logistique de communication",
+            "en": "Communication logistics"
+            },
+            {
+            "name": "Cicéron",
+            "avatar": "/people/ciceron.png",
+            "fr": "Protocole de confidentialité",
+            "en": "Confidentiality protocol"
+            }
+        ],
+        "title": {
+            "fr": "Capsule métallique pour pigeons courriers",
+            "en": "Metal capsule for messenger pigeons"
+        },
+        "description": {
+            "fr": "Les messages envoyés par pigeons se perdaient ou étaient interceptés. Nous avons conçu une capsule cylindrique en bronze avec un mécanisme à vis : la lettre s'enroule sur un mandrin, la capsule se verrouille. Seul le destinataire disposant de la clé peut l'ouvrir. Le pigeon porte la capsule à la patte. Si l'ennemi capture le pigeon, le message est inaccessible. Système utilisé pour les correspondances diplomatiques sensibles.",
+            "en": "Messages sent by pigeons were lost or intercepted. We engineered a bronze cylindrical capsule with a screw mechanism: the letter rolls onto a mandrel, the capsule locks. Only the recipient with the key can open it. The pigeon carries the capsule on its leg. If the enemy captures the pigeon, the message remains inaccessible. System used for sensitive diplomatic correspondence."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/columba/capsule-assembly.png"
+            },
+            {
+            "type": "gif",
+            "src": "/columba/locking-mechanism.gif"
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Mécanique de verrouillage", "Sécurité cryptographique", "Logistique"],
+            "en": ["Locking mechanics", "Cryptographic security", "Logistics"]
+        }
+        },
+        {
+        "id": "clepsydra-horae-timer",
+        "display": true,
+        "origin": "temporalis",
+        "partners": [
+            {
+            "name": "Livie",
+            "avatar": "/people/livie.png",
+            "fr": "Calibrage temporel",
+            "en": "Temporal calibration"
+            }
+        ],
+        "title": {
+            "fr": "Clepsydre ajustable pour mesure d'heures",
+            "en": "Adjustable clepsydra for hourly measurement"
+        },
+        "description": {
+            "fr": "Les clepsydres (horloges à eau) romaines s'arrêtaient ou s'accéléraient selon la température. Les tribunaux ne pouvaient pas mesurer le temps de parole des avocats. Nous avons conçu une clepsydre avec un système de régulation : un flotteur dans le réservoir principal actionne un bouchon ajustable qui règle précisément le débit. Des graduations en relief permettent de calibrer chaque jour selon le nombre d'heures de lumière. Une tablette enregistre chaque ajustement.",
+            "en": "Roman clepsydrae (water clocks) stopped or accelerated based on temperature. Law courts couldn't measure lawyer speaking time. We engineered a clepsydra with a regulation system: a float in the main reservoir controls an adjustable plug that precisely regulates flow rate. Relief graduations allow daily calibration based on hours of daylight. A tablet records each adjustment."
+        },
+        "media": [
+            {
+            "type": "image",
+            "src": "/clepsydra/full-assembly.webp"
+            },
+            {
+            "type": "3d",
+            "models": [
+                {
+                "file": "clepsydra/models/main-reservoir.stl",
+                "color": "#708090",
+                "textureParams": {
+                    "scale": 1,
+                    "rotation": 0,
+                    "offsetX": 0,
+                    "offsetY": 0
+                }
+                },
+                {
+                "file": "clepsydra/models/float-mechanism.stl",
+                "color": "#DAA520",
+                "textureParams": {
+                    "scale": 1,
+                    "rotation": 0,
+                    "offsetX": 0,
+                    "offsetY": 0
+                }
+                },
+                {
+                "file": "clepsydra/models/adjustable-plug.stl",
+                "texture": "clepsydra/textures/cork.jpg",
+                "textureParams": {
+                    "scale": 0.8,
+                    "rotation": 0,
+                    "offsetX": 0,
+                    "offsetY": 0
+                }
+                },
+                {
+                "file": "clepsydra/models/measure-vessel.stl",
+                "color": "#B0C4DE",
+                "textureParams": {
+                    "scale": 1,
+                    "rotation": 0,
+                    "offsetX": 0,
+                    "offsetY": 0
+                }
+                }
+            ]
+            }
+        ],
+        "demo": "",
+        "tags": {
+            "fr": ["Horlogerie hydraulique", "Thermorégulation", "Métrologie temporelle"],
+            "en": ["Hydraulic horology", "Thermoregulation", "Temporal metrology"]
+        }
+        }
+    ]
+}

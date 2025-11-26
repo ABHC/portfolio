@@ -1,8 +1,13 @@
+import type { Locale } from "$lib/types/translations";
+
 export const translations = {
     fr: {
         language_name: "Français",
         header: {
-            name: "Alexandre 'Épinard' Combe",
+            name: "Alexandre 'Épinard' Combe |",
+            tagline1: "Développeur",
+            tagline2: "Concepteur",
+            tagline3: "Manager",
             logo_btn: "Retour à l'accueil"
         },
         menu: {
@@ -13,6 +18,15 @@ export const translations = {
             lang: "Sélectionner la langue",
             available_languages: "Langues disponibles",
             close_menu: "Fermer le menu"
+        },
+        projects_gallery: {
+            demo_btn: "Voir la démo",
+            demo_aria: "Lien vers la démo",
+            modal_btn: "En savoir plus",
+            modal_aria: "Détails du projet",
+            description: "Le project",
+            team: "Ils ont travaillé avec moi",
+            tags: "Technologies & Compétences"
         },
         footer: {
             license: "Site sous licence GPLv3",
@@ -29,7 +43,10 @@ export const translations = {
     en: {
         language_name: "English",
         header: {
-            name: "Spinach",
+            name: "Alexandre 'Spinach' Combe |",
+            tagline1: "Developer",
+            tagline2: "Designer", 
+            tagline3: "Manager",
             logo_btn: "Back to home"
         },
         menu: {
@@ -40,6 +57,15 @@ export const translations = {
             lang: "Select language",
             available_languages: "Available languages",
             close_menu: "Close menu"
+        },
+        projects_gallery: {
+            demo_btn: "View demo",
+            demo_aria: "Link to demo", 
+            modal_btn: "Learn more",
+            modal_aria: "Project details",
+            description: "The project",
+            team: "They worked with me",
+            tags: "Technologies & Skills"
         },
         footer: {
             license: "Website under GPLv3 license",
@@ -55,8 +81,4 @@ export const translations = {
     }
 };
 
-// Types 
-export type Translations = typeof translations;
-export type Locale = keyof Translations; // "fr" | "en"
-export type Translation = Translations[Locale]; // Content from one of the managed languages
 export const available_locales = Object.keys(translations) as Locale[];

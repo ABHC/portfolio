@@ -5,87 +5,149 @@
     font-style: normal;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Accent Colors */
+    --accent: #16a085;
+    --accent-dark: #0a7864;
+    --accent-darker: #076454;
+    --accent-light: #1db394;
+    --accent-lighter: #24c9a8;
+    --text-accent: #ffffff;
+    
+    /* Content Margin */
+    --top-margin: 130px;
+    --side-margin: 140px;
+    --bottom-margin: 0px;
+    
+    /* Nav variables */
+    --side-nav-btn: 60px;
+    --side-nav-padding: 5px;
+}
+
+:root[data-theme="dark"] {
+    /* Theme Colors */
+    --bg: #1a1917;
+    --card: #2d2a25;
+    --highlight: #3a3732;
+    --overlay: rgba(37, 40, 37, 0.45); 
+    
+    /* Text Colors */
+    --text: #f5f5f4;
+    --text-muted: #a8a29e;
+}
+
+:root[data-theme="light"] {
+    /* Theme Colors */
+    --bg: #e8e4d8;
+    --card: #d0c9b8; 
+    --highlight: #d9d2c1;
+    --overlay: rgba(220, 217, 206, 0.75);
+    
+    /* Text Colors */
+    --text: #1c1917; 
+    --text-muted: #57534e;
+}
+
 html,
 body {
-    background-color: var(--dark-bg);
+    background-color: var(--bg);
 }
 
 * {
-    font-family: Ubuntu;
-    /*font-family: "Inter";
-    font-family: "Space Grotesk";
-    font-family: "Rubik";*/
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: #fff;
 }
 
 header {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 68px;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2B2B2B;
-    padding: 0px 3% 0px 3%;
+    background-color: var(--card);
+    color: var(--text);
+    border-bottom: 4px solid var(--accent);
+    padding: 0px var(--side-margin) 0px var(--side-margin)
 }
 
-header h2 {
-    /*font-family: Ubuntu;*/
-    font-size: 24px;
+header #name {
     font-weight: 900;
-    font-style: normal;
     text-transform: capitalize;
 }
 
 main {
-    margin: 100px 120px 0px 120px;
+    margin: var(--top-margin) var(--side-margin) var(--bottom-margin) var(--side-margin);
 }
 
 footer {
-    background-color: #16a085ff;
+    background-color: var(--accent);
+    color: var(--text-accent) !important;
     position: relative;
     bottom: 0;
     width: 100%;
+    padding: 10px 3% 10px 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+}
+
+h1 { 
+    font-size: 2.5rem; /* 40px */
+    font-weight: 700;
+}  
+
+h2 { 
+    font-size: 2rem; /* 32px */
+}
+
+h3 { 
+    font-size: 1.5rem; /* 24px */
+} 
+
+h4 { 
+    font-size: 1.25rem; /* 20px */
+} 
+
+h5 { 
+    font-size: 1.125rem; /* 18px */
+} 
+
+h6 { 
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+}
+
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+    font-size: 24px;
 }
 
 .accent {
-    background-color: var(--accent);
+    background-color: var(--accent) !important;
 }
 
 .acc-highlight:hover {
-    background-color: var(--accent-light);
+    background-color: var(--accent-light) !important;
 }
 
 .acc-highlight-dark:hover {
-    background-color: var(--accent-dark);
+    background-color: var(--accent-dark) !important;
 }
 
-/* Purple accent 
-main/active : #8254f7;
-dark hover : #6b3df5;
-light hover : ##8254f7; */
-
-:root {
-    /* Dark Theme */
-    --dark-bg: #242424;
-    --dark-card: #2b2b2b;
-    --dark-highlight: #333;
-    
-    /* Light Theme */  
-    --light-bg: #ffffff;
-    --light-card: #f8f9fa;
-    --light-highlight: #f1f3f4;
-    
-    /* Text Colors */
-    --text-dark: #ffffff;
-    --text-light: #1a1a1a;
-    --text-muted: #80868b;
-    
-    /*Green Accent Colors */
-    --accent: #16a085;
-    --accent-dark: #0a7864;
-    --accent-darker: #076454;
-    --accent-light: #1db394;
+.higlight {
+    background-color: var(--highlight) !important;
 }
