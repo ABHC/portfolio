@@ -24,9 +24,13 @@ export const translations = {
             demo_aria: "Lien vers la démo",
             modal_btn: "En savoir plus",
             modal_aria: "Détails du projet",
-            description: "Le project",
+            description: "Le project",  
             team: "Ils ont travaillé avec moi",
             tags: "Technologies & Compétences"
+        },
+        alerts: {
+            loading: "ℹ️ Chargement des projets...",
+            loading_error: "❌ Erreur de chargement des projets :"
         },
         footer: {
             license: "Site sous licence GPLv3",
@@ -66,6 +70,10 @@ export const translations = {
             description: "The project",
             team: "They worked with me",
             tags: "Technologies & Skills"
+        },
+        alerts: {
+            loading: "ℹ️ Loading projects...",
+            loading_error: "❌ Error loading projects:"
         },
         footer: {
             license: "Website under GPLv3 license",

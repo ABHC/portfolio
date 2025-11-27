@@ -15,7 +15,11 @@
     --accent-light: #1db394;
     --accent-lighter: #24c9a8;
     --text-accent: #ffffff;
-    
+
+    /* Contextual colors*/
+    --error-accent: #ef4444;
+    --warning-accent: #fb923c;
+
     /* Content Margin */
     --top-margin: 130px;
     --side-margin: 140px;

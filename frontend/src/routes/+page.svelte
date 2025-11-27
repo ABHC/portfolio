@@ -3,18 +3,16 @@
     import ProjectsGallery from './ProjectsGallery.svelte';
     import Clients from './clients.svelte';
 
-    import projectsData from '$lib/data/projects.json' assert { type: 'json' };
+    import { loadProjectsData } from '$lib/utils/projectsLoader';
     import type { ProjectsData, ProjectItem } from '$lib/types/projects';
-    
-    const all_projects = projectsData as ProjectsData;
-    let software_data: readonly ProjectItem[] = all_projects.software;
-    let hardware_data: readonly ProjectItem[] = all_projects.hardware;
-
 
     import { 
         trans,
         languages_aria_label
     } from './store';
+
+	// Load projects asynchronously
+	let projectsDataPromise: Promise<ProjectsData> = loadProjectsData();
 </script>
 
 <div class="section-title">
@@ -22,20 +20,40 @@
     <hr>
 </div>
 
-<ProjectsGallery
-    section = {"hardware"}
-    projects = {hardware_data}
-/>
+{#await projectsDataPromise}
+    <div class="alert alert-info">
+        {$trans?.alerts.loading}
+    </div>
+{:then projects_data } 
+    <ProjectsGallery
+        section = {"hardware"}
+        projects = {projects_data.hardware}
+    />
+{:catch error}
+    <div class="alert alert-error">
+        {$trans?.alerts.loading_error}&nbsp;{error.message}
+    </div>
+{/await}
 
 <div class="section-title">
     <h2 id="section-name">{$trans?.menu.software}</h2>
     <hr>
 </div>
 
-<ProjectsGallery
-    section = {"software"}
-    projects = {software_data}
-/>
+{#await projectsDataPromise}
+    <div class="alert alert-info">
+        {$trans?.alerts.loading}
+    </div>
+{:then projects_data } 
+    <ProjectsGallery
+        section = {"software"}
+        projects = {projects_data.software}
+    />
+{:catch error}
+    <div class="alert alert-error">
+        {$trans?.alerts.loading_error}&nbsp;{error.message}
+    </div>
+{/await}
 
 <div class="section-title">
     <h2 id="section-name">{$trans?.menu.management}</h2>
@@ -81,5 +99,35 @@
         margin-right: 10px;
     }
 
+    /* Alert/Badge Components */
+    .alert {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--accent);
+    }
 
+    .alert-success {
+        background: var(--accent);
+        color: var(--text-accent);
+        border-color: var(--accent-dark);
+    }
+
+    .alert-info {
+        background: var(--highlight);
+        color: var(--text);
+        border-color: var(--accent);
+    }
+
+    .alert-warning {
+        background: var(--highlight);
+        color: var(--text);
+        border-color: var(--warning-accent);
+    }
+
+    .alert-error {
+        background: var(--highlight);
+        color: var(--text);
+        border-color: var(--error-accent);
+    }
 </style>
