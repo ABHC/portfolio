@@ -37,12 +37,12 @@
         <div class="projects-grid">
             {#each projects as p}
                 {#if p.display == true}
-                    <div 
+                    <button 
                         class="project-tile {selected.id === p.id ? 'active' : ''}"
                         onclick={() => selected = p}
                     >
                         <span>{p.id}</span>
-                    </div>
+                    </button>
                 {/if}
             {/each}
         </div>
@@ -111,7 +111,7 @@
                         <hr>
                     </div>
 
-                    <div class="tab-content">
+                    <div class="tab-content tab-tags">
                         {#if selected.tags[$locale].length}
                             <div class="tags-container">
                                 {#each selected.tags[$locale] as tag}
@@ -122,42 +122,25 @@
                     </div>
                 {/if}
             </div>
-
-            <!--{#if selected.partners.length}
-                <div class="desc-title">
-                    <h5 id="desc-h">{$trans?.projects_gallery.team}</h5>
-                    <hr>
-                </div>
-
-                {#each selected.partners as person }
-                    <div class="person">
-                        <img id="avatar" src={person.avatar} alt={person.name}/>
-                        <p id="name">{person.name}</p>
-                        <p id="job">{person[$locale]}</p>
-                    </div>
-                {/each}
-                <hr>
-            {/if}
-            <p>{selected.description[$locale]}</p>-->
         </div>
     </div>
 
     <!-- Right: media tile -->
     {#if section === "hardware"}
-    <div 
-        class="media-tile"
-        style="--bg:url({isSimpleMedia(selected.media[0]) ? selected.media[0].src : ''});"
-    >
-        <div class="overlay">
-            <h2>{selected.title[$locale]}</h2>
-            
-            <a href={selected.demo} aria-label={$trans?.projects_gallery.demo_aria} target="_blank">
-                <button class="demo-btn accent acc-highlight-dark">
-                    {$trans?.projects_gallery.modal_btn}
-                </button>
-            </a>
+        <div 
+            class="media-tile"
+            style="--bg:url({isSimpleMedia(selected.media[0]) ? selected.media[0].src : ''});"
+        >
+            <div class="overlay">
+                <h2>{selected.title[$locale]}</h2>
+                
+                <a href={selected.demo} aria-label={$trans?.projects_gallery.demo_aria} target="_blank">
+                    <button class="demo-btn accent acc-highlight-dark">
+                        {$trans?.projects_gallery.modal_btn}
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
     {:else}
         <div 
             class="media-tile"
@@ -192,7 +175,7 @@
         align-items: center;
         justify-content: space-between;
         width: 45%;
-        margin: 2% 0%;
+        /*margin: 2% 0%;*/
     }
 
     .projects-grid {
@@ -230,6 +213,8 @@
 
     .projects-desc {
         width: 90%;
+        height: 25vh;
+        min-height: 200px;
         padding: 10px;
         background: var(--card);
         border-radius: 10px;
@@ -295,6 +280,8 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        flex: 1;
+        min-height: 0;
     }
 
 
@@ -302,6 +289,15 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        height: 100%;
+        overflow-y: auto;
+        padding: 0 8px;
+        scrollbar-color: var(--accent) transparent;
+        scrollbar-width: thin;
+    }
+
+    .tab-tags {
+        justify-content: center;
     }
 
     /* Tags styles */
@@ -350,7 +346,6 @@
         justify-content: space-around;
         align-items: center;
         padding: 10px;
-        /*padding: 1rem;*/
         gap: 10px;
         text-align: center;
         transition: background 0.3s ease;
@@ -373,12 +368,5 @@
     }
     
     /* responsive */
-    @media (max-width: 800px) {
-      .software-section {
-            flex-direction: column;
-      }
-      .projects, .detail-tile {
-            width: 100%;
-      }
-    }
+    @media (max-width: 800px) {}
 </style>

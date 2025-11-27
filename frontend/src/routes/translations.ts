@@ -24,7 +24,7 @@ export const translations = {
             demo_aria: "Lien vers la démo",
             modal_btn: "En savoir plus",
             modal_aria: "Détails du projet",
-            description: "Le project",  
+            description: "Le projet",  
             team: "Ils ont travaillé avec moi",
             tags: "Technologies & Compétences"
         },
