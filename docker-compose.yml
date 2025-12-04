@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - "3001:3000"          
+    environment:
+      - NODE_ENV=production
+      - ORIGIN=https://combe.ts 
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
