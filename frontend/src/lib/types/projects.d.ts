@@ -42,6 +42,7 @@ export interface Theme {
 /** Base media interface */
 export interface BaseMedia {
     readonly type: 'image' | 'gif' | 'video' | '3d' | 'tooltip'
+    readonly label?: LocalizedText
 }
   
 /** Simple media (image, gif, video, tooltip) */

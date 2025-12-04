@@ -126,37 +126,26 @@
     </div>
 
     <!-- Right: media tile -->
-    {#if section === "hardware"}
-        <div 
-            class="media-tile"
-            style="--bg:url({isSimpleMedia(selected.media[0]) ? selected.media[0].src : ''});"
-        >
-            <div class="overlay">
-                <h2>{selected.title[$locale]}</h2>
-                
-                <a href={selected.demo} aria-label={$trans?.projects_gallery.demo_aria} target="_blank">
-                    <button class="demo-btn accent acc-highlight-dark">
-                        {$trans?.projects_gallery.modal_btn}
-                    </button>
-                </a>
-            </div>
-        </div>
-    {:else}
-        <div 
-            class="media-tile"
-            style="--bg:url({isSimpleMedia(selected.media[0]) ? selected.media[0].src : ''});"
-        >
-            <div class="overlay">
-                <h2>{selected.title[$locale]}</h2>
-                
+    <div 
+        class="media-tile"
+        style="--bg:url({isSimpleMedia(selected.media[0]) ? selected.media[0].src : ''});"
+    >
+        <div class="overlay">
+            <h2>{selected.title[$locale]}</h2>
+            
+            {#if selected.demo}
                 <a href={selected.demo} aria-label={$trans?.projects_gallery.demo_aria} target="_blank">
                     <button class="demo-btn accent acc-highlight-dark">
                         {$trans?.projects_gallery.demo_btn}
                     </button>
                 </a>
-            </div>
+            {:else}
+                <button class="demo-btn accent acc-highlight-dark">
+                    {$trans?.projects_gallery.modal_btn}
+                </button>
+            {/if}
         </div>
-    {/if}
+    </div>
 </section>
 
 <style>
