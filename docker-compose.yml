@@ -1,15 +1,15 @@
-version: '3.8'
-
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: portfolio
     restart: unless-stopped
     ports:
       - "3001:3000"          
     environment:
       - NODE_ENV=production
-      - ORIGIN=https://combe.ts 
+      - ORIGIN=https://combe.tf 
     networks:
       - web
 
