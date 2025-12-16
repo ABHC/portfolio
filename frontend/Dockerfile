@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production=false
+# Install dependencies (including devDependencies for build)
+RUN npm ci
 
 # Copy source code from frontend directory
 COPY frontend/ ./
@@ -32,7 +32,7 @@ COPY --from=builder --chown=nodejs:nodejs /app/build ./build
 COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Switch to non-root user
