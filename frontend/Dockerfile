@@ -1,54 +1,58 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
 
 WORKDIR /app
 
-# Copy package files first for better caching
+# Required for native Node modules
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    python3 \
+    make \
+    g++ \
+ && rm -rf /var/lib/apt/lists/*
+
+# Copy package files first for caching
 COPY frontend/package*.json ./
 
-# Install dependencies using npm install to properly handle optional deps
-# This fixes the @rollup/rollup-linux-x64-musl issue on Alpine
-RUN npm install
+# Reproducible dependency install
+RUN npm ci
 
-# Copy source code from frontend directory
+# Copy source
 COPY frontend/ ./
 
-# Build application
+# Build Svelte app
 RUN npm run build
 
+# -------------------------------------------------
+
 # Production stage
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+# dumb-init for signal handling
+RUN apt-get update && apt-get install -y dumb-init \
+ && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+# Non-root user
+RUN groupadd -g 1001 nodejs \
+ && useradd -u 1001 -g nodejs -s /usr/sbin/nologin nodejs
 
-# Copy built application from builder
+# Copy build artifacts
 COPY --from=builder --chown=nodejs:nodejs /app/build ./build
 COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
 
-# Install only production dependencies
-RUN npm ci --omit=dev && \
-    npm cache clean --force
+# Install production deps only
+RUN npm ci --omit=dev \
+ && npm cache clean --force
 
-# Switch to non-root user
 USER nodejs
 
-# Expose port
 EXPOSE 3000
-
-# Set environment to production
 ENV NODE_ENV=production
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+  CMD node -e "require('http').get('http://localhost:3000', r => { if (r.statusCode !== 200) process.exit(1) })"
 
-# Start application with dumb-init for proper signal handling
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "build"]
