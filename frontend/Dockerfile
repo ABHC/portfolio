@@ -6,8 +6,9 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY frontend/package*.json ./
 
-# Install dependencies (including devDependencies for build)
-RUN npm ci
+# Install dependencies using npm install to properly handle optional deps
+# This fixes the @rollup/rollup-linux-x64-musl issue on Alpine
+RUN npm install
 
 # Copy source code from frontend directory
 COPY frontend/ ./
