@@ -1,15 +1,17 @@
-name: Deploy to VPS
+name: Deploy Portfolio
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Deploy to VPS
+    - name: Deploy to production server
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -17,9 +19,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd ~/projects/portfolio
-          git pull origin main
-          docker-compose down
-          docker-compose build --no-cache
-          docker-compose up -d
-          docker image prune -f
+            cd ~/projects/portfolio
+            ./deploy.sh
