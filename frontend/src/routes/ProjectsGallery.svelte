@@ -133,8 +133,24 @@
         <div class="overlay">
             <h2>{selected.title[$locale]}</h2>
             
+            <!-- Link to dedicated project page -->
+            <a 
+                href="/projects/{selected.id}" 
+                data-sveltekit-preload-data="hover"
+                aria-label={$trans?.projects_gallery.modal_aria}
+            >
+                <button class="demo-btn accent acc-highlight-dark">
+                    {$trans?.projects_gallery.modal_btn}
+                </button>
+            </a>
+
+            <!-- External demo link if available -->
             {#if selected.demo}
-                <a href={selected.demo} aria-label={$trans?.projects_gallery.demo_aria} target="_blank">
+                <a 
+                    href={selected.demo} 
+                    aria-label={$trans?.projects_gallery.demo_aria} 
+                    target="_blank"
+                >
                     <button class="demo-btn accent acc-highlight-dark">
                         {$trans?.projects_gallery.demo_btn}
                     </button>

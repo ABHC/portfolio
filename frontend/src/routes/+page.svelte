@@ -1,5 +1,7 @@
 <script lang="ts">
 	import StoreTest from './StoreTest.svelte';
+    import DesignGallery from './DesignGallery.svelte';
+    import AppsGallery from './AppsGallery.svelte';
     import ProjectsGallery from './ProjectsGallery.svelte';
     import Clients from './clients.svelte';
 
@@ -25,10 +27,11 @@
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
-    <ProjectsGallery
+    <DesignGallery projects={projects_data.hardware} />
+    <!--<ProjectsGallery
         section = {"hardware"}
         projects = {projects_data.hardware}
-    />
+    />-->
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -45,10 +48,11 @@
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
-    <ProjectsGallery
+    <AppsGallery projects={projects_data.software} />
+    <!--<ProjectsGallery
         section = {"software"}
         projects = {projects_data.software}
-    />
+    />-->
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -84,11 +88,11 @@
     }
 
     .section-title {
-            display: flex;
-            align-items: baseline;
-            margin: 20px 0;
-            color: var(--text);
-        }
+        display: flex;
+        align-items: baseline;
+        margin: 20px 0;
+        color: var(--text);
+    }
 
     .section-title hr {
         width: 100%;

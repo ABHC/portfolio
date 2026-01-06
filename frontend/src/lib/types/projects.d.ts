@@ -71,7 +71,9 @@ export interface Tags {
 export interface ProjectItem {
     readonly id: string
     readonly display: boolean
+    readonly name?: string
     readonly origin: string
+    readonly years?: string
     readonly partners: readonly Partner[]
     readonly title: LocalizedText
     readonly description: LocalizedText
