@@ -13,21 +13,8 @@
     import type { 
         ProjectItem, 
         Media, 
-        SimpleMedia
     } from '$lib/types/projects';
 
-    function isSimpleMedia(media: Media): media is SimpleMedia {
-        return media.type !== '3d';
-    }
-
-    // Get first image from project media
-    function getProjectImage(project: ProjectItem): string {
-        const first_media = project.media[0];
-        if (isSimpleMedia(first_media)) {
-            return first_media.src;
-        }
-        return ''; // Fallback for 3D or missing media
-    }
 </script>
 
 <section class="design-gallery">
@@ -36,19 +23,19 @@
             {#if project.display}
                 <a 
                     href="/projects/{project.id}"
-                    class="project-card"
+                    class="project-card {project.hero === true ? 'hero-card' : ''}"
                     data-sveltekit-preload-data="hover"
-                    style="--bg-image: url('{getProjectImage(project)}');"
+                    style="--bg-image: url('{project.media[0].src}');"
                 >
                     <div class="card-overlay">
                         <div class="card-content">
                             <span class="origin-badge">{project.origin}</span>
                             <h3 class="project-title">{project.name}</h3>
-                            <p class="project-excerpt">
-                                {project.title[$locale].length > 50
-                                  ? project.title[$locale].substring(0, 50) + '…'
+                            <h5 class="project-excerpt">
+                                {project.title[$locale].length > 42
+                                  ? project.title[$locale].substring(0, 42) + '…'
                                   : project.title[$locale]}
-                            </p>
+                            </h5>
                         </div>
                     </div>
                 </a>
@@ -92,6 +79,11 @@
     .project-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-card {
+        width: 400px;
+        aspect-ratio: 4 / 3;
     }
 
     .card-overlay {
@@ -146,12 +138,12 @@
     }
 
     .project-excerpt {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        color: rgba(255, 255, 255, 0.85);
         margin: 0;
+        opacity: 0.85;
+        font-style: italic;
+        color: var(--text-accent);
     }
-
+    
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .projects-grid {
