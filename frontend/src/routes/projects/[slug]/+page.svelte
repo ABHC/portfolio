@@ -1,8 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
     import { locale, trans } from '../../store';
-    import type { ProjectItem, Media, SimpleMedia, Media3D } from '$lib/types/projects';
+    import type { ProjectItem, Media } from '$lib/types/projects';
 
     interface PageData {
         project: ProjectItem;
@@ -12,14 +13,46 @@
     let { data }: { data: PageData } = $props();
     
     let active_media_index = $state(0);
+    let info_section_height = $state(0);
 
-    function isSimpleMedia(media: Media): media is SimpleMedia {
-        return media.type !== '3d';
-    }
+    // Average height for a media item in 16:9 aspect ratio (estimate)
+    const MEDIA_HEIGHT_ESTIMATE = 400; // pixels including margins
+    const MEDIA_HEIGHT_MARGIN = 100; // Safety margin
 
     function handleBack() {
         goto('/#section-' + data.section);
     }
+
+    function capitalizeStr(str:string) {
+        const cap_str = str[0].toUpperCase() + str.slice(1);
+        return cap_str;
+    };
+
+    // Calculate how many media items fit in sidebar based on info section height
+    const media_in_sidebar = $derived.by(() => {
+        if (info_section_height === 0) return 1;
+
+        // Calculate how many additional media can fit alongside the first one
+        const available_height = info_section_height - MEDIA_HEIGHT_ESTIMATE;
+        const additional_media = Math.floor(available_height / MEDIA_HEIGHT_ESTIMATE);
+        
+        // Total in sidebar = first media + additional ones that fit
+        return Math.min(
+            1 + Math.max(0, additional_media),
+            (data.project.media).length
+        );
+    });
+
+    // Derived banner media (displayed in sidebar)
+    const banner_media = $derived((data.project.media).slice(0, media_in_sidebar));
+
+    // Derived showcase media (rest of the media)
+    const showcase_media = $derived((data.project.media).slice(media_in_sidebar));
+
+    onMount(() => {
+        // Initial calculation
+        console.log(media_in_sidebar);
+    });
 </script>
 
 <svelte:head>
@@ -49,26 +82,40 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="content-grid">
+    <div class="content-grid" id="main-grid">
         <!-- Left: Media Viewer -->
         <section class="media-section">
             <!-- Main Media Display -->
-            <div class="main-media">
-                {#if isSimpleMedia(data.project.media[active_media_index])}
-                    {@const media = data.project.media[active_media_index] as SimpleMedia}
+            {#each banner_media as media}
+                <div class="main-media">
                     {#if media.type === 'image' || media.type === 'gif'}
-                        <img src={media.src} alt={data.project.title[$locale]} />
+                        <img src={media.src} alt={media.label?.[$locale] ?? ''} />
+                        {#if media.label}
+                            <div 
+                                class="media-overlay"
+                                style="
+                                    flex-direction: {media.label.layout?.['flex-direction'] ?? 'column'};
+                                    align-items: {media.label.layout?.['align-items'] ?? 'center'};
+                                    justify-content: {media.label.layout?.['justify-content'] ?? 'center'};
+                                "
+                            >
+                                <p>{media.label[$locale]}</p>
+                            </div>
+                        {/if}
                     {:else if media.type === 'video'}
-                        <video controls>
-                            <source src={media.src} type="video/mp4" />
-                            <track kind="captions" />
-                        </video>
+                        <video 
+                            src={media.src}
+                            autoplay={media.props?.autoplay ?? false}
+                            controls={media.props?.controls ?? true}
+                            muted={media.props?.muted ?? false}
+                            loop={media.props?.loop ?? false}
+                        ></video>
                     {/if}
-                {/if}
-            </div>
+                </div>
+            {/each}
 
             <!-- Media Thumbnails -->
-            {#if data.project.media.length > 1}
+            <!--{#if data.project.media.length > 1}
                 <div class="media-thumbnails">
                     {#each data.project.media as media, i}
                         {#if isSimpleMedia(media)}
@@ -81,7 +128,7 @@
                         {/if}
                     {/each}
                 </div>
-            {/if}
+            {/if}-->
         </section>
 
         <!-- Right: Project Information -->
@@ -117,18 +164,20 @@
             {/if}
 
             <!-- Tags -->
-            {#if data.project.tags[$locale].length > 0}
-                <div class="info-block">
-                    <div class="block-title">
-                        <h2>{$trans?.projects_gallery.tags}</h2>
-                        <hr>
+            {#if !data.project.links && !data.project.models}
+                {#if data.project.tags[$locale].length > 0}
+                    <div class="info-block">
+                        <div class="block-title">
+                            <h2>{$trans?.projects_gallery.tags}</h2>
+                            <hr>
+                        </div>
+                        <div class="tags-container">
+                            {#each data.project.tags[$locale] as tag}
+                                <span class="tag">{tag}</span>
+                            {/each}
+                        </div>
                     </div>
-                    <div class="tags-container">
-                        {#each data.project.tags[$locale] as tag}
-                            <span class="tag">{tag}</span>
-                        {/each}
-                    </div>
-                </div>
+                {/if}
             {/if}
 
             <!-- Demo Link -->
@@ -142,6 +191,107 @@
             {/if}
         </section>
     </div>
+
+    <!-- Secondary Content Grid -->
+    {#if data.project.links || data.project.models}
+        <div class="content-grid" id="secondary-grid">
+            <section class="links-section">
+                <div class="block-title">
+                    <h2>{$trans?.projects_gallery.links}</h2>
+                    <hr>
+                </div>
+                <div class="links-block">
+                    <!-- 3D Model -->
+                    {#if data.project.models}
+                        <div class="demo-link">
+                            <button class="demo-btn accent">
+                                <icon class="material-symbols-outlined">3d_rotation</icon>
+                                {$trans?.projects_gallery.model_link}
+                            </button>
+                        </div>
+                    {/if}
+
+                    <!-- Demo Links -->
+                    {#each data.project.links as link}
+                        <a href={link.url} target="_blank" class="demo-link">
+                            <button class="demo-btn accent">
+                                {#if link.type === "github"}
+                                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                    </svg>
+                                    {capitalizeStr(link.type)}
+                                {:else if link.type === "gitlab"}
+                                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/>
+                                    </svg>
+                                    {capitalizeStr(link.type)}
+                                {:else}
+                                    <icon class="material-symbols-outlined">open_in_new</icon>
+                                    {$trans?.projects_gallery.demo_link}
+                                {/if}
+                            </button>
+                        </a> 
+                    {/each}
+                </div>
+            </section>
+
+            <section class="info-section">
+                <!-- Tags -->
+                {#if data.project.tags[$locale].length > 0}
+                    <div class="info-block full-block">
+                        <div class="block-title">
+                            <h2>{$trans?.projects_gallery.tags}</h2>
+                            <hr>
+                        </div>
+                        <div class="tags-container tags-align">
+                            {#each data.project.tags[$locale] as tag}
+                                <span class="tag">{tag}</span>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+            </section>
+        </div>
+    {/if}
+
+    <section class="showcase-section">
+        {#each showcase_media as media}
+            <div class={media.fit ? "showcase-block no-16-9" : "showcase-block"}>
+                {#if media.type === 'image' || media.type === 'gif'}
+                    <img 
+                        src={media.src} 
+                        alt={data.project.title[$locale]} 
+                        style="object-fit: {media.fit ?? 'cover'};"
+                    />
+                    {#if media.label && media.label.layout?.position === "inside"}
+                        <div 
+                            class="media-overlay"
+                            style="
+                                flex-direction: {media.label.layout?.['flex-direction'] ?? 'column'};
+                                align-items: {media.label.layout?.['align-items'] ?? 'center'};
+                                justify-content: {media.label.layout?.['justify-content'] ?? 'center'};
+                            "
+                        >
+                            <p>{media.label[$locale]}</p>
+                        </div>
+                    {/if}
+                {:else if media.type === 'video'}
+                    <video 
+                        src={media.src}
+                        autoplay={media.props?.autoplay ?? false}
+                        controls={media.props?.controls ?? true}
+                        muted={media.props?.muted ?? false}
+                        loop={media.props?.loop ?? false}
+                    ></video>
+                {/if}
+            </div>
+            {#if media.label && media.label.layout?.position === "outside"}
+                <p class="outside-label">
+                    {media.label[$locale]}
+                </p>
+            {/if}
+        {/each}
+    </section>
 </article>
 
 <style>
@@ -211,19 +361,19 @@
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 3rem;
+        margin-bottom: 1.5rem;
     }
 
     .media-section {
-        position: sticky;
         top: 2rem;
-        height: fit-content;
+        /*height: fit-content;*/
     }
 
     .main-media {
         width: 100%;
         aspect-ratio: 16 / 9;
         background: var(--card);
-        border-radius: 12px;
+        border-radius: var(--radius-small-ev);
         overflow: hidden;
         margin-bottom: 1rem;
     }
@@ -233,40 +383,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    .media-thumbnails {
-        display: flex;
-        gap: 0.75rem;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
-    }
-
-    .thumbnail {
-        width: 100px;
-        height: 70px;
-        flex-shrink: 0;
-        border: 2px solid transparent;
-        border-radius: 6px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background: var(--card);
-        padding: 0;
-    }
-
-    .thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .thumbnail:hover {
-        border-color: var(--accent-light);
-    }
-
-    .thumbnail.active {
-        border-color: var(--accent);
     }
 
     .info-section {
@@ -288,6 +404,12 @@
     }
 
     .block-title hr {
+        flex: 1;
+    }
+
+    .full-block {
+        display: flex;
+        flex-direction: column;
         flex: 1;
     }
 
@@ -338,6 +460,12 @@
         gap: 0.75rem;
     }
 
+    .tags-align {
+        align-items: center;
+        flex: 1; 
+        align-content: center; 
+    }
+
     .tag {
         padding: 0.5rem 1rem;
         background: var(--accent-light);
@@ -369,6 +497,90 @@
     .demo-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-icon {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+    .links-section {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .links-block {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center; 
+        gap: 2rem;
+    }
+
+    .showcase-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .showcase-block {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: var(--card);
+        border-radius: var(--radius-large-ev);
+        overflow: hidden;
+    }
+
+    .showcase-block img,
+    .showcase-block video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .no-16-9 {
+        aspect-ratio: auto;
+    }
+
+    .media-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        padding: 2rem;
+        
+        /* Gradient pour la lisibilité du texte */
+        /*background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0) 100%
+        );*/
+        
+        color: #ffffff;
+        pointer-events: none;
+    }
+
+    .media-overlay p {
+        padding: 0.75rem 1.25rem;
+        background: var(--card);
+        border: none;
+        border-radius: 8px;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .outside-label {
+        margin: 0.5rem 1.5rem;
+        text-align: justify;
+        font-style: italic;
     }
 
     @media (max-width: 1024px) {

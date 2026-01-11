@@ -23,61 +23,122 @@ export interface TextureParams {
     readonly offsetX: number
     readonly offsetY: number
 }
-  
-/** Single 3D model file */
-export interface Model3D {
+
+/** Single part/component of a 3D model */
+export interface ModelPart {
     readonly file: string
     readonly color?: string
     readonly texture?: string
     readonly textureParams: TextureParams
 }
-  
-/** Themes for 3D models */
-export interface Theme {
+
+/** Theme customisation option */
+export interface ThemeCustomisation {
+    readonly type: 'theme'
+    readonly id: string
+    readonly fr: string
+    readonly en: string
+    readonly preview: string
+    readonly src: string
+}
+
+/** Base customisation interface - can be extended for other types */
+export interface BaseCustomisation {
+    readonly type: string
     readonly id: string
     readonly fr: string
     readonly en: string
 }
+
+/** Union type for all possible customisations */
+export type Customisation = ThemeCustomisation | BaseCustomisation
+
+/** Complete 3D model with parts and optional customisations */
+export interface Model3D {
+    readonly id: string
+    readonly fr: string
+    readonly en: string
+    readonly parts: readonly ModelPart[]
+    readonly customisations?: readonly Customisation[]
+}
   
+/** Flexbox layout configuration for media overlay (inside only) */
+export interface MediaLayoutInside {
+    readonly position: 'inside'
+    readonly 'flex-direction'?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
+    readonly 'align-content'?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'stretch'
+    readonly 'justify-content'?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+    readonly 'align-items'?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
+}
+
+/** Simple layout for outside labels */
+export interface MediaLayoutOutside {
+    readonly position: 'outside'
+}
+
+/** Union type for layout configurations */
+export type MediaLayout = MediaLayoutInside | MediaLayoutOutside
+
+/** Video-specific properties */
+export interface VideoProperties {
+    readonly autoplay?: boolean
+    readonly controls?: boolean
+    readonly muted?: boolean
+    readonly loop?: boolean
+}
+
 /** Base media interface */
-export interface BaseMedia {
-    readonly type: 'image' | 'gif' | 'video' | '3d' | 'tooltip'
-    readonly label?: LocalizedText
-}
-  
-/** Simple media (image, gif, video, tooltip) */
-export interface SimpleMedia extends BaseMedia {
+interface BaseMedia {
+    readonly type: 'image' | 'gif' | 'video' | 'tooltip'
     readonly src: string
+    readonly fit?: 'cover' | 'contain'
+    readonly label?: MediaLabel
 }
-  
-/** Complex 3D media */
-export interface Media3D extends BaseMedia {
-    readonly type: '3d'
-    readonly models: readonly Model3D[]
-    readonly themes?: readonly Theme[]
-    readonly arch?: readonly string[]
+
+/** Image or GIF media */
+export interface ImageMedia extends BaseMedia {
+    readonly type: 'image' | 'gif' | 'tooltip'
 }
+
+/** Video media with specific properties */
+export interface VideoMedia extends BaseMedia {
+    readonly type: 'video'
+    readonly props?: VideoProperties
+}
+
+/** Union type for all media */
+export type Media = ImageMedia | VideoMedia
   
-/** Union of all media types */
-export type Media = Readonly<SimpleMedia | Media3D>
-  
+/** Links */
+export interface Links {
+    readonly type: 'demo' | 'github' | 'gitlab' 
+    readonly url: string
+}
+
 /** Tags */
 export interface Tags {
     readonly fr: readonly string[]
     readonly en: readonly string[]
 }
+
+/** Projects sub-categories */
+export type GenresTypes = 'app' | 'tool' | 'showcase' | 'backend' |'study' | 'design' | 'industrialisation';
   
 /** Common structure for each project entry */
 export interface ProjectItem {
     readonly id: string
     readonly display: boolean
+    readonly hero: boolean
     readonly name?: string
     readonly origin: string
     readonly years?: string
+    readonly genres: readonly GenresTypes[];
     readonly partners: readonly Partner[]
     readonly title: LocalizedText
     readonly description: LocalizedText
     readonly media: readonly Media[]
+    readonly models: readonly Model3D[]
+    readonly links?: readonly Links[]
     readonly demo?: string
     readonly tags: Tags
 }

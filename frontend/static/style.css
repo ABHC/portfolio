@@ -28,6 +28,10 @@
     /* Nav variables */
     --side-nav-btn: 60px;
     --side-nav-padding: 5px;
+
+    /* radii */
+    --radius-large-ev: clamp(10px, calc(0.6rem + 1vw), 20px);
+    --radius-small-ev: clamp(8px, calc(0.5rem + 0.8vw), 16px);
 }
 
 :root[data-theme="dark"] {
@@ -57,6 +61,12 @@
 html,
 body {
     background-color: var(--bg);
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
 }
 
 * {
@@ -84,14 +94,19 @@ header #name {
 }
 
 main {
+    flex: 1;
     margin: var(--top-margin) var(--side-margin) var(--bottom-margin) var(--side-margin);
+}
+
+article {
+    height: auto;
 }
 
 footer {
     background-color: var(--accent);
     color: var(--text-accent) !important;
-    position: relative;
-    bottom: 0;
+    /*position: relative;
+    bottom: 0;*/
     width: 100%;
     padding: 10px 3% 10px 3%;
     display: flex;

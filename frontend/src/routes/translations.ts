@@ -13,6 +13,7 @@ export const translations = {
         menu: {
             hardware: "Design",
             software: "Apps",
+            graphic: "Graphisme",
             management: "Clients", 
             about: "Profil",
             lang: "Sélectionner la langue",
@@ -26,7 +27,10 @@ export const translations = {
             modal_aria: "Détails du projet",
             description: "Le projet",  
             team: "Ils ont travaillé avec moi",
-            tags: "Technologies & Compétences"
+            tags: "Technologies & Compétences",
+            links: "En savoir plus",
+            demo_link: "Démo",
+            model_link: "Modèle"
         },
         alerts: {
             loading: "ℹ️ Chargement des projets...",
@@ -56,6 +60,7 @@ export const translations = {
         menu: {
             hardware: "Design",
             software: "Apps",
+            graphic: "Graphic Design",
             management: "Clients", 
             about: "About",
             lang: "Select language",
@@ -69,7 +74,10 @@ export const translations = {
             modal_aria: "Project details",
             description: "The project",
             team: "They worked with me",
-            tags: "Technologies & Skills"
+            tags: "Technologies & Skills",
+            links: "Learn More",
+            demo_link: "Demo",
+            model_link: "Model"
         },
         alerts: {
             loading: "ℹ️ Loading projects...",
