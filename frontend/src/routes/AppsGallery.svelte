@@ -14,318 +14,321 @@
     import type { 
         ProjectItem, 
         Media, 
-        SimpleMedia, 
-        Media3D 
     } from '$lib/types/projects';
-
-    let selected: ProjectItem = $state(projects[0]);
-    let active_tab: "description" | "team" | "tags" = $state("description");
-
-    function isSimpleMedia(media: Media): media is SimpleMedia {
-        return media.type !== '3d';
-    }
 
 </script>
   
-<section class="gallery-container">
-    <!-- Left: grid & desc -->
-    <div class="projects-overview">
-        <div class="projects-grid">
-            {#each projects as p}
-                {#if p.display == true}
-                    <button 
-                        class="project-tile {selected.id === p.id ? 'active' : ''}"
-                        onclick={() => selected = p}
-                    >
-                        <span>{p.id}</span>
-                    </button>
-                {/if}
-            {/each}
-        </div>
-                
-        <div class="projects-content">
-            <div class="projects-desc">
-                <div class="tabs-nav">
-                    <button 
-                        class="tab-button {active_tab === "description" ? 'active' : ''}" 
-                        onclick={() => active_tab = "description"}
-                    >
-                        <icon class="material-symbols-outlined">description</icon>
-                    </button>
-                    
-                    {#if selected.partners.length}
-                        <button 
-                            class="tab-button {active_tab === "team" ? 'active' : ''}" 
-                            onclick={() => active_tab = "team"}
-                        >
-                            <icon class="material-symbols-outlined">groups</icon>
-                        </button>
-                    {/if}
+<section class="apps-gallery">
+    <div class="projects-list">
+        {#each projects as project}
+            {#if project.display}
+                <a 
+                    href="/projects/{project.id}"
+                    class="project-item"
+                    data-sveltekit-preload-data="hover"
+                >
+                    <div class="project-header">
+                        <div class="header-left">
+                            {#each project.genres as genre}
+                                {#if genre === "app"}
+                                    <span class="genre-badge">
+                                        <icon class="material-symbols-outlined">devices</icon>
+                                    </span>
+                                {:else if genre === "tool"}
+                                    <span class="genre-badge">
+                                        <icon class="material-symbols-outlined">home_repair_service</icon>
+                                    </span>
+                                {:else if genre === "showcase"}
+                                    <span class="genre-badge">
+                                        <icon class="material-symbols-outlined">globe</icon>
+                                    </span>
+                                {:else if genre === "backend"}
+                                    <span class="genre-badge">
+                                        <icon class="material-symbols-outlined">database</icon>
+                                    </span>
+                                {/if}
+                            {/each}
+                            <span class="origin-badge">{project.origin}</span>
+                            {#if project.years}
+                                <span class="years-badge">{project.years}</span>
+                            {/if}
+                        </div>
+                        
+                        <icon class="material-symbols-outlined chevron">chevron_right</icon>
+                    </div>
 
-                    {#if selected.tags[$locale].length}
-                        <button 
-                            class="tab-button {active_tab === "tags" ? 'active' : ''}" 
-                            onclick={() => active_tab = "tags"}
-                        >
-                            <icon class="material-symbols-outlined">tag</icon>
-                        </button>
-                    {/if}
-                </div>
+                    <div class="project-body">
+                        <div class="project-id">
+                            <h3 class="project-name">{project.name || project.id}</h3>
+                            <h4 class="project-title">{project.title[$locale]}</h4>
+                        </div>
 
-                <div class="content-container">
-                    {#if active_tab === "description"}
-                        <!-- Projects Description -->
-                        <div class="desc-title">
-                            <h5 id="desc-h">{$trans?.projects_gallery.description}</h5>
-                            <hr>
-                        </div>
-            
-                        <div class="tab-content">
-                            <p>{selected.description[$locale]}</p>
-                        </div>
-                    {:else if active_tab === "team"}
-                        <!-- Team -->
-                        <div class="desc-title">
-                            <h5 id="desc-h">{$trans?.projects_gallery.team}</h5>
-                            <hr>
-                        </div>
-            
-                        <div class="tab-content">
-                            {#if selected.partners.length}
-                                {#each selected.partners as person}
-                                    <div class="person">
-                                        <img id="avatar" src={person.avatar} alt={person.name}/>
-                                        <p id="name">{person.name}</p>
-                                        <p id="job">{person[$locale]}</p>
-                                    </div>
+                        {#if project.tags[$locale].length > 0}
+                            <div class="tags-container">
+                                {#each project.tags[$locale].slice(0, 4) as tag}
+                                    <span class="tech-tag">{tag}</span>
                                 {/each}
-                            {/if}
-                        </div>
-                    {:else if active_tab === "tags"}    
-                        <!-- Tags : technos & skills -->
-                        <div class="desc-title">
-                            <h5 id="desc-h">{$trans?.projects_gallery.tags}</h5>
-                            <hr>
-                        </div>
-            
-                        <div class="tab-content tab-tags">
-                            {#if selected.tags[$locale].length}
-                                <div class="tags-container">
-                                    {#each selected.tags[$locale] as tag}
-                                        <span class="tech-tag">{tag}</span>
-                                    {/each}
-                                </div>
-                            {/if}
-                        </div>
-                    {/if}
-                </div>
-            </div>
+                                {#if project.tags[$locale].length > 4}
+                                    <span class="tech-tag more">+{project.tags[$locale].length - 4}</span>
+                                {/if}
+                            </div>
+                        {/if}
+                    </div>
 
-            <!-- Demo Link -->
-            {#if selected.demo}
-                <a href={selected.demo} target="_blank" class="demo-link">
-                    <button class="demo-btn accent">
-                        {$trans?.projects_gallery.demo_btn}
-                        <icon class="material-symbols-outlined">open_in_new</icon>
-                    </button>
+                    <!--<div class="project-footer">
+                        {#if project.demo}
+                            <button class="demo-badge">
+                                <icon class="material-symbols-outlined">open_in_new</icon>
+                                {$trans?.projects_gallery.demo_btn}
+                            </button>
+                        {/if}
+                    </div>-->
                 </a>
             {/if}
-        </div>
-
-        
+        {/each}
     </div>
 </section>
 
 <style>
-    .gallery-container {
-        display: flex;
-        justify-content:center;
-        flex-wrap: nowrap;
-        padding: 1rem 0;
+    .apps-gallery {
+        width: 100%;
         color: var(--text);
     }
-    
-    /* left grid */
-    .projects-overview {
+
+    .projects-list {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 4rem;
-        width: 100%;
-        /*max-width: 1264px;*/
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    .projects-grid {
+    .project-item {
         position: relative;
-        z-index: 1;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-content: center;
-        gap: 2rem;
-    }
-    
-    .project-tile {
-        width: 150px;
-        height: 150px;
-        background: var(--card);
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.3s, transform 0.2s;
-    }
-    .project-tile:hover {
-        background: var(--accent-dark);
-        color: var(--text-accent);
-        transform: translateY(-4px);
-    }
-    .project-tile.active {
-        background: var(--accent);
-        color: var(--text-accent);
-    }
-
-    .projects-content{
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        gap: 2rem;
-        flex-grow: 1;
-        width: 50%;
-    }
-
-    .projects-desc {
-        width: 100%;
-        height: 100%;
-        min-height: 200px;
-        padding: 10px;
+        gap: 1rem;
+        padding: 1.75rem;
         background: var(--card);
-        border-radius: 10px;
-        text-align: justify;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    /*Desc Tile : description, team & tags*/
-    .tab-button {
-        padding: 0.5rem 1rem;
-        background: none;
-        border: none;
-        border-bottom: 2px solid transparent;
-        cursor: pointer;
+        border-radius: 12px;
+        border-left: 4px solid transparent;
+        text-decoration: none;
+        color: inherit;
         transition: all 0.3s ease;
+        cursor: pointer;
     }
 
-    .tab-button.active {
-        border-bottom-color: var(--accent);
+    .project-item:hover {
+        border-left-color: var(--accent);
+        background: var(--highlight);
+        transform: translateX(8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-item:hover .chevron {
+        transform: translateX(4px);
         color: var(--accent);
     }
 
-    .desc-title {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-        }
-
-    .desc-title hr {
-        flex: 1;
-        min-width: 0;
+    .project-item:hover .genre-badge {
+        /*background: rgba(29, 179, 148, 0.8);*/
+        /*transform: scale(1.1);*/
+        opacity: 1;
+        transform: rotate(15deg) scale(1.1);
     }
 
-    .desc-title #desc-h {
-        text-transform: uppercase;
-        white-space: nowrap;
-        flex-shrink: 0;
+    .project-item:hover .tech-tag {
+        transform: scale(1.1);
     }
 
-    .person {
+    .project-item:hover .origin-badge {
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .project-item:hover .years-badge {
+        animation: pulse 1.5s ease-in-out 0.2s infinite;
+    }
+
+    .project-header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        margin: 0 8px;
-        gap: 10px;
     }
 
-    .person img {
-        width: 50px;
+    .header-left {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
     }
 
-    .person #name {
+    .genre-badge {
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        background: var(--accent);
+        opacity: 0.8;
+        /*background: rgba(29, 179, 148, 0.5);*/
+        color: var(--text-accent);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .origin-badge,
+    .years-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        background: var(--accent);
+        color: var(--text-accent);
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 700;
         text-transform: uppercase;
-        font-weight: bold;
+        letter-spacing: 0.5px;
     }
 
-    .person #job {
+    .years-badge {
+        background: #4a4543;
+    }
+
+    .chevron {
+        font-size: 28px;
+        transition: all 0.3s ease;
+        opacity: 0.6;
+    }
+
+    .project-body {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .project-id {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .project-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .project-title {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin: 0;
+        opacity: 0.85;
         font-style: italic;
     }
 
-    .content-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        flex: 1;
-        min-height: 0;
+    .project-excerpt {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.8;
+        margin: 0.5rem 0 0 0;
+        text-align: justify;
     }
 
-    .tab-content {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        height: 100%;
-        overflow-y: auto;
-        padding: 0 8px;
-        scrollbar-color: var(--accent) transparent;
-        scrollbar-width: thin;
-    }
-
-    .tab-tags {
-        justify-content: center;
-    }
-
-    /* Tags styles */
     .tags-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
+        gap: 0.8rem;
+        margin-top: 0.75rem;
     }
 
     .tech-tag {
-        background: var(--accent-light);
+        padding: 0.35rem 0.75rem;
+        background: var(--accent);
         color: var(--text-accent);
-        padding: 0.25rem 0.75rem;
-        border-radius: 1rem;
-    }
-    
-    .demo-link {
-        display: block;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
     }
 
-    .demo-btn {
-        width: 100%;
+    .tech-tag.more {
+        background: var(--accent-dark);
+    }
+
+    .project-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+
+    .demo-badge {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 1rem 2rem;
+        gap: 0.35rem;
+        padding: 0.5rem 1rem;
+        background: var(--accent);
+        color: var(--text-accent);
         border: none;
         border-radius: 8px;
-        font-size: 1.125rem;
+        font-size: 0.875rem;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: var(--text-accent);
     }
 
-    .demo-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    .demo-badge:hover {
+        background: var(--accent-dark);
+        transform: scale(1.05);
     }
-    
-    /* responsive */
-    @media (max-width: 800px) {}
+
+    .demo-badge icon {
+        font-size: 18px;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .projects-list {
+            gap: 1rem;
+        }
+
+        .project-item {
+            padding: 1.25rem;
+        }
+
+        .project-name {
+            font-size: 1.25rem;
+        }
+
+        .project-title {
+            font-size: 1rem;
+        }
+
+        .project-excerpt {
+            display: none;
+        }
+
+        .tags-container {
+            margin-top: 0.5rem;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .projects-list {
+            max-width: 1400px;
+        }
+    }
 </style>

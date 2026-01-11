@@ -22,6 +22,8 @@
     <hr>
 </div>
 
+<!-- HARDWARE SECTION -->
+
 {#await projectsDataPromise}
     <div class="alert alert-info">
         {$trans?.alerts.loading}
@@ -37,6 +39,8 @@
         {$trans?.alerts.loading_error}&nbsp;{error.message}
     </div>
 {/await}
+
+<!-- APPS SECTION -->
 
 <div class="section-title">
     <h2 id="section-name">{$trans?.menu.software}</h2>
@@ -59,6 +63,22 @@
     </div>
 {/await}
 
+<!-- GRAPHIC DESIGN SECTION -->
+
+<div class="section-title">
+    <h2 id="section-name">{$trans?.menu.graphic}</h2>
+    <hr>
+</div>
+
+<!-- PROFIL SECTION -->
+
+<div class="section-title">
+    <h2 id="section-name">{$trans?.menu.about}</h2>
+    <hr>
+</div>
+
+<!-- CLIENTS SECTION -->
+
 <div class="section-title">
     <h2 id="section-name">{$trans?.menu.management}</h2>
     <hr>
@@ -66,17 +86,11 @@
 
 <Clients/>
 
-<div class="section-title">
-    <h2 id="section-name">{$trans?.menu.about}</h2>
-    <hr>
-</div>
-
 <div class="container">
     <h1>Welcome to SvelteKit</h1>
     <p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
     <p>{$languages_aria_label}</p>
 
-    <!--<Software/>-->
     <StoreTest/>
 </div>
 
