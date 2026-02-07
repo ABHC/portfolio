@@ -24,6 +24,7 @@ vite.config.ts.timestamp-*
 
 # Production projects data (keep sample only)
 src/lib/data/projects.json
+src/lib/data/profile.json
 
 # Production data 
 static/assets/

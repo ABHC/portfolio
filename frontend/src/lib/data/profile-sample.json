@@ -1,0 +1,322 @@
+{
+    "me": {
+        "id": [
+            {
+                "type": "firstname",
+                "name": "Gaius",
+                "display": true
+            },
+            {
+                "type": "surname",
+                "name": "Aurelius",
+                "display": true
+            },
+            {
+                "type": "nickname",
+                "name": "Faber",
+                "display": true
+            }
+        ],
+        "tagline": {
+            "fr": ["Ingénieur", "Rhéteur", "Édile"],
+            "en": ["Engineer", "Rhetorician", "Aedile"]
+        },
+        "about": {
+            "fr": [
+                "J'ai pavé des routes, dressé des lions et appris à de jeunes patriciens qu'un bon discours vaut mieux qu'un coup de glaive. Pas toujours dans cet ordre.",
+                "On me confie généralement les projets que personne ne veut, ceux où il faut négocier avec des Gaulois, des fauves ou le Sénat — souvent les trois à la fois.",
+                "J'ai aussi brièvement gardé le feu sacré de Vesta, mais on ne m'a pas repris."
+            ],
+            "en": [
+                "I've paved roads, tamed lions and taught young patricians that a good speech beats a sword strike. Not always in that order.",
+                "I'm usually assigned the projects nobody wants — the ones involving negotiations with Gauls, wild beasts, or the Senate. Often all three at once.",
+                "I also briefly guarded Vesta's sacred flame, but they didn't call me back."
+            ]
+        },
+        "portrait": "/assets/people/Gaius.jpg"
+    },
+    "studies": [
+        {
+            "type": "diploma",
+            "name": {
+                "fr": "Maîtrise en Rhétorique Appliquée aux Devis",
+                "en": "Master's Degree in Applied Rhetoric for Quotations"
+            },
+            "school": "Academia Atheniensis",
+            "college": "Collegium Vitruvii",
+            "description": {
+                "fr": [],
+                "en": []
+            },
+            "years": "DCCLII",
+            "display": true
+        },
+        {
+            "type": "diploma",
+            "name": {
+                "fr": "Licence en Aqueducs, Fontaines et Canalisations Publiques",
+                "en": "Bachelor's Degree in Aqueducts, Fountains and Public Plumbing"
+            },
+            "school": "Universitas Romae",
+            "college": null,
+            "description": {
+                "fr": [
+                    "Hydraulique appliquée, négociation foncière avec les Gaulois, comptabilité en sesterces"
+                ],
+                "en": [
+                    "Applied hydraulics, land negotiation with Gauls, sestertius accounting"
+                ]
+            },
+            "years": "DCCL",
+            "display": true
+        },
+        {
+            "type": "certificate",
+            "name": {
+                "fr": "La thermique pour les hypocaustes",
+                "en": "Thermal management for hypocausts"
+            },
+            "school": "Thermae Caracallae",
+            "college": null,
+            "description": {
+                "fr": [],
+                "en": []
+            },
+            "years": "DCCLVIII",
+            "display": true
+        },
+        {
+            "type": "certificate",
+            "name": {
+                "fr": "Apprivoiser les lions : gestion des risques au Colisée",
+                "en": "Lion Taming: Risk Management at the Colosseum"
+            },
+            "school": "Ludus Magnus",
+            "college": null,
+            "description": {
+                "fr": [],
+                "en": []
+            },
+            "years": "DCCLV",
+            "display": false
+        }
+    ],
+    "jobs": [
+        {
+            "position": {
+                "fr": "Praefectus Fabrum",
+                "en": "Praefectus Fabrum"
+            },
+            "company": "Viae Publicae Imperialis",
+            "city": "Roma",
+            "country": "Imperium Romanum",
+            "description": {
+                "fr": [
+                    "Supervision de la construction de la Via Nova entre Lugdunum et Argentoratum.&nbsp;",
+                    "Coordination de XII centuries d'ouvriers et négociation du prix du gravier avec les tribus locales.<br>",
+                    "Invention d'un système de drainage qui a survécu à exactement une saison des pluies."
+                ],
+                "en": [
+                    "Supervision of the Via Nova construction between Lugdunum and Argentoratum.&nbsp;",
+                    "Coordination of XII worker centuries and gravel price negotiation with local tribes.<br>",
+                    "Invention of a drainage system that survived exactly one rainy season."
+                ]
+            },
+            "start": "DCCLIV",
+            "end": "DCCLX",
+            "display": true
+        },
+        {
+            "position": {
+                "fr": "Édile chargé des Jeux",
+                "en": "Aedile in charge of Public Games"
+            },
+            "company": "Colosseum",
+            "city": "Roma",
+            "country": "Imperium Romanum",
+            "description": {
+                "fr": [
+                    "Organisation logistique des spectacles : approvisionnement en fauves, gestion des gladiateurs, planning des naumachies.<br>",
+                    "Mise en place d'un système de billetterie par tessères numérotées réduisant les émeutes de XLII% à l'entrée."
+                ],
+                "en": [
+                    "Show logistics: wild beast procurement, gladiator management, naumachia scheduling.<br>",
+                    "Implementation of a numbered tessera ticketing system reducing entrance riots by XLII%."
+                ]
+            },
+            "start": "DCCLII",
+            "end": "DCCLIV",
+            "display": true
+        },
+        {
+            "position": {
+                "fr": "Rhéteur Vacataire",
+                "en": "Temporary Rhetorician"
+            },
+            "company": "Schola Palatina",
+            "city": "Roma",
+            "country": "Imperium Romanum",
+            "description": {
+                "fr": [
+                    "Enseignement de l'art oratoire à de jeunes patriciens persuadés que crier plus fort = avoir raison.<br>",
+                    "Élaboration d'exercices pratiques : défendre un gladiateur accusé de triche, négocier le prix d'un éléphant de guerre, convaincre le Sénat de financer un quatrième aqueduc."
+                ],
+                "en": [
+                    "Teaching oratory to young patricians convinced that shouting louder = being right.<br>",
+                    "Design of practical exercises: defending a gladiator accused of cheating, negotiating the price of a war elephant, convincing the Senate to fund a fourth aqueduct."
+                ]
+            },
+            "start": "DCCL",
+            "end": "DCCLII",
+            "display": true
+        },
+        {
+            "position": {
+                "fr": "Gardien du Feu Sacré (intérim)",
+                "en": "Sacred Fire Guardian (temp)"
+            },
+            "company": "Templum Vestae",
+            "city": "Roma",
+            "country": "Imperium Romanum",
+            "description": {
+                "fr": [
+                    "Remplacement temporaire d'une Vestale en congé maladie. Le feu ne s'est éteint que deux fois.",
+                    "Poste nécessitant une maîtrise avancée du travestissement.<br>",
+                    "Travail alimentaire fait en parallèle de mes études."
+                ],
+                "en": [
+                    "Temporary replacement of a Vestal on sick leave. The fire only went out twice.",
+                    "Position requiring advanced cross-dressing skills.<br>",
+                    "Side job done in parallel with my studies."
+                ]
+            },
+            "start": "DCCXLIX",
+            "end": "DCCL",
+            "display": false
+        }
+    ],
+    "languages": [
+        {
+            "id": "LA",
+            "name": {
+                "fr": "Latin",
+                "en": "Latin"
+            },
+            "level": "C2",
+            "description": {
+                "fr": "Natif",
+                "en": "Native"
+            },
+            "display": true
+        },
+        {
+            "id": "GR",
+            "name": {
+                "fr": "Grec",
+                "en": "Greek"
+            },
+            "level": "C1",
+            "description": {
+                "fr": "Professionnel & philosophique",
+                "en": "Professional & philosophical"
+            },
+            "display": true
+        },
+        {
+            "id": "GA",
+            "name": {
+                "fr": "Gaulois",
+                "en": "Gaulish"
+            },
+            "level": "A2",
+            "description": {
+                "fr": "Bases (surtout les insultes)",
+                "en": "Basic (mostly insults)"
+            },
+            "display": false
+        }
+    ],
+    "tools": [
+        {"name": "Solidworks", "display": true},
+        {"name": "FreeCAD", "display": true},
+        {"name": "Svelte", "display": true},
+        {"name": "JavaScript", "display": true},
+        {"name": "TypeScript", "display": true},
+        {"name": "Python", "display": true},
+        {"name": "Docker", "display": true},
+        {"name": "Inkscape", "display": true},
+        {"name": "Figma", "display": true}
+    ],
+    "skills": {
+        "fr": {
+            "hardware": ["Voirie & Drainage", "Hydraulique d'Aqueducs", "Pavage", "Machinerie de Scène", "Cages à Fauves", "Entretien de Feu Sacré"],
+            "software": ["Tablettes de Cire", "Billetterie par Tessères", "Abaque Fiscal", "Cadran Solaire"],
+            "management": ["Coordination de Centuries", "Logistique de Naumachies", "Rhétorique Appliquée", "Négociation avec les Gaulois"]
+        },
+        "en": {
+            "hardware": ["Road & Drainage Works", "Aqueduct Hydraulics", "Stone Paving", "Stage Machinery", "Beast Caging", "Sacred Fire Maintenance"],
+            "software": ["Wax Tablets", "Tessera Ticketing", "Fiscal Abacus", "Sundial"],
+            "management": ["Century Coordination", "Naumachia Logistics", "Applied Rhetoric", "Negotiation with Gauls"]
+        }
+    },
+    "contact": [
+        {
+            "type": "Phone",
+            "address": "+XLIV VI XLIII X XXX",
+            "icon": "",
+            "display": false
+        },
+        {
+            "type": "Mail",
+            "address": "",
+            "icon": "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z",
+            "display": true
+        },
+        {
+            "type": "Linkedin",
+            "address": "https://linkedin.com/",
+            "icon": "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+            "display": true
+        },
+        {
+            "type": "Github",
+            "address": "https://github.com/",
+            "icon": null,
+            "display": true
+        },
+        {
+            "type": "Gitlab",
+            "address": "https://gitlab.com/",
+            "icon": null,
+            "display": true
+        }
+    ],
+    "references": [
+        {
+            "person": "Cicéron",
+            "position": {
+                "fr": "Sénateur & Orateur",
+                "en": "Senator & Orator"
+            },
+            "portrait": "/assets/people/ciceron.png",
+            "content": {
+                "fr": ["Gaius a pavé la Via Nova sans dépasser le budget, organisé des jeux où personne n'a été mangé par accident, et formé des rhéteurs qui savent enfin placer un argument avant un coup de poing. Peu de Romains peuvent en dire autant."],
+                "en": ["Gaius paved the Via Nova without exceeding the budget, organised games where nobody was eaten by accident, and trained rhetoricians who can finally place an argument before a punch. Few Romans can say as much."]
+            },
+            "display": true
+        },
+        {
+            "person": "Livie",
+            "position": {
+                "fr": "Grande Vestale",
+                "en": "Chief Vestal"
+            },
+            "portrait": "/assets/people/livie.png",
+            "content": {
+                "fr": ["Son passage au Temple de Vesta fut bref mais mémorable. La stola lui allait étonnamment bien. Pour le feu, en revanche, on repassera."],
+                "en": ["His time at the Temple of Vesta was brief but memorable. The stola suited him surprisingly well. As for the fire, let's not talk about it."]
+            },
+            "display": true
+        }
+    ]
+}
