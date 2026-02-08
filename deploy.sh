@@ -1,16 +1,10 @@
-#!/bin/bash
-
-# Portfolio deployment script
-# To be executed ON THE SERVER
-# Located in: ~/projects/portfolio/deploy.sh
-# Usage: ./deploy.sh
-
+#!/usr/bin/env bash
 set -e
 
-# Configuration - simple fixed paths
-PUBLIC_REPO_PATH="$HOME/projects/portfolio"
-PRIVATE_REPO_PATH="$HOME/projects/portfolio-private-data"
-PRIVATE_REPO_URL="git@github.com:ABHC/portfolio-private-data.git"  # Update with your private repo URL
+# ── Config ───────────────────────────────────────────────────────────
+source .env
+
+TAG="$(git rev-parse --short HEAD)"
 
 # Colours for output
 RED='\033[0;31m'
@@ -19,82 +13,94 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BLUE}🚀 Starting portfolio deployment...${NC}\n"
-echo -e "${BLUE}📂 Public repo: $PUBLIC_REPO_PATH${NC}"
-echo -e "${BLUE}📂 Private repo: $PRIVATE_REPO_PATH${NC}\n"
+DRY_RUN=false
+[ "$1" = "--dry-run" ] && DRY_RUN=true
 
-# Navigate to public repository
-cd "$PUBLIC_REPO_PATH"
+run() {
+  if [ "$DRY_RUN" = true ]; then
+    echo "[DRY-RUN] $*"
+  else
+    eval "$@"
+  fi
+}
 
-# Pull public repository
-echo -e "${YELLOW}📥 Pulling public code...${NC}"
-git pull origin main
-echo -e "${GREEN}✓ Public code updated${NC}"
+echo ""
+echo "🚀 Deploy ${CONTAINER_NAME}"
+echo "   Commit:  $TAG"
+echo "   Server:  $SERVER"
+echo "   Port: $PORT"
+echo "   Network: $NETWORK"
+echo "   Dry-run: $DRY_RUN"
+echo ""
 
-# Pull or clone private data repository
-if [ ! -d "$PRIVATE_REPO_PATH" ]; then
-    echo -e "\n${YELLOW}📦 Cloning private data repository...${NC}"
-    git clone "$PRIVATE_REPO_URL" "$PRIVATE_REPO_PATH"
-    echo -e "${GREEN}✓ Private repository cloned${NC}"
-else
-    echo -e "\n${YELLOW}🔄 Updating private data...${NC}"
-    cd "$PRIVATE_REPO_PATH"
-    git pull origin main
-    cd "$PUBLIC_REPO_PATH"
-    echo -e "${GREEN}✓ Private data updated${NC}"
-fi
+# ── Safety checks ────────────────────────────────────────────────────
+git diff --quiet || { echo "❌ Git working tree not clean"; exit 1; }
 
-# Copy private data to frontend
-echo -e "\n${YELLOW}📋 Copying private data to frontend...${NC}"
-cp "$PRIVATE_REPO_PATH/projects.json" "$PUBLIC_REPO_PATH/frontend/src/lib/data/projects.json"
-echo -e "${GREEN}✓ projects.json copied${NC}"
+# ── Build image locally ──────────────────────────────────────────────
+echo "🏗️  Building image ${IMAGE_NAME}:${TAG}..."
+run "docker build -t ${IMAGE_NAME}:${TAG} -f ${DOCKERFILE} ."
 
-# Copy assets if they exist
-if [ -d "$PRIVATE_REPO_PATH/assets" ]; then
-    echo -e "${YELLOW}🖼️  Copying assets...${NC}"
-    rm -rf "$PUBLIC_REPO_PATH/frontend/static/assets"
-    cp -r "$PRIVATE_REPO_PATH/assets" "$PUBLIC_REPO_PATH/frontend/static/assets"
-    echo -e "${GREEN}✓ Assets copied${NC}"
-fi
+# ── Send image to server ─────────────────────────────────────────────
+echo "📦 Sending image to ${SERVER}..."
+run "docker save ${IMAGE_NAME}:${TAG} | ssh ${SERVER} 'docker load'"
 
-# Create .npmrc
-echo -e "\n${YELLOW}🔧 Creating .npmrc...${NC}"
-cd "$PUBLIC_REPO_PATH/frontend"
-echo "optional=true" > .npmrc
-cd "$PUBLIC_REPO_PATH"
-echo -e "${GREEN}✓ .npmrc created${NC}"
-
-# Docker operations
-echo -e "\n${YELLOW}🐳 Docker operations...${NC}"
-
+# ── Deploy atomically ────────────────────────────────────────────────
 echo "🌐 Ensuring Docker network exists..."
-docker network create web 2>/dev/null || echo "Network already exists"
+run "ssh ${SERVER} 'docker network create ${NETWORK} 2>/dev/null || true'"
 
-echo "🛑 Stopping old container..."
-docker compose down
+echo "🚀 Starting new container ${CONTAINER_NAME}_${TAG}..."
+run "ssh ${SERVER} 'docker run -d \
+  --name ${CONTAINER_NAME}_${TAG} \
+  --restart unless-stopped \
+  --network ${NETWORK} \
+  -p ${PORT} \
+  -e ORIGIN=${URL} \
+  ${IMAGE_NAME}:${TAG}'"
 
-echo "🏗️  Building new image..."
-docker compose build --no-cache
+# ── Health check ──────────────────────────────────────────────────────
+echo "⏳ Waiting for container to become healthy..."
+RETRIES=12
+for i in $(seq 1 $RETRIES); do
+  STATUS=$(ssh ${SERVER} "docker inspect --format='{{.State.Health.Status}}' ${CONTAINER_NAME}_${TAG} 2>/dev/null" || echo "starting")
+  if [ "$STATUS" = "healthy" ]; then
+    echo -e "${GREEN}✅ Container is healthy!${NC}"
+    break
+  fi
+  if [ "$i" -eq "$RETRIES" ]; then
+    echo -e "${RED}❌ Container did not become healthy after ${RETRIES} attempts${NC}"
+    echo "📝 Logs:"
+    ssh ${SERVER} "docker logs --tail=30 ${CONTAINER_NAME}_${TAG}"
+    echo -e "${YELLOW}🛑 Rolling back...${NC}"
+    ssh ${SERVER} "docker stop ${CONTAINER_NAME}_${TAG} || true; docker rm ${CONTAINER_NAME}_${TAG} || true"
+    exit 1
+  fi
+  echo "   Attempt $i/$RETRIES — status: $STATUS"
+  sleep 5
+done
 
-echo "🚀 Starting container..."
-docker compose up -d
+# ── Switch traffic ────────────────────────────────────────────────────
+echo "🔄 Switching to new container..."
+run "ssh ${SERVER} '
+  docker stop ${CONTAINER_NAME} 2>/dev/null || true
+  docker rm ${CONTAINER_NAME} 2>/dev/null || true
+  docker rename ${CONTAINER_NAME}_${TAG} ${CONTAINER_NAME}
+'"
+
+# ── Cleanup ───────────────────────────────────────────────────────────
+echo ""
+echo "🧹 Pruning unused images on server..."
+run "ssh ${SERVER} 'docker image prune -f'"
 
 echo ""
-echo "⏳ Waiting for container to start..."
-sleep 5
+echo "🧹 Pruning all unused docker elements locally ..."
+run "docker system prune -a"
 
+# ── Done ──────────────────────────────────────────────────────────────
 echo ""
-echo -e "${YELLOW}📋 Container status:${NC}"
-docker ps | grep portfolio || echo -e "${RED}⚠️  Container not running!${NC}"
-
-echo ""
-echo -e "${YELLOW}📝 Recent logs:${NC}"
-docker compose logs --tail=30
-
-echo ""
-if docker ps | grep -q portfolio; then
-    echo -e "${GREEN}✨ Deployment completed successfully!${NC}"
-    echo -e "${BLUE}🌐 Portfolio available at: https://combe.tf${NC}"
+if ssh ${SERVER} "docker ps | grep -q ${CONTAINER_NAME}"; then
+    echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
+    echo -e "${BLUE}🌐 ${CONTAINER_NAME} available at: ${URL}${NC}"
+    echo -e "${BLUE}📋 View logs: ssh ${SERVER} 'docker logs -f ${CONTAINER_NAME}'${NC}"
 else
     echo -e "${RED}❌ Deployment failed - container is not running${NC}"
     exit 1
