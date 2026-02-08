@@ -14,6 +14,10 @@ export const translations = {
             graphic: "Graphisme",
             management: "Clients", 
             about: "Profil",
+            project: "Projet",
+            team: "Équipe",
+            links: "Liens",
+            tags: "Tags",
             lang: "Sélectionner la langue",
             available_languages: "Langues disponibles",
             close_menu: "Fermer le menu"
@@ -71,6 +75,10 @@ export const translations = {
             graphic: "Graphic Design",
             management: "Clients", 
             about: "About",
+            project: "Project",
+            team: "Team",
+            links: "Links",
+            tags: "Tags",
             lang: "Select language",
             available_languages: "Available languages",
             close_menu: "Close menu"

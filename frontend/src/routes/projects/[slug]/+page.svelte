@@ -136,7 +136,7 @@
             <!-- Description -->
             <div class="info-block">
                 <div class="block-title">
-                    <h2>{$trans?.projects_gallery.description}</h2>
+                    <h2 id="desc-section">{$trans?.projects_gallery.description}</h2>
                     <hr>
                 </div>
                 <p class="description-text">{data.project.description[$locale]}</p>
@@ -146,7 +146,7 @@
             {#if data.project.partners.length > 0}
                 <div class="info-block">
                     <div class="block-title">
-                        <h2>{$trans?.projects_gallery.team}</h2>
+                        <h2 id="team-section">{$trans?.projects_gallery.team}</h2>
                         <hr>
                     </div>
                     <div class="team-grid">
@@ -168,7 +168,7 @@
                 {#if data.project.tags[$locale].length > 0}
                     <div class="info-block">
                         <div class="block-title">
-                            <h2>{$trans?.projects_gallery.tags}</h2>
+                            <h2 id="tags-section">{$trans?.projects_gallery.tags}</h2>
                             <hr>
                         </div>
                         <div class="tags-container">
@@ -197,7 +197,7 @@
         <div class="content-grid" id="secondary-grid">
             <section class="links-section">
                 <div class="block-title">
-                    <h2>{$trans?.projects_gallery.links}</h2>
+                    <h2 id="links-section">{$trans?.projects_gallery.links}</h2>
                     <hr>
                 </div>
                 <div class="links-block">
@@ -240,7 +240,7 @@
                 {#if data.project.tags[$locale].length > 0}
                     <div class="info-block full-block">
                         <div class="block-title">
-                            <h2>{$trans?.projects_gallery.tags}</h2>
+                            <h2 id="tags-section">{$trans?.projects_gallery.tags}</h2>
                             <hr>
                         </div>
                         <div class="tags-container tags-align">

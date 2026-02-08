@@ -156,41 +156,79 @@
 
 {#if $responsive.isAbove(1080)}
     <div class="side-nav accent">
-        <button 
-            class="btn side-btn acc-highlight"
-            aria-label={$trans?.menu.hardware}
-            onclick={() => scrollTo("hardware-section")}
-        >
-            <icon class="material-symbols-outlined">design_services</icon>
-            {$trans?.menu.hardware}
-        </button>
+        {#if $page.url.pathname.startsWith('/projects/')}
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.project}
+                onclick={() => scrollTo("desc-section")}
+            >
+                <icon class="material-symbols-outlined">newsmode</icon>
+                {$trans?.menu.project}
+            </button>
 
-        <button 
-            class="btn side-btn acc-highlight"
-            aria-label={$trans?.menu.software}
-            onclick={() => scrollTo("software-section")}
-        >
-            <icon class="material-symbols-outlined">code</icon>
-            {$trans?.menu.software}
-        </button>
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.team}
+                onclick={() => scrollTo("team-section")}
+            >
+                <icon class="material-symbols-outlined">code</icon>
+                {$trans?.menu.team}
+            </button>
 
-        <button 
-            class="btn side-btn acc-highlight"
-            aria-label={$trans?.menu.visuals}
-            onclick={() => scrollTo("graphic-section")}
-        >
-            <icon class="material-symbols-outlined">palette</icon>
-            {$trans?.menu.visuals}
-        </button>
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.links}
+                onclick={() => scrollTo("links-section")}
+            >
+                <icon class="material-symbols-outlined">link_2</icon>
+                {$trans?.menu.links}
+            </button>
 
-        <button 
-            class="btn side-btn acc-highlight"
-            aria-label={$trans?.menu.about}
-            onclick={() => scrollTo("profile-section")}
-        >
-            <icon class="material-symbols-outlined">article_person</icon>
-            {$trans?.menu.about}
-        </button>
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.tags}
+                onclick={() => scrollTo("tags-section")}
+            >
+                <icon class="material-symbols-outlined">tag</icon>
+                {$trans?.menu.tags}
+            </button>
+        {:else}
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.hardware}
+                onclick={() => scrollTo("hardware-section")}
+            >
+                <icon class="material-symbols-outlined">design_services</icon>
+                {$trans?.menu.hardware}
+            </button>
+
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.software}
+                onclick={() => scrollTo("software-section")}
+            >
+                <icon class="material-symbols-outlined">code</icon>
+                {$trans?.menu.software}
+            </button>
+
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.visuals}
+                onclick={() => scrollTo("graphic-section")}
+            >
+                <icon class="material-symbols-outlined">palette</icon>
+                {$trans?.menu.visuals}
+            </button>
+
+            <button 
+                class="btn side-btn acc-highlight"
+                aria-label={$trans?.menu.about}
+                onclick={() => scrollTo("profile-section")}
+            >
+                <icon class="material-symbols-outlined">article_person</icon>
+                {$trans?.menu.about}
+            </button>
+        {/if}
 
         {#if $theme_color == "dark"}
             <button 
@@ -262,41 +300,79 @@
     {#if $responsive.isBelow(1080)}
         <div class="footer-block">
             <nav class="footer-content">
-                <button 
-                    class="btn side-btn acc-highlight"
-                    aria-label={$trans?.menu.hardware}
-                    onclick={() => scrollTo("hardware-section")}
-                >
-                    <icon class="material-symbols-outlined">design_services</icon>
-                    {$trans?.menu.hardware}
-                </button>
+                {#if $page.url.pathname.startsWith('/projects/')}
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.project}
+                        onclick={() => scrollTo("desc-section")}
+                    >
+                        <icon class="material-symbols-outlined">newsmode</icon>
+                        {$trans?.menu.project}
+                    </button>
+        
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.team}
+                        onclick={() => scrollTo("team-section")}
+                    >
+                        <icon class="material-symbols-outlined">group</icon>
+                        {$trans?.menu.team}
+                    </button>
+        
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.links}
+                        onclick={() => scrollTo("links-section")}
+                    >
+                        <icon class="material-symbols-outlined">link_2</icon>
+                        {$trans?.menu.links}
+                    </button>
+        
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.tags}
+                        onclick={() => scrollTo("tags-section")}
+                    >
+                        <icon class="material-symbols-outlined">tag</icon>
+                        {$trans?.menu.tags}
+                    </button>
+                {:else}
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.hardware}
+                        onclick={() => scrollTo("hardware-section")}
+                    >
+                        <icon class="material-symbols-outlined">design_services</icon>
+                        {$trans?.menu.hardware}
+                    </button>
 
-                <button 
-                    class="btn side-btn acc-highlight"
-                    aria-label={$trans?.menu.software}
-                    onclick={() => scrollTo("software-section")}
-                >
-                    <icon class="material-symbols-outlined">code</icon>
-                    {$trans?.menu.software}
-                </button>
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.software}
+                        onclick={() => scrollTo("software-section")}
+                    >
+                        <icon class="material-symbols-outlined">code</icon>
+                        {$trans?.menu.software}
+                    </button>
 
-                <button 
-                    class="btn side-btn acc-highlight"
-                    aria-label={$trans?.menu.visuals}
-                    onclick={() => scrollTo("graphic-section")}
-                >
-                    <icon class="material-symbols-outlined">palette</icon>
-                    {$trans?.menu.visuals}
-                </button>
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.visuals}
+                        onclick={() => scrollTo("graphic-section")}
+                    >
+                        <icon class="material-symbols-outlined">palette</icon>
+                        {$trans?.menu.visuals}
+                    </button>
 
-                <button 
-                    class="btn side-btn acc-highlight"
-                    aria-label={$trans?.menu.about}
-                    onclick={() => scrollTo("profile-section")}
-                >
-                    <icon class="material-symbols-outlined">article_person</icon>
-                    {$trans?.menu.about}
-                </button>
+                    <button 
+                        class="btn side-btn acc-highlight"
+                        aria-label={$trans?.menu.about}
+                        onclick={() => scrollTo("profile-section")}
+                    >
+                        <icon class="material-symbols-outlined">article_person</icon>
+                        {$trans?.menu.about}
+                    </button>
+                {/if}
             </nav>
 
             <div class="footer-content">
