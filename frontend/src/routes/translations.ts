@@ -4,15 +4,13 @@ export const translations = {
     fr: {
         language_name: "Français",
         header: {
-            name: "Alexandre 'Épinard' Combe |",
-            tagline1: "Développeur",
-            tagline2: "Concepteur",
-            tagline3: "Manager",
+            project: "Portfolio",
             logo_btn: "Retour à l'accueil"
         },
         menu: {
             hardware: "Design",
             software: "Apps",
+            visuals: "Visuels",
             graphic: "Graphisme",
             management: "Clients", 
             about: "Profil",
@@ -31,6 +29,18 @@ export const translations = {
             links: "En savoir plus",
             demo_link: "Démo",
             model_link: "Modèle"
+        },
+        profile: {
+            about: "À propos",
+            contact: "Contact",
+            experience: "Expérience",
+            education: "Formation",
+            skills: "Compétences",
+            languages: "Langues",
+            tools: "Outils",
+            career: "Parcours",
+            resume: "Mon CV",
+            return: "Retour"
         },
         alerts: {
             loading: "ℹ️ Chargement des projets...",
@@ -51,15 +61,13 @@ export const translations = {
     en: {
         language_name: "English",
         header: {
-            name: "Alexandre 'Spinach' Combe |",
-            tagline1: "Developer",
-            tagline2: "Designer", 
-            tagline3: "Manager",
+            project: "Portfolio",
             logo_btn: "Back to home"
         },
         menu: {
             hardware: "Design",
             software: "Apps",
+            visuals: "Visuals",
             graphic: "Graphic Design",
             management: "Clients", 
             about: "About",
@@ -78,6 +86,18 @@ export const translations = {
             links: "Learn More",
             demo_link: "Demo",
             model_link: "Model"
+        },
+        profile: {
+            about: "About me",
+            contact: "Contact",
+            experience: "Experience",
+            education: "Education",
+            skills: "Skills",
+            languages: "Languages",
+            tools: "Tools",
+            career: "Career",
+            resume: "My resume",
+            return: "Return"
         },
         alerts: {
             loading: "ℹ️ Loading projects...",

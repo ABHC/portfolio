@@ -24,6 +24,7 @@
     --top-margin: 130px;
     --side-margin: 140px;
     --bottom-margin: 0px;
+    --compact-sides: 10%;
     
     /* Nav variables */
     --side-nav-btn: 60px;
@@ -105,13 +106,12 @@ article {
 footer {
     background-color: var(--accent);
     color: var(--text-accent) !important;
-    /*position: relative;
-    bottom: 0;*/
     width: 100%;
     padding: 10px 3% 10px 3%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -169,4 +169,10 @@ h6 {
 
 .higlight {
     background-color: var(--highlight) !important;
+}
+
+@media (max-width: 1080px) {
+    main {
+        margin: var(--top-margin) var(--compact-sides) var(--bottom-margin) var(--compact-sides);
+    }
 }

@@ -4,36 +4,29 @@
     import AppsGallery from './AppsGallery.svelte';
     import ProjectsGallery from './ProjectsGallery.svelte';
     import Clients from './clients.svelte';
+    import Profile from './Profile.svelte';
 
-    import { loadProjectsData } from '$lib/utils/projectsLoader';
-    import type { ProjectsData, ProjectItem } from '$lib/types/projects';
+    import { projectsPromise, profilePromise } from '$lib/utils/projectsLoader';
 
-    import { 
+    import {
         trans,
         languages_aria_label
     } from './store';
-
-	// Load projects asynchronously
-	let projectsDataPromise: Promise<ProjectsData> = loadProjectsData();
 </script>
-
-<div class="section-title">
-    <h2 id="section-name">{$trans?.menu.hardware}</h2>
-    <hr>
-</div>
 
 <!-- HARDWARE SECTION -->
 
-{#await projectsDataPromise}
+<div class="section-title">
+    <h2 id="hardware-section">{$trans?.menu.hardware}</h2>
+    <hr>
+</div>
+
+{#await projectsPromise}
     <div class="alert alert-info">
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
     <DesignGallery projects={projects_data.hardware} />
-    <!--<ProjectsGallery
-        section = {"hardware"}
-        projects = {projects_data.hardware}
-    />-->
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -43,20 +36,16 @@
 <!-- APPS SECTION -->
 
 <div class="section-title">
-    <h2 id="section-name">{$trans?.menu.software}</h2>
+    <h2 id="software-section">{$trans?.menu.software}</h2>
     <hr>
 </div>
 
-{#await projectsDataPromise}
+{#await projectsPromise}
     <div class="alert alert-info">
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
     <AppsGallery projects={projects_data.software} />
-    <!--<ProjectsGallery
-        section = {"software"}
-        projects = {projects_data.software}
-    />-->
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -66,16 +55,28 @@
 <!-- GRAPHIC DESIGN SECTION -->
 
 <div class="section-title">
-    <h2 id="section-name">{$trans?.menu.graphic}</h2>
+    <h2 id="graphic-section">{$trans?.menu.visuals}</h2>
     <hr>
 </div>
 
-<!-- PROFIL SECTION -->
+<!-- PROFILE SECTION -->
 
 <div class="section-title">
-    <h2 id="section-name">{$trans?.menu.about}</h2>
+    <h2 id="profile-section">{$trans?.menu.about}</h2>
     <hr>
 </div>
+
+{#await profilePromise}
+    <div class="alert alert-info">
+        {$trans?.alerts.loading}
+    </div>
+{:then profile_data } 
+    <Profile profile={profile_data} />
+{:catch error}
+    <div class="alert alert-error">
+        {$trans?.alerts.loading_error}&nbsp;{error.message}
+    </div>
+{/await}
 
 <!-- CLIENTS SECTION -->
 
@@ -112,7 +113,7 @@
         width: 100%;
     }
 
-    .section-title #section-name {
+    .section-title h2 {
         text-transform: uppercase;
         margin-right: 10px;
     }
