@@ -38,7 +38,7 @@ git diff --quiet || { echo "❌ Git working tree not clean"; exit 1; }
 
 # ── Build image locally ──────────────────────────────────────────────
 echo "🏗️  Building image ${IMAGE_NAME}:${TAG}..."
-run "DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME}:${TAG} -f ${DOCKERFILE} ."
+run "docker build -t ${IMAGE_NAME}:${TAG} -f ${DOCKERFILE} ."
 
 # ── Send image to server ─────────────────────────────────────────────
 echo "📦 Sending image to ${SERVER}..."
