@@ -18,8 +18,10 @@
 
 <!-- HARDWARE SECTION -->
 
-<div data-summary="hardware" data-summary-label={$trans?.menu.hardware}>
-    <Headline size="md" uppercase>{$trans?.menu.hardware}</Headline>
+<div data-summary="hardware" data-summary-label={$trans?.summary.hardware}>
+    <Headline size="md" uppercase>
+        {$trans?.summary.hardware}
+    </Headline>
 </div>
 
 {#await projectsPromise}
@@ -36,8 +38,10 @@
 
 <!-- APPS SECTION -->
 
-<div data-summary="software" data-summary-label={$trans?.menu.software}>
-    <Headline size="md" uppercase>{$trans?.menu.software}</Headline>
+<div data-summary="software" data-summary-label={$trans?.summary.software}>
+    <Headline size="md" uppercase>
+        {$trans?.summary.software}
+    </Headline>
 </div>
 
 {#await projectsPromise}
@@ -54,14 +58,16 @@
 
 <!-- GRAPHIC DESIGN SECTION -->
 
-<div data-summary="graphic" data-summary-label={$trans?.menu.visuals}>
-    <Headline size="md" uppercase>{$trans?.menu.visuals}</Headline>
+<div data-summary="graphic" data-summary-label={$trans?.summary.visuals}>
+    <Headline size="md" uppercase>
+        {$trans?.summary.visuals}
+    </Headline>
 </div>
 
 <!-- PROFILE SECTION -->
 
 <div class="section-title">
-    <h2 id="profile-section">{$trans?.menu.about}</h2>
+    <h2 id="profile-section">{$trans?.summary.about}</h2>
     <hr>
 </div>
 

@@ -4,14 +4,13 @@
 	import { onMount } from 'svelte';
     import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
 
     import { translations } from './translations';
     import type { Locale } from "$lib/types/translations";
-    import { profilePromise } from '$lib/utils/projectsLoader';
     import LogoABHC from '$lib/brand/LogoABHC.svelte';
     import BrandABHC from "$lib/brand/BrandABHC.svelte"
     import LangPopover from './LangPopover.svelte';
+    import MenuPopover from './MenuPopover.svelte';
 
     import { 
         Header, 
@@ -34,7 +33,6 @@
 		window_height,
         theme_color,
         responsive,
-        languages_aria_label
 	} from './store';
 
     // Types ----------
@@ -51,23 +49,19 @@
     let locales: Locale[] = Object.keys(translations) as Locale[];
 	let width: number = $state(0);
 	let height: number = $state(0);
-    let scroll_y: number = $state(0);
     let summary_items: SummaryItem[] = $state([]);
     let active_id: string = $state("");
-    const show_back_to_top = $derived(scroll_y > 400);
-	let show_mobile_menu: boolean = $state(false);
     let open_langs: boolean = $state(false);
     let copied: boolean = $state(false);
     let header_visible: boolean = $state(true);
     let footer_visible: boolean = $state(false);
-    let home_tooltip: boolean = $state(false);
-    let cv_tooltip: boolean = $state(false);
-    let blog_tooltip: boolean = $state(false);
+    let menu_tooltip: boolean = $state(false);
+    let scroll_y: number = $state(0);
+    const show_back_to_top = $derived(scroll_y > 400);
 
     // ---------- Observers ----------
     let header_element: HTMLElement | undefined = $state(undefined);
     let footer_element: HTMLElement | undefined = $state(undefined);
-    let content_el: HTMLDivElement | undefined = $state(undefined);
     let observer: IntersectionObserver | null = null;
 
 	// ---------- Lifecycle ----------
@@ -116,33 +110,25 @@
 		$window_height = height;
 	}
 
-	function toggleLangsMenu(): void {
-		open_langs = !open_langs;
-	}
-
-	function chooseLang(lang: Locale): void {
-		$locale = lang;
-		open_langs = false;
-	}
-
     function getInitialTheme(): void {
         if (typeof document !== 'undefined') {
             if (window.matchMedia('(prefers-color-scheme: light)').matches) {
                 $theme_color = "light";
             }
-            document.documentElement.setAttribute('data-theme', $theme_color);
         }
     }
 
     function setTheme(): void {
-        if ($theme_color == "dark") {
-            $theme_color = "light";
-        }
-        else {
-            $theme_color = "dark";
-        }
-        document.documentElement.setAttribute('data-theme', $theme_color);
+        $theme_color = $theme_color === "dark" ? "light" : "dark";
     }
+
+    // Sync the data-theme attribute whenever the store changes — covers init,
+    // the nav toggle, and any popover that mutates $theme_color directly.
+    $effect(() => {
+        if (typeof document !== 'undefined') {
+            document.documentElement.setAttribute('data-theme', $theme_color);
+        }
+    });
 
     function scrollTo(target:string) {
         const element = document.getElementById(target);
@@ -231,7 +217,7 @@
     />
 </svelte:head>
 
-<!-- Utils Snippets ------------------------------------------------ -->
+<!-- Utils Snippets ----------------------------------------------------------------------- -->
 
 <!-- Header snippets -->
 {#snippet desktop_brand()}
@@ -246,6 +232,7 @@
     </a>
 {/snippet}
 
+<!-- Nav snippets -->
 {#snippet empty_nav()}
     <span></span>
 {/snippet}
@@ -263,7 +250,7 @@
             palette="tone"
             direction="row"
             size="sm"
-            aria_label={$trans?.menu.about}
+            aria_label={$trans?.aria.theme}
             onclick={() => { setTheme() }}
         >
             {#if $theme_color == "dark"}
@@ -284,6 +271,30 @@
 
         </Button>
         <LangPopover />
+    </div>
+{/snippet}
+
+{#snippet mobile_lang()}
+    <div class="nav-trailing-group">
+        <LangPopover />
+    </div>
+{/snippet}
+
+{#snippet trailing_btt()}
+    <div
+        class="back-to-top"
+        class:visible={show_back_to_top}
+        inert={!show_back_to_top}
+    >
+        <Button
+            variant="ghost"
+            palette="tone"
+            size="md"
+            aria_label={$trans?.aria.back_to_top}
+            onclick={backToTop}
+        >
+            <span class="icon-arrow-up" aria-hidden="true"></span>
+        </Button>
     </div>
 {/snippet}
 
@@ -351,7 +362,7 @@
     />
 {/snippet}
 
-<!-- Header ─────────────────────────────────────────────────────────────────────────────────── -->
+<!-- Header --------------------------------------------------------------------------------- -->
 
 <div bind:this={header_element}>
     {#if $responsive.isBelow(1024)}
@@ -369,167 +380,7 @@
     {/if}
 </div>
 
-<!--{#await profilePromise then profile}
-    <header class={$responsive.isMobile ? "mobile-header" : ""}>
-        <div class="title-container">
-            <div class="id">
-                {#each profile.me.id as id}
-                    {#if id.display}
-                        <h3>{id.name.toUpperCase()}</h3>
-                    {/if}
-                {/each}
-            </div>
-            <h1 id="pipe">
-                &nbsp;|&nbsp;
-            </h1>
-            <div id="logo-container">
-                <img id="logo2" src="radical_fern.svg" alt={$trans?.header.logo_btn}/>
-            </div>
-        </div>
-
-        <h1 id="project">
-            {$trans?.header.project.toUpperCase()}
-        </h1>
-    </header>
-{/await}-->
-
-<!--{#if $responsive.isAbove(1080)}
-    <div class="side-nav accent">
-        {#if $page.url.pathname.startsWith('/projects/')}
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.project}
-                onclick={() => scrollTo("desc-section")}
-            >
-                <icon class="material-symbols-outlined">newsmode</icon>
-                {$trans?.menu.project}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.team}
-                onclick={() => scrollTo("team-section")}
-            >
-                <icon class="material-symbols-outlined">code</icon>
-                {$trans?.menu.team}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.links}
-                onclick={() => scrollTo("links-section")}
-            >
-                <icon class="material-symbols-outlined">link_2</icon>
-                {$trans?.menu.links}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.tags}
-                onclick={() => scrollTo("tags-section")}
-            >
-                <icon class="material-symbols-outlined">tag</icon>
-                {$trans?.menu.tags}
-            </button>
-        {:else}
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.hardware}
-                onclick={() => scrollTo("hardware-section")}
-            >
-                <icon class="material-symbols-outlined">design_services</icon>
-                {$trans?.menu.hardware}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.software}
-                onclick={() => scrollTo("software-section")}
-            >
-                <icon class="material-symbols-outlined">code</icon>
-                {$trans?.menu.software}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.visuals}
-                onclick={() => scrollTo("graphic-section")}
-            >
-                <icon class="material-symbols-outlined">palette</icon>
-                {$trans?.menu.visuals}
-            </button>
-
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.about}
-                onclick={() => scrollTo("profile-section")}
-            >
-                <icon class="material-symbols-outlined">article_person</icon>
-                {$trans?.menu.about}
-            </button>
-        {/if}
-
-        {#if $theme_color == "dark"}
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.about}
-                onclick={setTheme}
-            >
-                <icon class="material-symbols-outlined">dark_mode</icon>
-            </button>
-        {:else if $theme_color == "light"}
-            <button 
-                class="btn side-btn acc-highlight"
-                aria-label={$trans?.menu.about}
-                onclick={setTheme}
-            >
-                <icon class="material-symbols-outlined">light_mode</icon>
-            </button>
-        {/if}
-
-        <div class="lang-container">
-            <button
-                class="btn side-btn acc-highlight"
-                type="button"
-                aria-haspopup="listbox"
-                aria-expanded={open_langs}
-                aria-label={$trans?.menu.lang}
-                onclick={toggleLangsMenu}
-            >
-                <span class="flag">{getFlagEmoji($locale)}</span>
-            </button>
-        
-            {#if open_langs}
-                <ul 
-                    class="lang-list accent" 
-                    role="listbox"
-                    aria-label={$languages_aria_label}
-                >
-                    {#each locales as lang}
-                        <li
-                            role="option"
-                            aria-selected={lang === $locale}
-                            class="lang-option acc-highlight"
-                            onclick={() => chooseLang(lang)}
-                            onkeydown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    chooseLang(lang);
-                                }
-                            }}
-                            tabindex="0"
-                        >
-                            <span class="flag">{getFlagEmoji(lang)}</span>
-                            <span class="code">{lang.toUpperCase()}</span>
-                        </li>
-                    {/each}
-                </ul>
-            {/if}
-        </div>
-    </div>
-{/if}-->
-
-<!-- Nav (desktop) ──────────────────────────────────────────────────────────────────────────── -->
+<!-- Nav (desktop) --------------------------------------------------------------------------- -->
 
 {#if !$responsive.isBelow(1024)}
     <Nav
@@ -572,7 +423,7 @@
     </Nav>
 {/if}
 
-<!-- Content ────────────────────────────────────────────────────────────────────────────────── -->
+<!-- Content --------------------------------------------------------------------------------- -->
 
 <div class="content">
     <aside class="summary">
@@ -594,21 +445,6 @@
                         {/each}
                 </Explorer>
             {/if}
-            <div
-                class="back-to-top"
-                class:visible={show_back_to_top}
-                inert={!show_back_to_top}
-            >
-                <Button
-                    variant="ghost"
-                    palette="tone"
-                    size="md"
-                    aria_label={$trans?.aria.back_to_top}
-                    onclick={backToTop}
-                >
-                    <span class="icon-arrow-up" aria-hidden="true"></span>
-                </Button>
-            </div>
         </Card>
     </aside>
 
@@ -617,7 +453,7 @@
     </main>
 </div>
 
-<!-- Nav (mobile) ───────────────────────────────────────────────────────────────────────────── -->
+<!-- Nav (mobile) ---------------------------------------------------------------------------- -->
 <!-- Placed after content so sticky-bottom releases when the footer comes into flow -->
 
 {#if $responsive.isBelow(1024)}
@@ -626,133 +462,45 @@
         direction="bottom"
         palette="tone"
         elevation="subtle"
-        leading={footer_visible ? empty_nav : logo_in_nav}
-        trailing={nav_trailing}
+        leading={mobile_lang}
+        trailing={trailing_btt}
     >
         <Tooltip
-            bind:open={home_tooltip}
+            bind:open={menu_tooltip}
             showDelay={800}
             hideDelay={0}
             palette="tone"
-            direction="bottom"
-            align="center"
-            bordered
-            arrow
-        >
-            {#snippet trigger()}
-                <Button
-                    variant="ghost"
-                    palette="tone"
-                    aria_label={$trans?.nav.portfolio}
-                    active={page.url.pathname.startsWith('/')}
-                    href="/"
-                >
-                    <span class="nav-icon" aria-hidden="true">
-                        <div
-                        class="icon-book"
-                        style="font-size: 20px;"
-                        ></div>
-                    </span>
-                </Button>
-            {/snippet}
-
-            {#snippet children()}
-                {$trans?.nav.portfolio}
-            {/snippet}
-        </Tooltip>
-
-        <Tooltip
-            bind:open={cv_tooltip}
-            showDelay={800}
-            hideDelay={0}
-            palette="tone"
-            direction="bottom"
+            direction="left"
             align="center"
             maxWidth="120px"
             bordered
             arrow
         >
             {#snippet trigger()}
-                <Button
-                    variant="ghost"
-                    palette="tone"
-                    aria_label={$trans?.nav.resume}
-                    active={page.url.pathname.startsWith('/resume')}
-                    href="/resume"
-                >
-                    <span class="nav-icon" aria-hidden="true">
-                        <div
-                            class="icon-file-user"
-                            style="font-size: 20px;"
-                        ></div>
-                    </span>
-                </Button>
+                <MenuPopover/>
             {/snippet}
 
             {#snippet children()}
-                {$trans?.nav.resume}
+                {$trans?.nav.menu}
             {/snippet}
-        </Tooltip>
-
-        <Tooltip
-                bind:open={blog_tooltip}
-                showDelay={800}
-                hideDelay={0}
-                palette="tone"
-                direction="bottom"
-                align="center"
-                bordered
-                arrow
-            >
-                {#snippet trigger()}
-                    <Button
-                        variant="ghost"
-                        palette="tone"
-                        aria_label={$trans?.nav.blog}
-                        active={page.url.pathname.startsWith('/blog')}
-                        href="/blog"
-                    >
-                        <span class="nav-icon" aria-hidden="true">
-                            <div
-                                class="icon-rss"
-                                style="font-size: 20px;"
-                            ></div>
-                        </span>
-                    </Button>
-                {/snippet}
-
-                {#snippet children()}
-                    {$trans?.nav.blog}
-                {/snippet}
         </Tooltip>
     </Nav>
 {/if}
 
-<!-- Footer ─────────────────────────────────────────────────────────────────────────────────── -->
+<!-- Footer --------------------------------------------------------------------------------- -->
 
 <div bind:this={footer_element}>
-    {#if $responsive.isBelow(768)}
-        <Footer 
-            palette="accent" 
-            leading={brand_ABHC} 
-            trailing={license}
-            bind:visible={footer_visible}
-        >
-            {@render social_links()}
-        </Footer>
-    {:else}
-        <Footer 
-            palette="accent" 
-            leading={brand_ABHC} 
-            trailing={social_links}
-            bind:visible={footer_visible}
-        >
-            {@render license()}
-        </Footer>
-    {/if}
+    <Footer 
+        palette="accent" 
+        leading={brand_ABHC} 
+        trailing={social_links}
+        bind:visible={footer_visible}
+    >
+        {@render license()}
+    </Footer>
 </div>
 
-<!-- Copy Alert ──────────────────────────────────────────────────────────────────────────────── -->
+<!-- Copy Alert ------------------------------------------------------------------------------ -->
 
 {#if copied}
     <Alert
@@ -860,29 +608,10 @@
 
     #license {
         margin: 10px 0;
-    }
-
-    /*.page-aside {
-        position: sticky;
-        top: var(--nav-height, 0px);
-        align-self: start;
-        height: calc(100dvh - var(--nav-height, 0px) - var(--header-offset, 0px));
-        box-sizing: border-box;
-        overflow-y: auto;
-        padding: 1rem 0.75rem;
-        scrollbar-width: thin;
-        scrollbar-color: var(--spk-tone-hover) transparent;
-        border-right: 2px solid var(--spk-tone-hover);
-    }
-
-    .search-container {
-        margin: 0px 5px 10px 5px;
-    }*/
-
-    /*.content {
-        padding: 10px 40px 40px;
+        white-space: normal;
+        overflow-wrap: anywhere;
         min-width: 0;
-    }*/
+    }
 
     .summary {
         --nav-height: 135px;
@@ -896,7 +625,6 @@
         margin-right: 0.75rem;
         scrollbar-width: thin;
         scrollbar-color: var(--spk-tone-hover) transparent;
-        /*border-right: 2px solid var(--spk-tone-hover);*/
     }
 
     .summary-header {
@@ -925,131 +653,6 @@
 
     .back-to-top.visible {
         opacity: 1;
-    }
-
-    @media (max-width: 1024px) {
-        .content {
-            grid-template-columns: 1fr;
-        }
-
-        .page-aside {
-            display: none;
-        }
-
-        .summary {
-            display: none;
-        }
-
-        .content { padding: 10px 20px 40px; }
-    }
-
-    /* ---------------------------------------------------------- */
-
-    .title-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .id {
-        text-align: end;
-    }
-
-    #logo-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 5;
-        height: 100%;
-    }
-
-    #logo {
-        height: 100%; 
-        width: auto; 
-        object-fit: contain;
-        transform: rotate(30deg);
-        padding: 6px;
-    }
-
-    #logo2 {
-        height: 64px;
-        margin: 8px;
-    }
-
-    .side-nav {
-        position: fixed;
-        top: 40%;
-        left: calc((var(--side-margin) - (var(--side-nav-btn) + var(--side-nav-padding))) / 2);
-        transform: translateY(-40%);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center ;
-        border-radius: 10px;
-        color: var(--spk-text-accent) !important;
-    }
-
-    .btn {
-        cursor: pointer;
-        border-radius: 6px;
-        border: none;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 4px;
-        text-transform: uppercase;
-        font-weight: bold;
-        transition: background 0.5s ease;
-    }
-
-    .side-btn {
-        height: var(--side-nav-btn);
-        width: var(--side-nav-btn);
-        margin: var(--side-nav-padding);
-        flex-direction: column;
-        font-family: 'Space Grotesk', sans-serif;
-    }
-
-    .lang-container {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.flag {
-		font-size: 20px;
-	}
-
-	.lang-list {
-		position: absolute;
-		top: 0;
-        left: 120%;
-		list-style: none;
-		margin: 0;
-		padding: 0.4rem;
-		border-radius: 10px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 100;
-	}
-
-	.lang-option {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.3rem 0.6rem;
-		cursor: pointer;
-        font-weight: bold;
-        border-radius: 6px;
-        transition: background 0.5s ease;
-	}
-
-    .social-links {
-        display: flex;
-        gap: 16px;
-        justify-content: center;
     }
 
     .social-link {
@@ -1082,89 +685,49 @@
         text-align: end;
     }
 
-    /* Styles basiques pour le menu mobile */
-    .mobile-header {
-        padding: 0 25px;
-    }
 
-    .mobile-footer {
-        position: fixed;
-        bottom: 0;
-        flex-direction: column;
-    }
-
-    .footer-block {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    .footer-content {
-        display: flex;
-    }
-
-    .separation-line {
-        width: 90%;
-        margin-bottom: 5px;
-    }
-
-    .social-mobile {
-        gap: 28px;
-        margin: 0 12px;
-    }
-
-    .mobile-link {
-        width: 32px;
-        height: 32px;
-        margin: 5px;
-    }
-
-    .mobile-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    @media (max-width: 1080px) {
-		.side-nav .lang-container {
-			display: none;
-		}
-
-		.lang-list {
-			top: auto;
-			left: auto;
-			bottom: 120%;
-		}
-	}
-
-    @media (max-width: 500px) {
-        #project {
-            display: none;
-        }
-    }
-
-    @media (max-width: 450px) {
-        .footer-block {
-            margin-bottom: 4px;
+    @media (max-width: 1024px) {
+        .content {
+            grid-template-columns: 1fr;
         }
 
-        .side-btn {
-            height: var(--mobile-nav-btn);
-            width: var(--mobile-nav-btn);
-        }
-
-        .nav-txt {
+        .summary {
             display: none;
         }
 
-        .social-mobile {
-            gap: 7.5px;
-            margin: 0 6px;
-        }
+        .content { padding: 10px 20px 40px; }
+    }
 
-        .lang-list {
-			right: 1%;
-		}
+    /* Footer responsive collapse ---------------------------------------- */
+    /* Spektral Footer flex-wraps but doesn't stack — drive layout by breakpoint. */
+
+    @media (max-width: 768px) {
+        :global(footer.footer-base .footer-leading),
+        :global(footer.footer-base .footer-content),
+        :global(footer.footer-base .footer-trailing) {
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+    }
+
+    @media (min-width: 426px) and (max-width: 768px) {
+        :global(footer.footer-base) {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "leading trailing"
+                "content content";
+            align-items: center;
+        }
+        :global(footer.footer-base .footer-leading)  { grid-area: leading; justify-content: flex-start; }
+        :global(footer.footer-base .footer-trailing) { grid-area: trailing; justify-content: flex-end; }
+        :global(footer.footer-base .footer-content)  { grid-area: content; }
+    }
+
+    @media (max-width: 425px) {
+        :global(footer.footer-base) {
+            flex-direction: column;
+            align-items: stretch;
+        }
     }
 </style>

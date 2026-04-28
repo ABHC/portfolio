@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { locale, trans } from './store';
+    import { locale, trans, responsive } from './store';
     import { translations } from './translations';
     import type { Locale } from "$lib/types/translations";
     import { 
@@ -27,8 +27,8 @@
     palette="tone"
     rounded={false}
     gap="18px"
-    direction="bottom"
-    align="end"
+    direction={$responsive.isBelow(1024) ? "top" : "bottom"}
+    align= {$responsive.isBelow(1024) ? "start" : "end"}
 >
     {#snippet trigger()}
         <Button

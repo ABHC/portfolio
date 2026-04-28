@@ -15,11 +15,17 @@ export const translations = {
             logo_btn: "Retour à l'accueil"
         },
         nav:{
+            menu: "Menu",
+            index: "Index",
             portfolio: "Portfolio",
             resume: "Parcours",
             blog:"Blog",
+            theme: "Thème",
+            light: "Clair",
+            dark: "Sombre",
         },
-        menu: {
+        summary: {
+            label: "Sommaire",
             hardware: "Design",
             software: "Apps",
             visuals: "Visuels",
@@ -30,6 +36,8 @@ export const translations = {
             team: "Équipe",
             links: "Liens",
             tags: "Tags",
+        },
+        menu: {
             lang: "Sélectionner la langue",
             available_languages: "Langues disponibles",
             close_menu: "Fermer le menu"
@@ -70,9 +78,6 @@ export const translations = {
             copied: "Copié !",
             clipboard: "L'adresse e-mail a été copiée dans votre presse-papier",
         },
-        summary: {
-            label: "Sommaire",
-        },
         seo: {
             meta: "",
             title: ""
@@ -92,11 +97,17 @@ export const translations = {
             logo_btn: "Back to home"
         },
         nav:{
+            menu: "Menu",
+            index: "Index",
             portfolio: "Portfolio",
             resume: "Resume",
             blog:"Blog",
+            theme: "Theme",
+            light: "Light",
+            dark: "Dark",
         },
-        menu: {
+        summary: {
+            label: "Contents",
             hardware: "Design",
             software: "Apps",
             visuals: "Visuals",
@@ -107,6 +118,8 @@ export const translations = {
             team: "Team",
             links: "Links",
             tags: "Tags",
+        },
+        menu: {
             lang: "Select language",
             available_languages: "Available languages",
             close_menu: "Close menu"
@@ -146,9 +159,6 @@ export const translations = {
             linked_in_btn: "LinkedIn",
             copied: "Copied !",
             clipboard: "The email address has been copied to your clipboard.",
-        },
-        summary: {
-            label: "Contents",
         },
         seo: {
             meta: "",
