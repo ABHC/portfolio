@@ -47,7 +47,7 @@
 <style>
     .design-gallery {
         width: 100%;
-        color: var(--text);
+        color: var(--spk-text);
     }
 
     .projects-grid {
@@ -120,8 +120,8 @@
         display: inline-block;
         width: fit-content;
         padding: 0.35rem 0.75rem;
-        background: var(--accent);
-        color: var(--text-accent);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
         border-radius: 12px;
         font-size: 0.75rem;
         font-weight: 700;
@@ -141,7 +141,7 @@
         margin: 0;
         opacity: 0.85;
         font-style: italic;
-        color: var(--text-accent);
+        color: var(--spk-text-accent);
     }
     
     /* Responsive adjustments */

@@ -8,6 +8,8 @@
 
     import { projectsPromise, profilePromise } from '$lib/utils/projectsLoader';
 
+    import { Headline, TileGrid } from '@abhc/spektral-ui';
+
     import {
         trans,
         languages_aria_label
@@ -16,9 +18,8 @@
 
 <!-- HARDWARE SECTION -->
 
-<div class="section-title">
-    <h2 id="hardware-section">{$trans?.menu.hardware}</h2>
-    <hr>
+<div data-summary="hardware" data-summary-label={$trans?.menu.hardware}>
+    <Headline size="md" uppercase>{$trans?.menu.hardware}</Headline>
 </div>
 
 {#await projectsPromise}
@@ -35,9 +36,8 @@
 
 <!-- APPS SECTION -->
 
-<div class="section-title">
-    <h2 id="software-section">{$trans?.menu.software}</h2>
-    <hr>
+<div data-summary="software" data-summary-label={$trans?.menu.software}>
+    <Headline size="md" uppercase>{$trans?.menu.software}</Headline>
 </div>
 
 {#await projectsPromise}
@@ -54,9 +54,8 @@
 
 <!-- GRAPHIC DESIGN SECTION -->
 
-<div class="section-title">
-    <h2 id="graphic-section">{$trans?.menu.visuals}</h2>
-    <hr>
+<div data-summary="graphic" data-summary-label={$trans?.menu.visuals}>
+    <Headline size="md" uppercase>{$trans?.menu.visuals}</Headline>
 </div>
 
 <!-- PROFILE SECTION -->
@@ -80,7 +79,7 @@
 
 <!-- CLIENTS SECTION -->
 
-<div class="section-title">
+<!--<div class="section-title">
     <h2 id="section-name">{$trans?.menu.management}</h2>
     <hr>
 </div>
@@ -93,20 +92,20 @@
     <p>{$languages_aria_label}</p>
 
     <StoreTest/>
-</div>
+</div>-->
 
 <style>
 
     .container {
         justify-content: flex-start;
-        color: var(--text);
+        color: var(--spk-text);
     }
 
     .section-title {
         display: flex;
         align-items: baseline;
         margin: 20px 0;
-        color: var(--text);
+        color: var(--spk-text);
     }
 
     .section-title hr {
@@ -123,30 +122,30 @@
         padding: 15px 20px;
         border-radius: 8px;
         margin-bottom: 15px;
-        border-left: 4px solid var(--accent);
+        border-left: 4px solid var(--spk-accent);
     }
 
     .alert-success {
-        background: var(--accent);
-        color: var(--text-accent);
-        border-color: var(--accent-dark);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
+        border-color: var(--spk-accent-hover);
     }
 
     .alert-info {
-        background: var(--highlight);
-        color: var(--text);
-        border-color: var(--accent);
+        background: var(--spk-accent-muted);
+        color: var(--spk-text);
+        border-color: var(--spk-accent);
     }
 
     .alert-warning {
-        background: var(--highlight);
-        color: var(--text);
-        border-color: var(--warning-accent);
+        background: var(--spk-accent-muted);
+        color: var(--spk-text);
+        border-color: var(--spk-warning);
     }
 
     .alert-error {
-        background: var(--highlight);
-        color: var(--text);
-        border-color: var(--error-accent);
+        background: var(--spk-accent-muted);
+        color: var(--spk-text);
+        border-color: var(--spk-error);
     }
 </style>

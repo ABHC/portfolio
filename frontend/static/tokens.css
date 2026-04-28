@@ -1,0 +1,240 @@
+/* --- Spektral UI - Exported Tokens ---------------------------
+   Dual theme. Toggle via [data-theme="light"] / [data-theme="dark"]
+   on <html> (e.g. document.documentElement.dataset.theme = "dark").
+
+   Icon set: Lucide
+
+   Fonts and icons are loaded via @import so this file works
+   out of the box. For better performance, remove the @import
+   lines and add these tags in your HTML <head> instead
+   (in Svelte, wrap them in <svelte:head>…</svelte:head>):
+
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+     <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css">
+   ----------------------------------------------------------- */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import url("https://unpkg.com/lucide-static@latest/font/lucide.css");
+
+:root {
+    /* --- Border radius --- */
+    --spk-radius-edge: 4px;
+    --spk-radius-soft: 8px;
+    --spk-radius-round: 12px;
+    --spk-radius-pill: 999px;
+    --spk-radius-circle: 50%;
+
+    /* --- Z-index ladder --- */
+    --spk-z-behind: -1;
+    --spk-z-floating: 100;
+    --spk-z-sticky: 200;
+    --spk-z-panel: 300;
+    --spk-z-dialog: 400;
+    --spk-z-notification: 1000;
+
+    /* --- Motion --- */
+    --spk-duration-quick: 0.15s;
+    --spk-duration-base: 0.2s;
+    --spk-duration-slow: 0.3s;
+    --spk-ease-out: ease-out;
+    --spk-ease-glide: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* --- Elevation (shape only — color is provided by --spk-shadow-*) --- */
+    --spk-elevation-subtle: 0 4px 12px;
+    --spk-elevation-hard: 0.3rem 0.3rem;
+
+    /* --- Border width --- */
+    --spk-border: 2px;
+    --spk-border-thin: 1px;
+    --spk-border-accent: 4px;
+
+    /* --- Opacity --- */
+    --spk-opacity-disabled: 0.5;
+    --spk-opacity-faded: 0.6;
+    --spk-opacity-muted: 0.7;
+    --spk-opacity-overlay: 0.85;
+
+    /* --- Focus ring --- */
+    --spk-focus-ring: var(--spk-text);
+    --spk-focus-ring-width: 2px;
+    --spk-focus-ring-offset: 2px;
+
+    /* --- Typography --- */
+    --spk-font-body: 'Inter', sans-serif;
+    --spk-font-heading: 'Space Grotesk', sans-serif;
+
+    /* --- Shadows --- */
+    --spk-shadow-subtle: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] {
+    color-scheme: light;
+
+    /* --- Tone surface --- */
+    --spk-tone-bg: #e8e4d8;
+    --spk-tone: #d0c9b8;
+    --spk-tone-hover: #b9b49d;
+    --spk-tone-muted: #4c4839;
+    --spk-tone-ghost: rgba(28, 25, 23, 0.08);
+    --spk-tone-ghost-hover: rgba(28, 25, 23, 0.15);
+
+    /* --- Accent --- */
+    --spk-accent: #366336;
+    --spk-accent-hover: #215016;
+    --spk-accent-bg: #aab9a7;
+    --spk-accent-ghost-hover: rgba(54, 99, 54, 0.1);
+    --spk-accent-muted: #15380d;
+    --spk-text-accent: #f5f5f4;
+
+    /* --- Error --- */
+    --spk-error: #f26a84;
+    --spk-error-hover: #d95370;
+    --spk-error-bg: #d2a7ac;
+    --spk-error-ghost-hover: rgba(242, 106, 132, 0.1);
+    --spk-error-muted: #86223c;
+    --spk-text-error: #1c1917;
+
+    /* --- Warning --- */
+    --spk-warning: #ca8a04;
+    --spk-warning-hover: #a97a00;
+    --spk-warning-bg: #c3b191;
+    --spk-warning-ghost-hover: rgba(202, 138, 4, 0.1);
+    --spk-warning-muted: #604300;
+    --spk-text-warning: #1c1917;
+
+    /* --- Success --- */
+    --spk-success: #2da796;
+    --spk-success-hover: #00927c;
+    --spk-success-bg: #9ebbb3;
+    --spk-success-ghost-hover: rgba(45, 167, 150, 0.1);
+    --spk-success-muted: #005245;
+    --spk-text-success: #1c1917;
+
+    /* --- Info --- */
+    --spk-info: #379de7;
+    --spk-info-hover: #1e86d4;
+    --spk-info-bg: #9eb7cf;
+    --spk-info-ghost-hover: rgba(55, 157, 231, 0.1);
+    --spk-info-muted: #004b7f;
+    --spk-text-info: #1c1917;
+
+    /* --- Neutral --- */
+    --spk-neutral: #8a99ae;
+    --spk-neutral-hover: #758498;
+    --spk-neutral-bg: #b0b4bb;
+    --spk-neutral-ghost-hover: rgba(138, 153, 174, 0.1);
+    --spk-neutral-muted: #3f4958;
+    --spk-text-neutral: #1c1917;
+
+    /* --- Text --- */
+    --spk-text: #1c1917;
+    --spk-text-light: #f5f5f4;
+    --spk-text-dark: #1c1917;
+    --spk-text-muted: #484848;
+
+    /* --- Shadows --- */
+    --spk-shadow-hard: #989685;
+    --spk-muted-shadow: rgba(72, 72, 72, 0.3);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* --- Tone surface --- */
+    --spk-tone-bg: #1d1d16;
+    --spk-tone: #212118;
+    --spk-tone-hover: #323327;
+    --spk-tone-muted: #97978c;
+    --spk-tone-ghost: rgba(245, 245, 244, 0.08);
+    --spk-tone-ghost-hover: rgba(245, 245, 244, 0.15);
+
+    /* --- Accent --- */
+    --spk-accent: #366336;
+    --spk-accent-hover: #48783e;
+    --spk-accent-bg: #394637;
+    --spk-accent-ghost-hover: rgba(54, 99, 54, 0.1);
+    --spk-accent-muted: #79a171;
+    --spk-text-accent: #f5f5f4;
+
+    /* --- Error --- */
+    --spk-error: #f26a84;
+    --spk-error-hover: #ff8a9e;
+    --spk-error-bg: #59363c;
+    --spk-error-ghost-hover: rgba(242, 106, 132, 0.1);
+    --spk-error-muted: #ffb6c0;
+    --spk-text-error: #1c1917;
+
+    /* --- Warning --- */
+    --spk-warning: #ca8a04;
+    --spk-warning-hover: #dea300;
+    --spk-warning-bg: #4f3f22;
+    --spk-warning-ghost-hover: rgba(202, 138, 4, 0.1);
+    --spk-warning-muted: #f1bf5c;
+    --spk-text-warning: #1c1917;
+
+    /* --- Success --- */
+    --spk-success: #2da796;
+    --spk-success-hover: #48bea7;
+    --spk-success-bg: #2e4842;
+    --spk-success-ghost-hover: rgba(45, 167, 150, 0.1);
+    --spk-success-muted: #7ed4c0;
+    --spk-text-success: #1c1917;
+
+    /* --- Info --- */
+    --spk-info: #379de7;
+    --spk-info-hover: #59b2ff;
+    --spk-info-bg: #2e4459;
+    --spk-info-ghost-hover: rgba(55, 157, 231, 0.1);
+    --spk-info-muted: #93cbff;
+    --spk-text-info: #1c1917;
+
+    /* --- Neutral --- */
+    --spk-neutral: #8a99ae;
+    --spk-neutral-hover: #9fafc4;
+    --spk-neutral-bg: #3e4248;
+    --spk-neutral-ghost-hover: rgba(138, 153, 174, 0.1);
+    --spk-neutral-muted: #bbc8da;
+    --spk-text-neutral: #1c1917;
+
+    /* --- Text --- */
+    --spk-text: #f5f5f4;
+    --spk-text-light: #f5f5f4;
+    --spk-text-dark: #1c1917;
+    --spk-text-muted: #979797;
+
+    /* --- Shadows --- */
+    --spk-shadow-hard: #0b0b04;
+    --spk-muted-shadow: rgba(151, 151, 151, 0.3);
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--spk-font-heading);
+    font-weight: 600;
+    color: var(--spk-text);
+    margin: 1em 0 0.5em;
+}
+
+h1 { font-size: 2.5rem; font-weight: 700; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; font-weight: 500; }
+
+body {
+    background: var(--spk-tone-bg);
+    color: var(--spk-text);
+    font-family: var(--spk-font-body);
+}
+
+/* --- Reduced motion ---------------------------------------------------
+   Collapses the tokenized durations to a near-zero value so transitionend
+   and animationend events still fire, while motion stays imperceptible. */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --spk-duration-quick: 0.01ms;
+        --spk-duration-base: 0.01ms;
+        --spk-duration-slow: 0.01ms;
+    }
+}

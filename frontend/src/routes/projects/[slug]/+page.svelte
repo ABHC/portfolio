@@ -299,7 +299,7 @@
         max-width: 1400px;
         margin: 0 auto;
         padding: 2rem;
-        color: var(--text);
+        color: var(--spk-text);
         display: flex;
         flex-direction: column;
     }
@@ -313,18 +313,18 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.75rem 1.25rem;
-        background: var(--card);
+        background: var(--spk-tone);
         border: none;
         border-radius: 8px;
-        color: var(--text);
+        color: var(--spk-text);
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
     }
 
     .back-btn:hover {
-        background: var(--accent);
-        color: var(--text-accent);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
         transform: translateX(-4px);
     }
 
@@ -343,8 +343,8 @@
     .badge {
         display: inline-block;
         padding: 0.5rem 1rem;
-        background: var(--accent-light);
-        color: var(--text-accent);
+        background: var(--spk-accent-hover);
+        color: var(--spk-text-accent);
         border-radius: 20px;
         font-size: 0.875rem;
         font-weight: 600;
@@ -372,7 +372,7 @@
     .main-media {
         width: 100%;
         aspect-ratio: 16 / 9;
-        background: var(--card);
+        background: var(--spk-tone);
         border-radius: var(--radius-small-ev);
         overflow: hidden;
         margin-bottom: 1rem;
@@ -429,7 +429,7 @@
         align-items: center;
         gap: 1rem;
         padding: 1rem;
-        background: var(--card);
+        background: var(--spk-tone);
         border-radius: 8px;
     }
 
@@ -468,8 +468,8 @@
 
     .tag {
         padding: 0.5rem 1rem;
-        background: var(--accent-light);
-        color: var(--text-accent);
+        background: var(--spk-accent-hover);
+        color: var(--spk-text-accent);
         border-radius: 20px;
         font-size: 0.875rem;
     }
@@ -491,7 +491,7 @@
         font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: var(--text-accent);
+        color: var(--spk-text-accent);
     }
 
     .demo-btn:hover {
@@ -533,7 +533,7 @@
         position: relative;
         width: 100%;
         aspect-ratio: 16 / 9;
-        background: var(--card);
+        background: var(--spk-tone);
         border-radius: var(--radius-large-ev);
         overflow: hidden;
     }
@@ -570,10 +570,10 @@
 
     .media-overlay p {
         padding: 0.75rem 1.25rem;
-        background: var(--card);
+        background: var(--spk-tone);
         border: none;
         border-radius: 8px;
-        color: var(--text);
+        color: var(--spk-text);
         font-weight: 600;
     }
 

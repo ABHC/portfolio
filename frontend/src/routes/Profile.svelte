@@ -27,9 +27,11 @@
     let flipped: boolean = $state(false);
 
     const max_chars = $derived(
-        $window_width && $window_width < 768 ? 139 :
-        $window_width && $window_width < 820 ? 175 :
-        $window_width && $window_width < 1100 ? 304 :
+        $window_width && $window_width < 500 ? 97 :
+        $window_width && $window_width < 620 ? 175 :
+        $window_width && $window_width < 670 ? 268 :
+        $window_width && $window_width < 820 ? 400 :
+        $window_width && $window_width < 1100 ? 500 :
         500
     );
 
@@ -117,9 +119,15 @@
                         <div class="name-block">
                             {#each profile.me.id as id}
                                 {#if id.display}
-                                    <h2 id="name-display">
-                                        {id.name.toUpperCase()}
-                                    </h2>
+                                    {#if $responsive.isBelow(450)}
+                                        <h4 id="name-display">
+                                            {id.name.toUpperCase()}
+                                        </h4>
+                                    {:else}
+                                        <h2 id="name-display">
+                                            {id.name.toUpperCase()}
+                                        </h2>
+                                    {/if}
                                 {/if}
                             {/each}
                         </div>
@@ -180,7 +188,7 @@
                         <div class="quick-tools">
                             {#each tools_icons as tool}
                                 {#if tool.icon && tool.display}
-                                    <span class="tool-badge" style="background: var(--accent);">
+                                    <span class="tool-badge" style="background: var(--spk-accent);">
                                         <svg viewBox="0 0 24 24" width="24" height="24">
                                             <path d={tool.icon.path} fill="#fafafa" />
                                         </svg>
@@ -307,7 +315,7 @@
 <style>
     .profile-card {
         width: 100%;
-        color: var(--text);
+        color: var(--spk-text);
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
@@ -332,14 +340,14 @@
     .card-face {
         backface-visibility: hidden;
         border-radius: 20px;
-        background: var(--card);
-        border: 2px solid var(--accent);
+        background: var(--spk-tone);
+        border: 2px solid var(--spk-accent);
         box-shadow: 0 20px 60px rgba(29, 179, 148, 0.2);
         overflow: hidden;
         width: 60vw;
         height: auto; 
         aspect-ratio: 17 / 11;
-        background: linear-gradient(135deg, var(--card) 0%, var(--highlight) 100%);
+        background: linear-gradient(135deg, var(--spk-tone) 0%, var(--spk-accent-muted) 100%);
         max-width: 1200px; 
     }
 
@@ -430,7 +438,7 @@
     }
 
     .taglines-inline {
-        color: var(--accent);
+        /*color: var(--spk-accent);*/
         font-size: 0.95rem;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -443,6 +451,15 @@
     .tagline-item:last-child::after {
         content: '';
     }
+
+    :global([data-theme="dark"]) .taglines-inline {
+        color: var(--spk-accent-hover);
+    }
+
+    :global([data-theme="light"]) .taglines-inline {
+        color: var(--spk-accent-hover);
+    }
+
 
     .languages-list {
         display: flex;
@@ -484,8 +501,8 @@
     }
 
     .btn {
-        background: var(--accent);
-        color: var(--text-accent);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
         border: none;
         padding: 0.8rem 1.2rem;
         border-radius: 8px;
@@ -502,27 +519,48 @@
     }
 
     .btn:hover {
-        background: var(--accent-light);
+        background: var(--spk-accent-hover);
         transform: translateY(-2px);
     }
 
     .btn-secondary {
-        background: var(--highlight);
-        color: var(--accent);
-        border: 1px solid var(--accent);
+        background: var(--spk-accent-muted);
+        /*color: var(--spk-accent-hover);
+        border: 1px solid var(--spk-accent-hover);*/
+    }
+
+    :global([data-theme="dark"]) .btn-secondary {
+        color: var(--spk-accent-hover);
+        border: 1px solid var(--spk-accent-hover);
+    }
+
+
+    :global([data-theme="light"]) .btn-secondary {
+        color: var(--spk-accent-hover);
+        border: 1px solid var(--spk-accent-hover);
     }
 
     .btn-secondary:hover {
-        background: var(--accent);
-        color: var(--text-accent);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
     }
 
     .detail-section h4,
     .timeline-section h4 {
-        color: var(--accent);
+        /*color: var(--spk-accent);*/
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-bottom: 0.5rem;
+    }
+
+    :global([data-theme="dark"]) .detail-section h4,
+    .timeline-section h4 {
+        color: var(--spk-accent-hover);
+    }
+
+    :global([data-theme="light"]) .detail-section h4,
+    .timeline-section h4 {
+        color: var(--spk-accent-hover);
     }
 
     .desc {
@@ -552,9 +590,9 @@
 
     .skill-tag {
         padding: 0.4rem 0.8rem;
-        background: var(--highlight);
+        background: var(--spk-accent-muted);
         border-radius: 6px;
-        border: 1px solid rgba(29, 179, 148, 0.3);
+        border: 1px solid var(--spk-accent-hover);
     }
 
     .contact-links {
@@ -565,10 +603,10 @@
     .contact-item {
         width: 130px;
         padding: 0.8rem;
-        background: var(--highlight);
+        background: var(--spk-accent-muted);
         border-radius: 8px;
         text-align: center;
-        color: var(--text);
+        color: var(--spk-text);
         text-decoration: none;
         font-size: 0.85rem;
         font-weight: 600;
@@ -580,8 +618,8 @@
     }
 
     .contact-item:hover {
-        background: var(--accent);
-        color: var(--text-accent);
+        background: var(--spk-accent);
+        color: var(--spk-text-accent);
     }
 
     /* BACK CARD */
@@ -599,11 +637,11 @@
 
     .timeline-item {
         padding-left: 1.2rem;
-        border-left: 3px solid var(--accent);
+        border-left: 3px solid var(--spk-accent);
     }
 
     .timeline-item .period {
-        color: var(--accent);
+        color: var(--spk-accent);
         font-weight: 600;
         margin-bottom: 0.3rem;
     }
@@ -626,7 +664,6 @@
     @media (min-width: 1100px) {
         .desc {
             font-size: 1.125rem;
-            /*font-weight: 500;*/
         }
     }
 
@@ -684,6 +721,14 @@
         #skills {
             display: none;
         }
+
+        /*#skills-h {
+            display: none;
+        }
+
+        .skills-grid {
+            display: none;
+        }*/
     }
 
     @media (max-width: 1230px) {
@@ -757,6 +802,19 @@
         .language-item #level {
             font-size: 1rem;
         }
+
+        #skills {
+            display: block;
+        }
+
+        #skills-h {
+            display: none;
+        }
+
+        /*.quick-tools {
+            display: flex;
+            justify-content: flex-start;
+        }*/
     }
 
     @media (max-width: 930px) {
@@ -787,8 +845,12 @@
         }
     }
 
-    @media (max-width: 870px) {
-        .languages-list {
+    @media (max-width: 820px) {
+        /*.languages-list {
+            display: none;
+        }*/
+
+        #skills {
             display: none;
         }
     }
@@ -798,14 +860,65 @@
             padding: 1rem;
         }
 
+        /*.contact-item  {
+            display: none;
+        }*/
+    }
+
+    @media (max-width: 680px) {
+        /*.taglines-inline {
+            display: none;
+        }*/
+
+        .languages-list {
+            display: none;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .profile-card {
+            display: block;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .taglines-inline {
+            display: none;
+        }
+
         .contact-item  {
             display: none;
         }
     }
 
-    @media (max-width: 680px) {
-        .taglines-inline {
-            display: none;
+    @media (max-width: 450px) {
+        .btn {
+            padding: 0.2rem 0.6rem;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .front-main {
+            gap: 0.5rem;
+        }
+
+        .profile-photo {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .profile-photo {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    @media (max-width: 350px) {
+        .profile-photo {
+            width: 30px;
+            height: 30px;
         }
     }
 </style>

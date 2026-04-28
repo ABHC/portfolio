@@ -1,3 +1,4 @@
+@import '@abhc/spektral-ui/tokens.css';
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';

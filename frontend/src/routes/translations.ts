@@ -3,9 +3,21 @@ import type { Locale } from "$lib/types/translations";
 export const translations = {
     fr: {
         language_name: "Français",
+        aria: {
+            return: "Retour",
+            close: "Fermer",
+            back_to_top: "Retour en haut de page",
+            language: "Langue",
+            theme: "Theme",
+        },
         header: {
             project: "Portfolio",
             logo_btn: "Retour à l'accueil"
+        },
+        nav:{
+            portfolio: "Portfolio",
+            resume: "Parcours",
+            blog:"Blog",
         },
         menu: {
             hardware: "Design",
@@ -51,11 +63,15 @@ export const translations = {
             loading_error: "❌ Erreur de chargement des projets :"
         },
         footer: {
-            license: "Site sous licence GPLv3",
-            legal: "",
-            git_btn: "Github",
+            license: "Publié sous licence GNU GPLv3",
+            github_btn: "Github",
+            gitlab_btn: "Gitlab",
             linked_in_btn: "LinkedIn",
-            blog: "Blog"
+            copied: "Copié !",
+            clipboard: "L'adresse e-mail a été copiée dans votre presse-papier",
+        },
+        summary: {
+            label: "Sommaire",
         },
         seo: {
             meta: "",
@@ -64,9 +80,21 @@ export const translations = {
     },
     en: {
         language_name: "English",
+        aria: {
+            return: "Return",
+            close: "Close",
+            back_to_top: "Back to top",
+            language: "Language",
+            theme: "Theme",
+        },
         header: {
             project: "Portfolio",
             logo_btn: "Back to home"
+        },
+        nav:{
+            portfolio: "Portfolio",
+            resume: "Resume",
+            blog:"Blog",
         },
         menu: {
             hardware: "Design",
@@ -112,11 +140,15 @@ export const translations = {
             loading_error: "❌ Error loading projects:"
         },
         footer: {
-            license: "Website under GPLv3 license",
-            legal: "",
-            git_btn: "Github",
+            license: "Published under GNU GPLv3 license",
+            github_btn: "Github",
+            gitlab_btn: "Gitlab",
             linked_in_btn: "LinkedIn",
-            blog: "Blog"
+            copied: "Copied !",
+            clipboard: "The email address has been copied to your clipboard.",
+        },
+        summary: {
+            label: "Contents",
         },
         seo: {
             meta: "",
