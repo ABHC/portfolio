@@ -56,7 +56,7 @@
 </script>
 
 <svelte:head>
-    <title>{data.project.name} - {data.project.title[$locale]}</title>
+    <title>{data.project.name} - {data.project.abstract[$locale]}</title>
     <meta name="description" content={data.project.description[$locale].substring(0, 160)} />
 </svelte:head>
 
@@ -73,7 +73,7 @@
     <div class="project-header">
         <div class="project-name">
             <h1>{data.project.name}</h1>
-            <h3>{data.project.title[$locale]}</h3>
+            <h3>{data.project.abstract[$locale]}</h3>
         </div>
         <aside class="project-misc">
             <div class="badge">{data.project.origin}</div>
@@ -260,7 +260,7 @@
                 {#if media.type === 'image' || media.type === 'gif'}
                     <img 
                         src={media.src} 
-                        alt={data.project.title[$locale]} 
+                        alt={data.project.abstract[$locale]}
                         style="object-fit: {media.fit ?? 'cover'};"
                     />
                     {#if media.label && media.label.layout?.position === "inside"}

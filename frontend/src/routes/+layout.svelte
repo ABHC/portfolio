@@ -644,6 +644,10 @@
         font-size: 14px;
     }
 
+    .summary :global(.explorer-link-label) {
+        white-space: normal;
+    }
+
     .back-to-top {
         display: flex;
         justify-content: flex-end;

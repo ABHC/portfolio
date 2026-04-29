@@ -32,9 +32,9 @@
                             <span class="origin-badge">{project.origin}</span>
                             <h3 class="project-title">{project.name}</h3>
                             <h5 class="project-excerpt">
-                                {project.title[$locale].length > 42
-                                  ? project.title[$locale].substring(0, 42) + '…'
-                                  : project.title[$locale]}
+                                {project.abstract[$locale].length > 42
+                                  ? project.abstract[$locale].substring(0, 42) + '…'
+                                  : project.abstract[$locale]}
                             </h5>
                         </div>
                     </div>

@@ -132,19 +132,20 @@ export interface ProjectItem {
     readonly name?: string
     readonly origin: string
     readonly years?: string
-    readonly genres: readonly GenresTypes[];
     readonly partners: readonly Partner[]
-    readonly title: LocalizedText
+    readonly abstract: LocalizedText
     readonly description: LocalizedText
     readonly media: readonly Media[]
     readonly models: readonly Model3D[]
     readonly links?: readonly Links[]
     readonly demo?: string
     readonly tags: Tags
+    readonly medal?: LocalizedText
 }
   
 /** Root project structure */
 export interface ProjectsData {
     readonly software: readonly ProjectItem[]
     readonly hardware: readonly ProjectItem[]
+    readonly graphic: readonly ProjectItem[]
 }

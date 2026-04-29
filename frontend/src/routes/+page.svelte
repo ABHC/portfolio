@@ -3,6 +3,7 @@
     import DesignGallery from './DesignGallery.svelte';
     import AppsGallery from './AppsGallery.svelte';
     import ProjectsGallery from './ProjectsGallery.svelte';
+    import ProjectsGrid from './ProjectsGrid.svelte';
     import Clients from './clients.svelte';
     import Profile from './Profile.svelte';
 
@@ -18,7 +19,10 @@
 
 <!-- HARDWARE SECTION -->
 
-<div data-summary="hardware" data-summary-label={$trans?.summary.hardware}>
+<div 
+    data-summary="hardware" 
+    data-summary-label={$trans?.summary.hardware}
+>
     <Headline size="md" uppercase>
         {$trans?.summary.hardware}
     </Headline>
@@ -29,7 +33,11 @@
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
-    <DesignGallery projects={projects_data.hardware} />
+    <ProjectsGrid 
+        projects={projects_data.hardware} 
+        image_mode="image"
+    />
+    <!--<DesignGallery projects={projects_data.hardware} />-->
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -49,7 +57,11 @@
         {$trans?.alerts.loading}
     </div>
 {:then projects_data } 
-    <AppsGallery projects={projects_data.software} />
+    <ProjectsGrid 
+        projects={projects_data.software} 
+        pattern="grid"
+        pattern_opacity={0.2}
+    />
 {:catch error}
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
@@ -58,15 +70,32 @@
 
 <!-- GRAPHIC DESIGN SECTION -->
 
-<div data-summary="graphic" data-summary-label={$trans?.summary.visuals}>
+<div data-summary="graphic" data-summary-label={$trans?.summary.graphic}>
     <Headline size="md" uppercase>
-        {$trans?.summary.visuals}
+        {$trans?.summary.graphic}
     </Headline>
 </div>
 
+{#await projectsPromise}
+    <div class="alert alert-info">
+        {$trans?.alerts.loading}
+    </div>
+{:then projects_data } 
+    <ProjectsGrid 
+        projects={projects_data.graphic} 
+        pattern="grid"
+        pattern_opacity={0.2}
+        columns={4}
+    />
+{:catch error}
+    <div class="alert alert-error">
+        {$trans?.alerts.loading_error}&nbsp;{error.message}
+    </div>
+{/await}
+
 <!-- PROFILE SECTION -->
 
-<div class="section-title">
+<!--<div class="section-title">
     <h2 id="profile-section">{$trans?.summary.about}</h2>
     <hr>
 </div>
@@ -81,7 +110,7 @@
     <div class="alert alert-error">
         {$trans?.alerts.loading_error}&nbsp;{error.message}
     </div>
-{/await}
+{/await}-->
 
 <!-- CLIENTS SECTION -->
 
