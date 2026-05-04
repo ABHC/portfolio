@@ -48,6 +48,12 @@ run "docker save ${IMAGE_NAME}:${TAG} | ssh ${SERVER} 'docker load'"
 echo "🌐 Ensuring Docker network exists..."
 run "ssh ${SERVER} 'docker network create ${NETWORK} 2>/dev/null || true'"
 
+echo "🛑 Stopping old container (if any)..."
+run "ssh ${SERVER} '
+  docker stop ${CONTAINER_NAME} 2>/dev/null || true
+  docker rm ${CONTAINER_NAME} 2>/dev/null || true
+'"
+
 echo "🚀 Starting new container ${CONTAINER_NAME}_${TAG}..."
 run "ssh ${SERVER} 'docker run -d \
   --name ${CONTAINER_NAME}_${TAG} \
@@ -80,11 +86,7 @@ done
 
 # ── Switch traffic ────────────────────────────────────────────────────
 echo "🔄 Switching to new container..."
-run "ssh ${SERVER} '
-  docker stop ${CONTAINER_NAME} 2>/dev/null || true
-  docker rm ${CONTAINER_NAME} 2>/dev/null || true
-  docker rename ${CONTAINER_NAME}_${TAG} ${CONTAINER_NAME}
-'"
+run "ssh ${SERVER} 'docker rename ${CONTAINER_NAME}_${TAG} ${CONTAINER_NAME}'"
 
 # ── Cleanup ───────────────────────────────────────────────────────────
 echo ""
@@ -93,7 +95,7 @@ run "ssh ${SERVER} 'docker image prune -f'"
 
 echo ""
 echo "🧹 Pruning all unused docker elements locally ..."
-run "docker system prune -a"
+run "docker system prune -a -f"
 
 # ── Done ──────────────────────────────────────────────────────────────
 echo ""

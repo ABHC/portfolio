@@ -14,7 +14,13 @@ const config = {
             out: 'build',
             precompress: false,
             envPrefix: ''
-        })
+        }),
+		// Only env vars matching this prefix become typed in $env/static/private.
+		// Without it, SvelteKit types every var from process.env (DISPLAY, PATH,
+		// USER...) and VS Code auto-import suggests them while typing CSS/JS.
+		env: {
+			privatePrefix: 'APP_'
+		}
 	}
 };
 

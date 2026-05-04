@@ -46,6 +46,8 @@
 	},
 	"dependencies": {
 		"@abhc/spektral-ui": "^0.3.1",
+		"isomorphic-dompurify": "^3.11.0",
+		"marked": "^18.0.2",
 		"simple-icons": "^16.6.0"
 	}
 }

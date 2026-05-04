@@ -11,7 +11,8 @@ export interface LocalizedText {
 /** Contributor or collaborator */
 export interface Partner {
     readonly name: string
-    readonly avatar: string
+    readonly label?: string
+    readonly avatar?: string
     readonly fr: string
     readonly en: string
 }
