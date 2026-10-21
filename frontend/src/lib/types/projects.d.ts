@@ -112,7 +112,7 @@ export type Media = ImageMedia | VideoMedia
   
 /** Links */
 export interface Links {
-    readonly type: 'demo' | 'github' | 'gitlab' 
+    readonly type: 'demo' | 'github' | 'gitlab' | 'npm'
     readonly url: string
 }
 

@@ -18,7 +18,7 @@
             "en": "Archival classification"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Système d'archivage de banquets en tablettes",
             "en": "Banquet archival system in tablets"
         },
@@ -60,7 +60,7 @@
             "en": "Mobility protocol"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Registre de gestion de légion en tablettes",
             "en": "Legion management roster in tablets"
         },
@@ -106,7 +106,7 @@
             "en": "Supply logistics"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Registre de gestion d'entrepôt en tablettes",
             "en": "Warehouse management ledger in tablets"
         },
@@ -152,7 +152,7 @@
             "en": "Systematic classification"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Catalogue routier de relais et distances",
             "en": "Road relay and distance catalogue"
         },
@@ -198,7 +198,7 @@
             "en": "Quote management"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Catalogue architectural d'édifices réalisés",
             "en": "Architectural catalogue of completed buildings"
         },
@@ -257,7 +257,7 @@
             "en": "Process documentation"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Presse à cacheter amphores avec signature mécanique",
             "en": "Amphora seal press with mechanical signature"
         },
@@ -293,7 +293,7 @@
             "en": "Road infrastructure"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Jauge de distance pour milliaire calibré",
             "en": "Distance gauge for calibrated millistone"
         },
@@ -335,7 +335,7 @@
             "en": "Confidentiality protocol"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Capsule métallique pour pigeons courriers",
             "en": "Metal capsule for messenger pigeons"
         },
@@ -371,7 +371,7 @@
             "en": "Temporal calibration"
             }
         ],
-        "title": {
+        "abstract": {
             "fr": "Clepsydre ajustable pour mesure d'heures",
             "en": "Adjustable clepsydra for hourly measurement"
         },

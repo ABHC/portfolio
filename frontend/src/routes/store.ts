@@ -1,6 +1,6 @@
 // frontend/src/routes/store.ts
 import { derived, writable, type Writable, get } from 'svelte/store';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { translations, available_locales } from './translations';
 import type { Locale, Translation } from "$lib/types/translations";
 
