@@ -11,16 +11,17 @@
 		Button,
 		Card,
 		Headline,
+		ListItem,
+		CopyButton
 	} from '@abhc/spektral-ui';
 
-    import { 
-        getIcon, 
-        getIconColor, 
-        getContactIcon 
+    import {
+        getIcon,
+        getIconColor,
+        isValidIconKey
     } from '$lib/utils/iconsBank'
 
 	import { profilePromise } from '$lib/utils/projectsLoader';
-	//import { getContactIcon } from '$lib/utils/iconsBank';
 	import Prose from '$lib/components/Prose.svelte';
 
 	import type { ProfileData, Job, Language } from '$lib/types/profile';
@@ -37,61 +38,6 @@
 	const cefr_to_pct: Record<string, number> = {
 		A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100,
 	};
-
-	// TODO: move to translations.ts once the resume layout is locked
-	const section_labels = {
-		fr: {
-			about_eyebrow: 'I — Préambule',
-			about_title: 'Civis Romanus, Faber Operum.',
-			experience_eyebrow: 'II — Cursus Honorum',
-			experience_title: "Là où j'ai bâti.",
-			studies_eyebrow: 'III — Studia & Artes',
-			studies_title: "Ce que j'ai appris, ce que je sais faire.",
-			references_eyebrow: 'IV — Testimonia',
-			references_title: 'Ils ont travaillé avec moi.',
-			cta_title_a: 'Une commande publique ?',
-			cta_title_b: 'Un combat naval ?',
-			cta_lede: "Plume, écoute attentive, et stylet bien taillé. Voici comment me joindre.",
-			download_cv: 'Télécharger le CV',
-			contact_me: 'Me contacter',
-			current_job: 'En poste',
-			available: 'Disponible pour missions · Roma',
-			stat_years: 'Années',
-			stat_jobs: 'Postes',
-			stat_employers: 'Employeurs',
-			stat_cities: 'Villes',
-			footer_quote: '« Fortes fortuna iuvat »',
-		},
-		en: {
-			about_eyebrow: 'I — Preamble',
-			about_title: 'Civis Romanus, Faber Operum.',
-			experience_eyebrow: 'II — Cursus Honorum',
-			experience_title: 'Where I built things.',
-			studies_eyebrow: 'III — Studia & Artes',
-			studies_title: 'What I learned, what I can do.',
-			references_eyebrow: 'IV — Testimonia',
-			references_title: 'They worked with me.',
-			cta_title_a: 'A public commission?',
-			cta_title_b: 'A naval battle?',
-			cta_lede: 'Sharp pen, sharp ear, sharp stylus. Here is how to reach me.',
-			download_cv: 'Download CV',
-			contact_me: 'Get in touch',
-			current_job: 'Currently',
-			available: 'Available for projects · Roma',
-			stat_years: 'Years',
-			stat_jobs: 'Roles',
-			stat_employers: 'Employers',
-			stat_cities: 'Cities',
-			footer_quote: '« Fortes fortuna iuvat »',
-		},
-	} as const;
-
-	// Marquee items shown under the hero
-	// TODO: source from data once a dedicated field exists in profile.json
-	const marquee_items = [
-		'Voirie & cloaca', 'Acta diurna', 'Naumachies',
-		'Discours forensiques', 'Aqueducs', 'Comitia', 'Munera publica',
-	];
 
 	// Helpers -----------------------------------------------------------------
 
@@ -167,17 +113,14 @@
 	// Reactive ----------------------------------------------------------------
 
 	const adapted_color: string = $derived($theme_color === 'dark' ? 'white' : 'black');
-	const labels = $derived(section_labels[$locale]);
-
 	const full_name = $derived(profile ? getFullName(profile) : '');
-	const nickname = $derived(profile ? getNickname(profile) : null);
     const tagline = $derived(profile?.me.tagline[$locale]?.join(' | ') ?? '');
 	const visible_jobs = $derived(profile?.jobs.filter((j) => j.display) ?? []);
 	const visible_studies = $derived(profile?.studies.filter((s) => s.display) ?? []);
 	const visible_langs = $derived(profile?.languages.filter((l) => l.display) ?? []);
 	const visible_refs = $derived(profile?.references.filter((r) => r.display) ?? []);
 	const visible_contacts = $derived(profile?.contact.filter((c) => c.display) ?? []);
-	const visible_tools = $derived(profile?.tools.filter((t) => t.display) ?? []);
+	const visible_key_figures = $derived(profile?.keyFigures.filter((k) => k.display) ?? []);
 
     const tools_icons = $derived(
         profile?.tools.map(tool => {
@@ -217,11 +160,6 @@
         >
             {#snippet cell_2()}
                 <div class="cv-hero-text" id="top">
-                    <!--<div class="cv-eyebrow">
-                        <span class="cv-status-dot" aria-hidden="true"></span>
-                        <span>{labels.available}</span>
-                    </div>-->
-
                     <Headline size="lg" uppercase>
                         {full_name}
                     </Headline>
@@ -235,7 +173,7 @@
                     </div>-->
 
                     <div class="cv-hero-bio">
-                        <Prose source={profile.me.about[$locale].join('')} />
+                        <Prose source={profile!.me.about[$locale].join('')} />
                     </div>
 
                     <div class="cv-hero-actions">
@@ -246,26 +184,19 @@
                             elevation="hard"
                             elevation_persist={true}
                         >
-                            {labels.download_cv}
+                            {$trans?.resume.download_cv}
                         </Button>
                         <Button
-                            variant="outlined" 
-                            palette="tone" 
+                            variant="outlined"
+                            palette="tone"
                             size="md"
                             elevation="hard"
-                            elevation_persist={true} 
+                            elevation_persist={true}
                             href="#contact"
                         >
-                            {labels.contact_me}
+                            {$trans?.resume.contact_me}
                         </Button>
                     </div>
-
-                    <!--<div class="cv-hero-quickstats">
-                        <div><strong>{visible_jobs.length}</strong><span>{$trans?.profile.experience}</span></div>
-                        <div><strong>{visible_studies.length}</strong><span>{$trans?.profile.education}</span></div>
-                        <div><strong>{visible_langs.length}</strong><span>{$trans?.profile.languages}</span></div>
-                        <div><strong>{visible_tools.length}</strong><span>{$trans?.profile.tools}</span></div>
-                    </div>-->
                 </div>
             {/snippet}
 
@@ -276,12 +207,9 @@
                         label="ABHC"
                         shape="square"
                         elevation="hard"
-                        src={profile.me.portrait}
+                        src={profile!.me.portrait}
                         alt={full_name}
                     />
-                    <!--<<div class="cv-hero-portrait">
-                        <img src={profile.me.portrait} alt={full_name} />
-                    </div>-->
                 </div>
             {/snippet}
         </Hero>
@@ -289,72 +217,56 @@
         <!-- Marquee ------------------------------------------------------------- -->
 
         <Marquee>
-            {#each marquee_items as it}
+            {#each profile.marquee[$locale] as it}
                 <span class="cv-marquee-item">{it}</span>
             {/each}
         </Marquee>
 
         <!-- Experience ---------------------------------------------------------- -->
 
-        <Headline size="md">{labels.experience_title}</Headline>
+        <Headline size="md">{$trans?.resume.experience_title}</Headline>
 
-        <section id="experience" class="cv-section cv-section-alt">
+        <section id="experience" class="cv-section">
 
             <div class="cv-twocol">
                 <Timeline
                     variant="ghost"
                     palette="accent"
                     size="md"
-                    connector="dashed"
+                    connector="solid"
                     completed={visible_jobs.length}
                 >
-                    {#each visible_jobs as j}
-                        {@const current = isCurrentJob(j.end)}
-                        {@const meta_str = `${j.company} · ${j.city} · ${jobDuration(j.start, j.end, $locale)}`}
+                    {#each visible_jobs as job}
+                        {@const current = isCurrentJob(job.end)}
+                        {@const meta_str = `${job.company} · ${job.city} · ${jobDuration(job.start, job.end, $locale)}`}
                         <TimelineItem
-                            title={j.position[$locale]}
+                            title={job.position[$locale]}
                             meta={meta_str}
                             wide
                         >
                             {#snippet marker()}
-                                <span>{j.start}—{j.end}</span>
+                                <span>{job.start} - {job.end}</span>
                             {/snippet}
 
                             {#if current}
-                                <Badge variant="flat" palette="accent" size="sm">{labels.current_job}</Badge>
+                                <Badge variant="flat" palette="accent" size="sm">{$trans?.resume.current_job}</Badge>
                             {/if}
 
-                            <ul class="cv-tl-bullets">
-                                {#each j.description[$locale] as d}
-                                    <li><Prose source={d} inline /></li>
-                                {/each}
-                            </ul>
+                            <div class="cv-tl-desc">
+                                <Prose source={job.description[$locale].join('')} />
+                            </div>
                         </TimelineItem>
                     {/each}
                 </Timeline>
 
                 <aside class="cv-aside-stack">
-                    <Callout variant="accent" bordered>
-                        <strong>{labels.available}</strong>
-                    </Callout>
-
                     <div class="cv-stats-grid">
-                        <Card variant="outlined" elevation="subtle">
-                            <div class="cv-stat-num">XII</div>
-                            <div class="cv-stat-lbl">Lorem</div>
-                        </Card>
-                        <Card variant="outlined" elevation="subtle">
-                            <div class="cv-stat-num">IV</div>
-                            <div class="cv-stat-lbl">Ipsum</div>
-                        </Card>
-                        <Card variant="outlined" elevation="subtle">
-                            <div class="cv-stat-num">III</div>
-                            <div class="cv-stat-lbl">Dolor</div>
-                        </Card>
-                        <Card variant="outlined" elevation="subtle">
-                            <div class="cv-stat-num">VII</div>
-                            <div class="cv-stat-lbl">Sit amet</div>
-                        </Card>
+                        {#each visible_key_figures as k}
+                            <Card variant="outlined" elevation="hard">
+                                <div class="cv-stat-num">{k.numeral}</div>
+                                <div class="cv-stat-lbl">{k.label[$locale]}</div>
+                            </Card>
+                        {/each}
                     </div>
                 </aside>
             </div>
@@ -362,7 +274,7 @@
 
         <!-- Studies & Aside ----------------------------------------------------- -->
 
-        <Headline size="md">{labels.studies_title}</Headline>
+        <Headline size="md">{$trans?.resume.studies_title}</Headline>
 
         <section id="studies" class="cv-section">
             <div class="cv-twocol">
@@ -375,11 +287,10 @@
                                         variant="outlined"
                                         palette={s.type === 'diploma' ? 'accent' : 'info'}
                                         size="sm"
+										pill={false}
                                         uppercase
                                     >
-                                        {s.type === 'diploma'
-                                            ? ($locale === 'fr' ? 'Diplôme' : 'Diploma')
-                                            : ($locale === 'fr' ? 'Certificat' : 'Certificate')}
+                                        {s.type === 'diploma' ? $trans?.profile.diploma : $trans?.profile.certificate}
                                     </Badge>
                                     <span class="cv-edu-year">{s.years}</span>
                                 </div>
@@ -413,6 +324,7 @@
                                             variant="outlined" 
                                             palette="accent" 
                                             size="sm"
+											pill={false}
                                         >
                                             {l.level}
                                         </Badge>
@@ -441,7 +353,7 @@
                                                 variant="outlined" 
                                                 palette="accent" 
                                                 size="sm" 
-                                                pill
+                                                pill={false}
                                             >
                                                 {skill}
                                             </Badge>
@@ -459,7 +371,12 @@
                         <div class="cv-badge-cluster">
                             {#each tools_icons as tool}
                                 {#if tool.display}
-                                    <Badge variant="outlined" palette="neutral" size="sm">
+                                    <Badge 
+										variant="outlined" 
+										palette="neutral" 
+										size="sm"
+										pill={false}
+									>
                                         {#if tool.icon}
                                             <svg
                                                 viewBox="0 0 24 24"
@@ -482,14 +399,38 @@
 
         <!-- References ---------------------------------------------------------- -->
 
-        <Headline size="md">{labels.references_title}</Headline>
+        <Headline size="md">{$trans?.resume.references_title}</Headline>
 
         <section id="references" class="cv-section cv-section-alt">
             <div class="cv-ref-grid">
                 {#each visible_refs as r}
-                    <article class="cv-ref-card">
+					<Card variant="flat" elevation="hard">
+						{#snippet leading()}
+							<div class="cv-ref-quote" aria-hidden="true">"</div>
+                        	<p class="cv-ref-content">{r.quote[$locale][0]}</p>
+						{/snippet}
+
+						{#snippet children()}
+							<div class="cv-ref-attr">
+								<Avatar 
+									size="sm" 
+									src={r.portrait} 
+									alt={r.person} 
+									label={r.person}
+									shape="square" 
+									palette="accent" 
+								/>
+								<div>
+									<div class="cv-ref-name">{r.person}</div>
+									<div class="cv-ref-pos">{r.position[$locale]}</div>
+								</div>
+                        	</div>
+						{/snippet}
+					</Card>
+
+                    <!--<article class="cv-ref-card">
                         <div class="cv-ref-quote" aria-hidden="true">"</div>
-                        <p class="cv-ref-content">{r.content[$locale][0]}</p>
+                        <p class="cv-ref-content">{r.quote[$locale][0]}</p>
                         <div class="cv-ref-attr">
                             <Avatar 
                                 size="sm" 
@@ -503,126 +444,84 @@
                                 <div class="cv-ref-pos">{r.position[$locale]}</div>
                             </div>
                         </div>
-                    </article>
+                    </article>-->
                 {/each}
             </div>
         </section>
 
         <!-- CTA ----------------------------------------------------------------- -->
 
-        <section id="contact" class="cv-cta">
-            <div class="cv-cta-text">
-                <Headline size="md">
-                    {labels.cta_title_a}<br />{labels.cta_title_b}
-                </Headline>
-                <p>{labels.cta_lede}</p>
-            </div>
+        <section id="contact">
+			<Headline size="md">
+				{$trans?.resume.cta_title_a}
+			</Headline>
 
-            <div class="cv-cta-channels">
-                {#each visible_contacts as c}
-                    {@const icon = getContactIcon(c.type)}
-                    <a
-                        href={getContactHref(c)}
-                        target={c.type !== 'Mail' && c.type !== 'Phone' ? '_blank' : undefined}
-                        rel="noopener"
-                        class="cv-cta-channel"
-                    >
-                        {#if icon}
-                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                                <path d={icon.path} fill="currentColor" />
-                            </svg>
-                        {/if}
+			<div class="cv-cta">
+				{#each visible_contacts as c}
+                    {@const icon = isValidIconKey(c.type) ? getIcon(c.type) : null}
+					<Callout
+						variant="accent"
+						align="start"
+						bordered
+					>
+						{#snippet leading()}
+							{#if icon}
+								<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+									<path d={icon.path} fill="white" opacity="0.7" />
+								</svg>
+							{:else if c.type === 'Mail'}
+								<svg 
+									viewBox="0 -960 960 960" width="18" height="18" aria-hidden="true">
+									<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z" fill="white" opacity="0.7" />
+								</svg>
+							{/if}
+						{/snippet}
+
+						{#snippet trailing()}
+								{#if c.type !== 'Mail' && c.type !== 'Phone'}
+									<Button
+										variant="ghost"
+										palette="tone"
+										size="sm"
+										onclick={() => window.open(c.address, '_blank')}
+									>
+										<span class="material-symbols-outlined">open_in_new</span>
+									</Button>
+								{:else}
+									<CopyButton 
+										variant="ghost" 
+										palette="tone" 
+										size="md"
+										to_copy={c.address}
+									>
+									</CopyButton>
+								{/if}
+						{/snippet}
+
                         <div class="cv-cta-channel-meta">
                             <span class="cv-cta-channel-type">{c.type}</span>
                             <span class="cv-cta-channel-addr">
                                 {c.address.replace(/^https?:\/\//, '').replace(/^mailto:/, '')}
                             </span>
                         </div>
-                    </a>
-                {/each}
-            </div>
+					</Callout>
+				{/each}
+			</div>
         </section>
 	</div>
 {/if}
 
 <style>
-	/* TODO: port styles from drafts/ (cv.css equivalent) — skeleton only */
-
-	/* Page wrapper: confines content to the layout's main grid cell.
-	   The parent .content uses 180px / 1fr / 180px; without min-width: 0 here
-	   a wide child (Hero, grids) makes the 1fr column blow past its intent. */
 	.cv-page {
-		/*width: 100%;
-		min-width: 0;
-		max-width: 100%;
-		box-sizing: border-box;
-		overflow-x: clip;*/
-        /*max-width: 1400px;*/
-        /*margin: 0 auto;*/
         padding: 2rem;
         color: var(--spk-text);
         display: flex;
         flex-direction: column;
 	}
 
-	/*.cv-page :global(*) {
-		box-sizing: border-box;
-	}*/
-
-	/*.cv-section {
-		padding: 4rem 1rem;
-		color: var(--spk-text);
-		max-width: 100%;
-	}*/
-
 	.cv-section-alt {
 		background: var(--spk-surface-muted, transparent);
 	}
-
-	.cv-section-head {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		margin-bottom: 2rem;
-	}
-
-	.cv-section-label {
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		opacity: 0.7;
-	}
-
-	.cv-eyebrow {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.875rem;
-		opacity: 0.8;
-		margin-bottom: 1rem;
-	}
-
-	.cv-status-dot {
-		display: inline-block;
-		width: 0.5rem;
-		height: 0.5rem;
-		border-radius: 50%;
-		background: var(--spk-accent);
-	}
-
-	.cv-name-nick {
-		font-style: italic;
-		opacity: 0.7;
-		margin-left: 0.5rem;
-	}
-
-	.cv-tagline {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin: 1rem 0;
-	}
-
 
 	.cv-2tagline {
 		display: flex;
@@ -646,28 +545,6 @@
 		flex-wrap: wrap;
 	}
 
-	.cv-hero-quickstats {
-		display: grid;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 1rem;
-		margin-top: 1.5rem;
-	}
-
-	.cv-hero-quickstats div {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.cv-hero-quickstats strong {
-		font-size: 1.5rem;
-	}
-
-	.cv-hero-quickstats span {
-		font-size: 0.75rem;
-		opacity: 0.7;
-		text-transform: uppercase;
-	}
-
     .cv-avatar {
         display: flex;
         flex-direction: column;
@@ -675,13 +552,6 @@
         align-items: center;
         height: 100%;
     }
-
-	.cv-hero-portrait img {
-		width: 100%;
-		height: auto;
-		border-radius: 0.5rem;
-		object-fit: cover;
-	}
 
 	.cv-marquee-item {
 		padding: 0 1.5rem;
@@ -711,13 +581,6 @@
 		opacity: 0.7;
 	}
 
-	.cv-tools-strip {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-top: 1.5rem;
-	}
-
 	.cv-aside-stack {
 		display: flex;
 		flex-direction: column;
@@ -742,18 +605,6 @@
 		letter-spacing: 0.05em;
 		opacity: 0.7;
 		margin-top: 0.35rem;
-	}
-
-	.cv-panel {
-		padding: 1rem;
-		border: 1px solid var(--spk-border, currentColor);
-	}
-
-	.cv-panel-title {
-		font-size: 0.875rem;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		margin: 0 0 0.75rem;
 	}
 
 	.cv-lang-row {
@@ -803,64 +654,46 @@
 		gap: 0.35rem;
 	}
 
-	.cv-tl-bullets {
+	.cv-tl-desc {
 		margin: 0.5rem 0 0;
-		padding-left: 1.25rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.35rem;
 	}
 
 	.cv-ref-grid {
+		padding: 1rem 1rem;
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-		gap: 1rem;
-	}
-
-	.cv-ref-card {
-		padding: 1.25rem;
-		border: 1px solid var(--spk-border, currentColor);
-		position: relative;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 340px));
+		justify-content: center;
+		gap: 2rem;
+		max-width: 100%;
 	}
 
 	.cv-ref-quote {
-		font-size: 3rem;
-		line-height: 1;
-		opacity: 0.2;
+		font-size: 2.5rem;
+		opacity: 0.5;
+		margin-left: 0.5rem;
+	}
+
+	.cv-ref-content {
+		margin-left: 2rem;
+		margin-top: -0.5rem;
+		text-decoration: italic;
 	}
 
 	.cv-ref-attr {
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
-		margin-top: 1rem;
 	}
 
 	.cv-ref-name { font-weight: 600; }
 	.cv-ref-pos { font-size: 0.875rem; opacity: 0.7; }
 
 	.cv-cta {
-		padding: 4rem 1rem;
+		padding: 1rem 1rem;
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		gap: 2rem;
 		max-width: 100%;
-	}
-
-	.cv-cta-channels {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.cv-cta-channel {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 0.75rem 1rem;
-		border: 1px solid var(--spk-border, currentColor);
-		text-decoration: none;
-		color: inherit;
 	}
 
 	.cv-cta-channel-meta {
@@ -872,13 +705,6 @@
 		font-size: 0.75rem;
 		text-transform: uppercase;
 		opacity: 0.7;
-	}
-
-	.cv-pagefoot {
-		padding: 2rem 1rem;
-		text-align: center;
-		opacity: 0.7;
-		font-style: italic;
 	}
 
 	.alert {
@@ -899,27 +725,10 @@
 		border-color: var(--spk-error);
 	}
 
-    .quick-tools {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-    }
-
-    .tool-badge {
-        padding: 0.4rem 0.84em;
-        /*border-radius: 6px;*/
-        font-size: 0.75rem;
-        font-weight: 600;
-    }
-
 	@media (max-width: 768px) {
 		.cv-twocol,
 		.cv-cta {
 			grid-template-columns: 1fr;
-		}
-
-		.cv-hero-quickstats {
-			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>

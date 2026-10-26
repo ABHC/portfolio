@@ -13,10 +13,10 @@
         responsive
     } from './store';
     
-    import { 
-        getIcon, 
-        getIconColor, 
-        getContactIcon 
+    import {
+        getIcon,
+        getIconColor,
+        isValidIconKey
     } from '$lib/utils/iconsBank'
 
     import type { 
@@ -50,7 +50,7 @@
     const contacts = $derived(
         profile.contact.map(contact => ({
             ...contact,
-            path: getContactPath(contact)
+            icon: isValidIconKey(contact.type) ? getIcon(contact.type) : null
         }))
     );
 
@@ -72,19 +72,6 @@
 
     function truncate(text: string, max: number): string {
         return text.length > max ? text.slice(0, max) + '[...]' : text;
-    }
-
-    function getContactPath(contact: { type: string; icon: string | null }) {
-        if (contact.icon && contact.icon.trim() !== '') {
-            return contact.icon;
-        }
-        
-        if (contact.icon === null) {
-            const si_icon = getContactIcon(contact.type);
-            return si_icon?.path || '';
-        }
-        
-        return '';
     }
 
     function getContactUrl(type: string, address: string): string {
@@ -203,16 +190,22 @@
                     <h4 id="contact-h">{$trans?.profile.contact}</h4>
                     <div class="contact-links">
                         {#each contacts as contact}
-                            {#if contact.display && contact.path}
-                                <a 
+                            {#if contact.display && (contact.icon || contact.type === 'Mail')}
+                                <a
                                     href={getContactUrl(contact.type, contact.address)}
                                     target="_blank"
                                     aria-label="{contact.type}"
                                     class="contact-item"
                                 >
-                                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d={contact.path} fill="currentColor" />
-                                    </svg>
+                                    {#if contact.icon}
+                                        <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d={contact.icon.path} />
+                                        </svg>
+                                    {:else}
+                                        <svg class="social-icon" viewBox="0 -960 960 960" fill="currentColor">
+                                            <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z" />
+                                        </svg>
+                                    {/if}
                                     <span class="contact-type">{contact.type}</span>
                                 </a>
                             {/if}
@@ -581,7 +574,7 @@
         z-index: 1;
         transition: all 0.3s ease;
     }
-    
+
     .skills-grid {
         display: flex;
         flex-wrap: wrap;

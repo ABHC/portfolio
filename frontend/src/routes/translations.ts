@@ -67,7 +67,18 @@ export const translations = {
             tools: "Outils",
             career: "Parcours",
             resume: "Mon CV",
-            return: "Retour"
+            return: "Retour",
+            diploma: "Diplôme",
+            certificate: "Certificat"
+        },
+        resume: {
+            experience_title: "Des expériences variées",
+            studies_title: "Un spectre de compétences",
+            references_title: "Quelques retours",
+            cta_title_a: "Un projet en tête ?",
+            download_cv: "Télécharger le CV",
+            contact_me: "Me contacter",
+            current_job: "En poste",
         },
         alerts: {
             loading: "ℹ️ Chargement des projets...",
@@ -152,7 +163,18 @@ export const translations = {
             tools: "Tools",
             career: "Career",
             resume: "My resume",
-            return: "Return"
+            return: "Return",
+            diploma: "Diploma",
+            certificate: "Certificate"
+        },
+        resume: {
+            experience_title: "A varied range of experience.",
+            studies_title: "A spectrum of skills",
+            references_title: "A few words",
+            cta_title_a: "A project in mind?",
+            download_cv: "Download CV",
+            contact_me: "Get in touch",
+            current_job: "Currently",
         },
         alerts: {
             loading: "ℹ️ Loading projects...",

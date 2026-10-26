@@ -91,7 +91,6 @@ export interface Skills {
 export interface Contact {
     readonly type: 'Phone' | 'Mail' | 'Linkedin' | 'Github' | 'Gitlab'
     readonly address: string
-    readonly icon: null | string
     readonly display: boolean
 }
 
@@ -100,7 +99,14 @@ export interface Reference {
     readonly person: string
     readonly position: LocalizedText
     readonly portrait: string
-    readonly content: LocalizedTextArray
+    readonly quote: LocalizedTextArray
+    readonly display: boolean
+}
+
+/** Key figure shown in the resume aside (e.g. "I — Industrialized product") */
+export interface KeyFigure {
+    readonly numeral: string
+    readonly label: LocalizedText
     readonly display: boolean
 }
 
@@ -114,4 +120,6 @@ export interface ProfileData {
     readonly skills: Skills
     readonly contact: readonly Contact[]
     readonly references: readonly Reference[]
+    readonly marquee: LocalizedTextArray
+    readonly keyFigures: readonly KeyFigure[]
 }
