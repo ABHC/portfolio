@@ -34,6 +34,11 @@ export const translations = {
             team: "Équipe",
             links: "Liens",
             tags: "Tags",
+            bio: "Biographie",
+            experience: "Expérience",
+            studies: "Formation",
+            references: "Références",
+            contact: "Contact",
         },
         skills: {
             hardware: "Hardware",
@@ -130,6 +135,11 @@ export const translations = {
             team: "Team",
             links: "Links",
             tags: "Tags",
+            bio: "Biography",
+            experience: "Experience",
+            studies: "Education",
+            references: "References",
+            contact: "Contact",
         },
         skills: {
             hardware: "Hardware",

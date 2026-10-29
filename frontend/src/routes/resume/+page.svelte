@@ -90,17 +90,6 @@
 			.join(' ');
 	}
 
-	function getNickname(profile: ProfileData): string | null {
-		const n = profile.me.id.find((p) => p.type === 'nickname' && p.display);
-		return n ? n.name : null;
-	}
-
-	function getContactHref(c: { type: string; address: string }): string {
-		if (c.type === 'Mail') return `mailto:${c.address}`;
-		if (c.type === 'Phone') return `tel:${c.address}`;
-		return c.address;
-	}
-
 	// State -------------------------------------------------------------------
 
 	let profile = $state<ProfileData | null>(null);
@@ -142,6 +131,11 @@
 
 	<div class="cv-page">
         <!-- Hero ---------------------------------------------------------------- -->
+
+		<div
+			data-summary="bio"
+			data-summary-label={$trans?.summary.bio}
+		></div>
 
         <Hero
             layout="two-cols"
@@ -224,9 +218,14 @@
 
         <!-- Experience ---------------------------------------------------------- -->
 
-        <Headline size="md">{$trans?.resume.experience_title}</Headline>
+		<div
+			data-summary="experience"
+			data-summary-label={$trans?.summary.experience}
+		>
+        	<Headline size="md">{$trans?.resume.experience_title}</Headline>
+		</div>
 
-        <section id="experience" class="cv-section">
+        <section id="experience-section" class="cv-section">
 
             <div class="cv-twocol">
                 <Timeline
@@ -274,9 +273,14 @@
 
         <!-- Studies & Aside ----------------------------------------------------- -->
 
-        <Headline size="md">{$trans?.resume.studies_title}</Headline>
+		<div
+			data-summary="studies"
+			data-summary-label={$trans?.summary.studies}
+		>
+        	<Headline size="md">{$trans?.resume.studies_title}</Headline>
+		</div>
 
-        <section id="studies" class="cv-section">
+        <section id="studies-section" class="cv-section">
             <div class="cv-twocol">
                 <div class="cv-studies-col">
                     <div class="cv-edu-grid">
@@ -399,15 +403,21 @@
 
         <!-- References ---------------------------------------------------------- -->
 
-        <Headline size="md">{$trans?.resume.references_title}</Headline>
+		<div
+			data-summary="references"
+			data-summary-label={$trans?.summary.references}
+		>
+        	<Headline size="md">{$trans?.resume.references_title}</Headline>
+		</div>
 
-        <section id="references" class="cv-section cv-section-alt">
+        <section id="references-section" class="cv-section cv-section-alt">
             <div class="cv-ref-grid">
                 {#each visible_refs as r}
 					<Card variant="flat" elevation="hard">
 						{#snippet leading()}
-							<div class="cv-ref-quote" aria-hidden="true">"</div>
-                        	<p class="cv-ref-content">{r.quote[$locale][0]}</p>
+							<div class="cv-ref-quote-wrap">
+								<p class="cv-ref-content">{r.quote[$locale][0]}</p>
+							</div>
 						{/snippet}
 
 						{#snippet children()}
@@ -451,10 +461,16 @@
 
         <!-- CTA ----------------------------------------------------------------- -->
 
-        <section id="contact">
+		<div
+			data-summary="contact"
+			data-summary-label={$trans?.summary.contact}
+		>
 			<Headline size="md">
 				{$trans?.resume.cta_title_a}
 			</Headline>
+		</div>
+
+        <section id="contact-section">
 
 			<div class="cv-cta">
 				{#each visible_contacts as c}
@@ -467,12 +483,12 @@
 						{#snippet leading()}
 							{#if icon}
 								<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-									<path d={icon.path} fill="white" opacity="0.7" />
+									<path d={icon.path} fill="var(--spk-text)" opacity="0.6" />
 								</svg>
 							{:else if c.type === 'Mail'}
 								<svg 
 									viewBox="0 -960 960 960" width="18" height="18" aria-hidden="true">
-									<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z" fill="white" opacity="0.7" />
+									<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z" fill="var(--spk-text)" opacity="0.6" />
 								</svg>
 							{/if}
 						{/snippet}
@@ -667,16 +683,28 @@
 		max-width: 100%;
 	}
 
-	.cv-ref-quote {
-		font-size: 2.5rem;
+	.cv-ref-quote-wrap {
+		position: relative;
+		padding: 1.5rem 1.25rem 0.5rem;
+	}
+
+	.cv-ref-quote-wrap::before {
+		content: '"';
+		position: absolute;
+		top: 0.1rem;
+		left: 0.75rem;
+		font-size: 3rem;
+		font-family: var(--spk-font-heading);
+		color: var(--spk-accent);
 		opacity: 0.5;
-		margin-left: 0.5rem;
+		line-height: 1;
+		pointer-events: none;
 	}
 
 	.cv-ref-content {
-		margin-left: 2rem;
-		margin-top: -0.5rem;
-		text-decoration: italic;
+		position: relative;
+		margin: 6px 10px;
+		padding-left: 0.25rem;
 	}
 
 	.cv-ref-attr {

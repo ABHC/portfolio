@@ -50,8 +50,15 @@
     let locales: Locale[] = Object.keys(translations) as Locale[];
 	let width: number = $state(0);
 	let height: number = $state(0);
-    let summary_items: SummaryItem[] = $state([]);
+    let summary_ids: string[] = $state([]);
+    let summary_labels: Record<string, string> = $state({});
     let active_id: string = $state("");
+
+    // Recombines ids + labels — never a stale copy, since labels get
+    // re-read whenever $locale changes
+    const summary_items: SummaryItem[] = $derived(
+        summary_ids.map(id => ({ id, label: summary_labels[id] ?? id }))
+    );
     let open_langs: boolean = $state(false);
     let copied: boolean = $state(false);
     let header_visible: boolean = $state(true);
@@ -63,7 +70,18 @@
     // ---------- Observers ----------
     let header_element: HTMLElement | undefined = $state(undefined);
     let footer_element: HTMLElement | undefined = $state(undefined);
-    let observer: IntersectionObserver | null = null;
+
+    // Wraps the sticky top nav to measure how much of the viewport
+    // it actually covers
+    let nav_wrap_element: HTMLElement | undefined = $state(undefined);
+    let top_offset: number = $state(0);
+
+    // While true, scroll-driven summary updates are skipped so a just-clicked
+    // summary item stays active even if its section can't scroll all the way
+    // to the activation line (ex : near the bottom of a short page).
+    // Cleared on the next manual scroll input
+    let summary_pinned = false;
+    let summary_update_scheduled = false;
 
 	// ---------- Lifecycle ----------
 	onMount(async (): Promise<void> => {
@@ -133,9 +151,19 @@
 
     function scrollTo(target:string) {
         const element = document.getElementById(target);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: "start" });
-        }
+        if (!element) return;
+
+        // Pin the clicked item immediately regardless of the 
+        // position-based tracking
+        active_id = target;
+        summary_pinned = true;
+        element.scrollIntoView({ behavior: 'smooth', block: "start" });
+    }
+
+    // Any deliberate scroll input from the user releases the pin so
+    // position-based tracking resumes.
+    function unpin_summary(): void {
+        summary_pinned = false;
     }
 
     function backToTop(): void {
@@ -143,42 +171,53 @@
     }
 
     // Re-scan data-summary elements whenever the route changes
-    function scan_summaries() {
-        observer?.disconnect();
-
+    function scan_summary_ids() {
         const anchors = document.querySelectorAll<HTMLElement>("[data-summary]");
-        summary_items = Array.from(anchors).map(el => {
-            const id = el.getAttribute("data-summary") ?? "";
-            const label = el.getAttribute("data-summary-label") ?? id;
-            if (!el.id) el.id = id;
-            return { id, label };
+        summary_ids = Array.from(anchors).map(element => {
+            const id = element.getAttribute("data-summary") ?? "";
+            if (!element.id) element.id = id;
+            return id;
         });
+        scan_summary_labels();
+        update_active_summary();
+    }
 
+    // Re-reads data-summary-label only, called again on locale change
+    // without touching the structure (ids, order, active tracking)
+    function scan_summary_labels() {
+        const labels: Record<string, string> = {};
+        for (const id of summary_ids) {
+            const element = document.querySelector<HTMLElement>(`[data-summary="${id}"]`);
+            labels[id] = element?.getAttribute("data-summary-label") ?? id;
+        }
+        summary_labels = labels;
+    }
+
+    // Picks the last section whose top has scrolled past the activation
+    // line, and snaps to the final item once the page can't scroll any
+    // further.
+    function update_active_summary() {
         if (summary_items.length === 0) return;
-        active_id = summary_items[0].id;
 
-        // Track sections currently inside the activation band so we can pick
-        // the topmost one rather than whichever entry fired last.
-        const visible = new Map<string, IntersectionObserverEntry>();
+        // A little slack below the overlapping nav so a heading counts as
+        // "reached" as soon as it clears it, rather than right at its edge.
+        const activation_line = scroll_y + top_offset + 24;
+        const at_bottom = scroll_y + window.innerHeight >= document.documentElement.scrollHeight - 2;
 
-        observer = new IntersectionObserver(
-            entries => {
-                for (const e of entries) {
-                    const id = e.target.getAttribute("data-summary");
-                    if (!id) continue;
-                    if (e.isIntersecting) visible.set(id, e);
-                    else visible.delete(id);
-                }
-                if (visible.size === 0) return;
-                const top = [...visible.values()]
-                    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-                const id = top.target.getAttribute("data-summary");
-                if (id) active_id = id;
-            },
-            { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
-        );
+        let current = summary_items[0].id;
+        for (const item of summary_items) {
+            const element = document.getElementById(item.id);
+            if (!element) continue;
+            if (element.getBoundingClientRect().top + scroll_y <= activation_line) {
+                current = item.id;
+            } else {
+                break;
+            }
+        }
 
-        anchors.forEach(anchor => observer!.observe(anchor));
+        // Guarantees the last item still lights up even when its heading
+        // never gets to cross the activation line 
+        active_id = at_bottom ? summary_items[summary_items.length - 1].id : current;
     }
 
     // Re-scan when the page changes
@@ -186,12 +225,58 @@
         // Track slug so this effect re-runs on route change
         const _slug = page.params.slug;
         // Wait for DOM to render the new component
-        requestAnimationFrame(() => scan_summaries());
+        requestAnimationFrame(() => scan_summary_ids());
+    });
+
+    // Re-read labels when the language changes, without rescanning structure
+    $effect(() => {
+        const _locale = $locale;
+        requestAnimationFrame(() => scan_summary_labels());
+    });
+
+    // Recompute the active summary item on scroll, at most once per frame —
+    // Do it on every raw scroll event may causes jank. 
+    $effect(() => {
+        scroll_y;
+        if (summary_pinned) return;
+        if (summary_update_scheduled) return;
+
+        summary_update_scheduled = true;
+        requestAnimationFrame(() => {
+            summary_update_scheduled = false;
+            if (summary_pinned) return;
+            update_active_summary();
+        });
+    });
+
+    // Measure the sticky top nav's real height.
+    // keeps the offset correct across viewport sizes and design systems.
+    $effect(() => {
+        if (!nav_wrap_element) {
+            top_offset = 0;
+            return;
+        }
+
+        const nav_element = nav_wrap_element;
+        const measure = () => {
+            top_offset = nav_element.getBoundingClientRect().height;
+            document.documentElement.style.setProperty('--top-offset', `${top_offset}px`);
+        };
+
+        measure();
+        const resize_observer = new ResizeObserver(measure);
+        resize_observer.observe(nav_element);
+        return () => resize_observer.disconnect();
     });
 </script>
 
 <!-- Responsive handling -->
-<svelte:window on:resize={updateScreenSize} bind:scrollY={scroll_y} />
+<svelte:window
+    on:resize={updateScreenSize}
+    bind:scrollY={scroll_y}
+    on:wheel={unpin_summary}
+    on:touchstart={unpin_summary}
+/>
 
 <!-- Utils Snippets ------------------------------------------------ -->
 <svelte:head>
@@ -376,44 +461,47 @@
 <!-- Nav (desktop) --------------------------------------------------------------------------- -->
 
 {#if !$responsive.isBelow(1024)}
-    <Nav
-        position="floating"
-        direction="top"
-        palette="tone"
-        elevation="subtle"
-        leading={header_visible ? empty_nav : logo_in_nav}
-        trailing={nav_trailing}
-    >
-        <Button
-            variant="ghost"
+    <!-- bind:this here only measures the nav's rendered height for the summary scroll offset -->
+    <div bind:this={nav_wrap_element}>
+        <Nav
+            position="floating"
+            direction="top"
             palette="tone"
-            aria_label={$trans?.nav.portfolio}
-            active={page.url.pathname === '/'}
-            href="/"
+            elevation="subtle"
+            leading={header_visible ? empty_nav : logo_in_nav}
+            trailing={nav_trailing}
         >
-            <span class="nav-label">{$trans?.nav.portfolio}</span>
-        </Button>
+            <Button
+                variant="ghost"
+                palette="tone"
+                aria_label={$trans?.nav.portfolio}
+                active={page.url.pathname === '/'}
+                href="/"
+            >
+                <span class="nav-label">{$trans?.nav.portfolio}</span>
+            </Button>
 
-        <Button
-            variant="ghost"
-            palette="tone"
-            aria_label={$trans?.nav.resume}
-            active={page.url.pathname.startsWith('/resume')}
-            href="/resume"
-        >
-            <span class="nav-label">{$trans?.nav.resume}</span>
-        </Button>
+            <Button
+                variant="ghost"
+                palette="tone"
+                aria_label={$trans?.nav.resume}
+                active={page.url.pathname.startsWith('/resume')}
+                href="/resume"
+            >
+                <span class="nav-label">{$trans?.nav.resume}</span>
+            </Button>
 
-        <Button
-            variant="ghost"
-            palette="tone"
-            aria_label={$trans?.nav.blog}
-            active={page.url.pathname.startsWith('/blog')}
-            href="/blog"
-        >
-            <span class="nav-label">{$trans?.nav.blog}</span>
-        </Button>
-    </Nav>
+            <Button
+                variant="ghost"
+                palette="tone"
+                aria_label={$trans?.nav.blog}
+                active={page.url.pathname.startsWith('/blog')}
+                href="/blog"
+            >
+                <span class="nav-label">{$trans?.nav.blog}</span>
+            </Button>
+        </Nav>
+    </div>
 {/if}
 
 <!-- Content --------------------------------------------------------------------------------- -->
@@ -609,17 +697,21 @@
     }
 
     .summary {
-        --nav-height: 135px;
         position: sticky;
-        top: var(--nav-height);
+        top: var(--top-offset, 0px);
         align-self: start;
-        height: calc(100dvh - var(--nav-height));
+        height: calc(100dvh - var(--top-offset, 0px));
         box-sizing: border-box;
         overflow-y: auto;
         padding: 1rem 0.75rem;
         margin-right: 0.75rem;
         scrollbar-width: thin;
         scrollbar-color: var(--spk-tone-hover) transparent;
+    }
+
+    /* Keeps a clicked summary target from landing underneath the sticky nav */
+    :global([data-summary]) {
+        scroll-margin-top: var(--top-offset, 0px);
     }
 
     .summary-header {
