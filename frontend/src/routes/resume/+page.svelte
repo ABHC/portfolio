@@ -21,10 +21,10 @@
         isValidIconKey
     } from '$lib/utils/iconsBank'
 
-	import { profilePromise } from '$lib/utils/projectsLoader';
+	import { resumePromise } from '$lib/utils/projectsLoader';
 	import Prose from '$lib/components/Prose.svelte';
 
-	import type { ProfileData, Job, Language } from '$lib/types/profile';
+	import type { ResumeData, Job, Language } from '$lib/types/resume';
 
 	import {
 		trans,
@@ -83,7 +83,7 @@
 		return /present|présent/i.test(s);
 	}
 
-	function getFullName(profile: ProfileData): string {
+	function getFullName(profile: ResumeData): string {
 		return profile.me.id
 			.filter((p) => p.display && p.type !== 'nickname')
 			.map((p) => p.name)
@@ -92,10 +92,10 @@
 
 	// State -------------------------------------------------------------------
 
-	let profile = $state<ProfileData | null>(null);
+	let profile = $state<ResumeData | null>(null);
 	let load_error = $state<Error | null>(null);
 
-	profilePromise
+	resumePromise
 		.then((p) => (profile = p))
 		.catch((e) => (load_error = e));
 
@@ -122,11 +122,19 @@
 </script>
 
 {#if load_error}
-	<div class="alert alert-error">
-		{$trans?.alerts.loading_error}&nbsp;{load_error.message}
-	</div>
+	<Callout palette="error" bordered>
+		{#snippet leading()}
+    		<span class="material-symbols-outlined">error</span>
+		{/snippet} 
+        {$trans?.alerts.loading_error}&nbsp;{load_error.message}
+    </Callout>
 {:else if !profile}
-	<div class="alert alert-info">{$trans?.alerts.loading}</div>
+	<Callout palette="accent" bordered>
+		{#snippet leading()}
+    		<span class="material-symbols-outlined">info</span>
+		{/snippet} 
+        {$trans?.alerts.loading}
+    </Callout>
 {:else}
 
 	<div class="cv-page">
@@ -476,7 +484,7 @@
 				{#each visible_contacts as c}
                     {@const icon = isValidIconKey(c.type) ? getIcon(c.type) : null}
 					<Callout
-						variant="accent"
+						palette="accent"
 						align="start"
 						bordered
 					>

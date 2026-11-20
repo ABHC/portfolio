@@ -1,0 +1,51 @@
+{
+	"origin": {
+		"label": {
+			"fr": "domestica",
+			"en": "domestica"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Livie",
+			"avatar": "/people/livie.png",
+			"fr": "Protocole de rangement",
+			"en": "Storage protocol"
+		},
+		{
+			"name": "Cicéron",
+			"avatar": "/people/ciceron.png",
+			"fr": "Classification archivistique",
+			"en": "Archival classification"
+		}
+	],
+	"abstract": {
+		"fr": "Système d'archivage de banquets en tablettes",
+		"en": "Banquet archival system in tablets"
+	},
+	"description": {
+		"fr": "Les triclinium des patriciens étaient planifiés chaotiquement. Nous avons conçu un casier en bois massif comportant sept rangées de tablettes en argile. Chaque tablette enregistre : disposition des invités, menu, timing des services, notes politiques, incidents diplomatiques. Un système de codage par encoches dans les coins permet de retrouver rapidement une tablette (rangée 3, position 5, type \"banquet d'ambassadeurs\"). Les archivistes peuvent consulter des centaines de banquets passés pour répliquer les succès ou éviter les scandales précédents.",
+		"en": "Patrician triclinium were planned chaotically. We engineered a solid wood cabinet with seven rows of clay tablets. Each tablet records: guest arrangement, menu, service timing, political notes, diplomatic incidents. A notch-coding system in corners enables rapid retrieval (row 3, position 5, type \"ambassador banquet\"). Archivists can consult hundreds of past feasts to replicate successes or avoid previous scandals."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/tabula/cabinet-facade.png"
+		},
+		{
+			"type": "image",
+			"src": "/tabula/tablet-samples.webp"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": [
+			"Organisation archivistique",
+			"Système de classement",
+			"Gestion mémoire institutionnelle"
+		],
+		"en": ["Archival organisation", "Classification system", "Institutional memory management"]
+	}
+}

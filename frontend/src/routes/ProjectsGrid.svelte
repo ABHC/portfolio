@@ -1,23 +1,18 @@
 <script lang="ts">
-    import { TileGrid } from '@abhc/spektral-ui';
+    import { TileGrid, Tile, Badge } from '@abhc/spektral-ui';
 
-    import { 
-        trans,
+    import {
         locale,
         theme_color
     } from './store';
 
-    import type { 
-        Tile, 
-        TileMedia, 
-        Columns, 
-        HeroSpan, 
-        ImageMode, 
-        ImagePosition, 
-        TileGridElevation, 
-        TileGridEffect, 
-        TileGridMask, 
-        TileGridMaskDirection, 
+    import type {
+        Columns,
+        HeroSpan,
+        ImagePosition,
+        TileGridEffect,
+        TileGridMask,
+        TileGridMaskDirection,
         PatternPreset,
     } from '@abhc/spektral-ui';
 
@@ -28,7 +23,7 @@
     interface Props {
         projects: readonly ProjectItem[];
         columns?: Columns;
-        image_mode?: ImageMode;
+        show_image?: boolean;
         image_position?: ImagePosition;
         hero_span?: HeroSpan;
         pattern?: PatternPreset;
@@ -45,7 +40,7 @@
     let {
         projects,
         columns = 3,
-        image_mode = "flat",
+        show_image = false,
         image_position = "center",
         hero_span = "half",
         pattern = "none",
@@ -54,24 +49,40 @@
         pattern_size = "40px",
         pattern_effect = "none",
         pattern_effect_opacity = 1,
-        pattern_mask= "none",
+        pattern_mask = "none",
         pattern_mask_direction = "left",
         pattern_mask_size = 70
     }: Props = $props();
 
-    const tiles: Tile[] = $derived(
+    const tiles = $derived(
         projects
             .filter(p => p.display)
             .map(p => ({
                 id: p.id,
                 name: p.name ?? p.id,
-                origin: p.origin,
-                years: p.years,
-                display: p.display,
+                href: `/projects/${p.id}`,
                 hero: p.hero,
-                hero_text: { ...p.medal } as Record<string, string>,
-                media: p.media.map(m => ({ src: m.src, type: m.type })),
-                abstract: { ...p.abstract } as Record<string, string>,
+                src: show_image ? p.media[0]?.src : undefined,
+                abstract: p.abstract[$locale],
+                origin: { 
+                    label: p.origin.label[$locale], 
+                    palette: p.origin.palette, 
+                    variant: p.origin.variant 
+                },
+                years: p.years
+                    ? { 
+                        label: p.years.label[$locale], 
+                        palette: p.years.palette, 
+                        variant: p.years.variant 
+                    }
+                    : undefined,
+                corner: p.corner
+                    ? { 
+                        label: p.corner.label[$locale], 
+                        palette: p.corner.palette, 
+                        variant: p.corner.variant 
+                    }
+                    : undefined,
             }))
     );
 
@@ -79,13 +90,10 @@
         $theme_color === "dark" ? "white" : "black"
     );
 </script>
-  
+
 <section class="grid-container">
     <TileGrid
-        locale={$locale}
-        tiles={tiles}
         columns={columns}
-        image_mode={image_mode}
         image_position={image_position}
         elevation_persist={true}
         pattern={pattern}
@@ -98,10 +106,54 @@
         pattern_mask_direction={pattern_mask_direction}
         pattern_mask_size={pattern_mask_size}
         hero_span={hero_span}
-        show_hero_badge={true}
-        href_base="/projects"
         elevation="hard"
-    />
+    >
+        {#each tiles as tile (tile.id)}
+            <Tile
+                name={tile.name}
+                abstract={tile.abstract}
+                href={tile.href}
+                hero={tile.hero}
+                src={tile.src}
+            >
+                {#snippet corner()}
+                    {#if tile.corner}
+                        <Badge 
+                            palette={tile.corner.palette ?? 'tone'} 
+                            variant={tile.corner.variant} 
+                            size="sm"
+                        >
+                            {tile.corner.label}
+                        </Badge>
+                    {/if}
+                {/snippet}
+                
+                {#snippet meta()}
+                    {#if tile.years}
+                        <Badge 
+                            palette={tile.origin.palette ?? 'accent'} 
+                            variant={tile.origin.variant} 
+                            uppercase
+                            size="sm"
+                        >
+                            {tile.origin.label}
+                        </Badge>
+                    {/if}
+
+                    {#if tile.years}
+                        <Badge 
+                            palette={tile.years.palette ?? 'accent'} 
+                            variant={tile.years.variant} 
+                            uppercase
+                            size="sm"
+                        >
+                            {tile.years.label}
+                        </Badge>
+                    {/if}
+                {/snippet}
+            </Tile>
+        {/each}
+    </TileGrid>
 </section>
 
 <style>

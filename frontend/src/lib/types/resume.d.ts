@@ -1,5 +1,5 @@
 /* -----------------------------------------
-* PROFIL.JSON TYPES
+* RESUME.JSON TYPES
 * ----------------------------------------- */
 
 import type { IconKey } from '$lib/utils/iconsBank';
@@ -19,11 +19,6 @@ export interface LocalizedTextArray {
 /** Personal information */
 export interface PersonalInfo {
     readonly id: Identity[]
-    readonly firstname: string
-    readonly secondname: string
-    readonly thirdname: string
-    readonly nickname: LocalizedText
-    readonly surname: string
     readonly tagline: LocalizedTextArray
     readonly about: LocalizedTextArray
     readonly portrait: string
@@ -110,8 +105,8 @@ export interface KeyFigure {
     readonly display: boolean
 }
 
-/** Root profil structure */
-export interface ProfileData {
+/** Root resume structure */
+export interface ResumeData {
     readonly me: PersonalInfo
     readonly studies: readonly Study[]
     readonly jobs: readonly Job[]

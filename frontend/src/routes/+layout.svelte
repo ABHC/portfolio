@@ -548,12 +548,12 @@
     >
         <Tooltip
             bind:open={menu_tooltip}
-            showDelay={800}
-            hideDelay={0}
+            show_delay={800}
+            hide_delay={0}
             palette="tone"
             direction="left"
             align="center"
-            maxWidth="120px"
+            max_width="120px"
             bordered
             arrow
         >
@@ -585,7 +585,7 @@
 
 {#if copied}
     <Alert
-        variant="success"
+        palette="success"
         position="top-center"
         animate="bottom"
         duration={4}
@@ -637,6 +637,7 @@
         display: grid;
         grid-template-columns: 180px 1fr 180px;
         gap: 0;
+        width: 100%;
         max-width: 1800px;
         margin: 0 auto;
     }

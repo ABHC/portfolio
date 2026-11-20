@@ -7,15 +7,24 @@
     import Clients from './clients.svelte';
     import Profile from './Profile.svelte';
 
-    import { projectsPromise, profilePromise } from '$lib/utils/projectsLoader';
+    import { projectsPromise, resumePromise } from '$lib/utils/projectsLoader';
 
-    import { Headline, TileGrid } from '@abhc/spektral-ui';
+    import { Headline, Callout } from '@abhc/spektral-ui';
 
     import {
         trans,
         languages_aria_label
     } from './store';
 </script>
+
+<!-- SNIPPETS -->
+{#snippet error_icon()}
+    <span class="material-symbols-outlined">error</span>
+{/snippet} 
+
+{#snippet info_icon()}
+    <span class="material-symbols-outlined">info</span>
+{/snippet} 
 
 <!-- HARDWARE SECTION -->
 
@@ -29,19 +38,19 @@
 </div>
 
 {#await projectsPromise}
-    <div class="alert alert-info">
+    <Callout palette="accent" leading={info_icon} bordered>
         {$trans?.alerts.loading}
-    </div>
+    </Callout>
 {:then projects_data } 
-    <ProjectsGrid 
-        projects={projects_data.hardware} 
-        image_mode="image"
+    <ProjectsGrid
+        projects={projects_data.filter((p) => p.category === 'hardware')}
+        show_image={true}
     />
     <!--<DesignGallery projects={projects_data.hardware} />-->
 {:catch error}
-    <div class="alert alert-error">
+    <Callout palette="error" leading={error_icon} bordered>
         {$trans?.alerts.loading_error}&nbsp;{error.message}
-    </div>
+    </Callout>
 {/await}
 
 <!-- APPS SECTION -->
@@ -53,19 +62,19 @@
 </div>
 
 {#await projectsPromise}
-    <div class="alert alert-info">
+    <Callout palette="accent" leading={info_icon} bordered>
         {$trans?.alerts.loading}
-    </div>
+    </Callout>
 {:then projects_data } 
-    <ProjectsGrid 
-        projects={projects_data.software} 
+    <ProjectsGrid
+        projects={projects_data.filter((p) => p.category === 'software')}
         pattern="grid"
         pattern_opacity={0.2}
     />
 {:catch error}
-    <div class="alert alert-error">
+    <Callout palette="error" leading={error_icon} bordered>
         {$trans?.alerts.loading_error}&nbsp;{error.message}
-    </div>
+    </Callout>
 {/await}
 
 <!-- GRAPHIC DESIGN SECTION -->
@@ -77,20 +86,20 @@
 </div>
 
 {#await projectsPromise}
-    <div class="alert alert-info">
+    <Callout palette="accent" leading={info_icon} bordered>
         {$trans?.alerts.loading}
-    </div>
+    </Callout>
 {:then projects_data } 
-    <ProjectsGrid 
-        projects={projects_data.graphic} 
+    <ProjectsGrid
+        projects={projects_data.filter((p) => p.category === 'graphic')}
         pattern="grid"
         pattern_opacity={0.2}
         columns={4}
     />
 {:catch error}
-    <div class="alert alert-error">
+    <Callout palette="error" leading={error_icon} bordered>
         {$trans?.alerts.loading_error}&nbsp;{error.message}
-    </div>
+    </Callout>
 {/await}
 
 <!-- PROFILE SECTION -->

@@ -1,0 +1,41 @@
+{
+	"origin": {
+		"label": {
+			"fr": "viae",
+			"en": "viae"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Pompée",
+			"avatar": "/people/pompee.png",
+			"fr": "Infrastructure routière",
+			"en": "Road infrastructure"
+		}
+	],
+	"abstract": {
+		"fr": "Jauge de distance pour milliaire calibré",
+		"en": "Distance gauge for calibrated millistone"
+	},
+	"description": {
+		"fr": "Les routes romaines avaient des milliaires (bornes kilométriques) mal placés. Les distances écrites étaient souvent fausses. Nous avons conçu une chaîne d'arpentage en bronze avec des nœuds tous les mille pas. En tirant la chaîne entre deux points de route, on obtient immédiatement la distance exacte. Cette distance est inscrite sur tablette, puis transférée sur le milliaire en pierre par le lapidaire. Système simple, fiable, reproductible.",
+		"en": "Roman roads had poorly positioned milliaries (distance markers). Recorded distances were often wrong. We engineered a bronze surveying chain with knots every thousand paces. By stretching the chain between two road points, one obtains exact distance immediately. This distance is recorded on tablet, then transferred to the stone milliaire by the stonemason. Simple, reliable, reproducible system."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/milliarium/chain-detail.webp"
+		},
+		{
+			"type": "video",
+			"src": "/milliarium/measurement-process.mp4"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Arpentage", "Métrologie", "Ingénierie routière"],
+		"en": ["Surveying", "Metrology", "Road engineering"]
+	}
+}

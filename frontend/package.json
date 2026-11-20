@@ -41,7 +41,7 @@
 		"vitest-browser-svelte": "^3.1.0"
 	},
 	"dependencies": {
-		"@abhc/spektral-ui": "^0.3.1",
+		"@abhc/spektral-ui": "^0.4.0",
 		"isomorphic-dompurify": "^3.11.0",
 		"marked": "^18.0.2",
 		"simple-icons": "^16.6.0"

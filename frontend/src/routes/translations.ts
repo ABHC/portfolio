@@ -86,8 +86,8 @@ export const translations = {
             current_job: "En poste",
         },
         alerts: {
-            loading: "ℹ️ Chargement des projets...",
-            loading_error: "❌ Erreur de chargement des projets :"
+            loading: "Chargement des projets...",
+            loading_error: "Erreur de chargement des projets :"
         },
         footer: {
             license: "Publié sous licence GNU GPLv3",
@@ -187,8 +187,8 @@ export const translations = {
             current_job: "Currently",
         },
         alerts: {
-            loading: "ℹ️ Loading projects...",
-            loading_error: "❌ Error loading projects:"
+            loading: "Loading projects...",
+            loading_error: "Error loading projects:"
         },
         footer: {
             license: "Published under GNU GPLv3 license",

@@ -1,0 +1,59 @@
+{
+	"origin": {
+		"label": {
+			"fr": "communicatio",
+			"en": "communicatio"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Pompée",
+			"avatar": "/people/pompee.png",
+			"fr": "Infrastructure routière",
+			"en": "Road infrastructure"
+		},
+		{
+			"name": "Cicéron",
+			"avatar": "/people/ciceron.png",
+			"fr": "Classification systématique",
+			"en": "Systematic classification"
+		}
+	],
+	"abstract": {
+		"fr": "Catalogue routier de relais et distances",
+		"en": "Road relay and distance catalogue"
+	},
+	"description": {
+		"fr": "Les courriers de l'empire (cursus publicus) devaient connaître les routes, les relais de chevaux, les auberges. Les informations étaient fragmentées, souvent fausses. Nous avons conçu un catalogue sur tablettes : une tablette par grande voie (Via Appia, Via Aurelia, etc.). Chaque tablette liste séquentiellement : relais, distance depuis le dernier, type de chevaux disponibles (rapides, lourds), qualité de l'auberge, magistrat responsable. Un code géométrique sur les bords permet de classifier par région. Les courriers consultent rapidement le trajet optimal. Les mises à jour sont gravées chaque saison (changements de magistrats, nouveau relais construit, ancien relais fermé). Un index régional permet de croiser les voies par destination.",
+		"en": "Empire messengers (cursus publicus) needed to know roads, horse relays, inns. Information was fragmented, often wrong. We engineered a tablet catalogue: one tablet per major road (Via Appia, Via Aurelia, etc.). Each tablet lists sequentially: relays, distance from last one, available horse types (fast, heavy), inn quality, responsible magistrate. Geometric coding on edges enables regional classification. Messengers quickly consult optimal route. Updates are engraved each season (magistrate changes, new relay built, old relay closed). Regional index cross-references roads by destination."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/viae/tablet-layout.png"
+		},
+		{
+			"type": "image",
+			"src": "/viae/regional-index.webp"
+		},
+		{
+			"type": "video",
+			"src": "/viae/route-consultation.mp4"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": [
+			"Cartographie et navigation",
+			"Système de classement multi-critères",
+			"Logistique de communication"
+		],
+		"en": [
+			"Mapping and navigation",
+			"Multi-criteria classification system",
+			"Communication logistics"
+		]
+	}
+}

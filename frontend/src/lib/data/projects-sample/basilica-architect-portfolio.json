@@ -1,0 +1,62 @@
+{
+	"origin": {
+		"label": {
+			"fr": "architectura",
+			"en": "architectura"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Vitruve",
+			"avatar": "/people/vitruve.png",
+			"fr": "Systématisation des proportions",
+			"en": "Proportions systematisation"
+		},
+		{
+			"name": "Livie",
+			"avatar": "/people/livie.png",
+			"fr": "Gestion de devis",
+			"en": "Quote management"
+		}
+	],
+	"abstract": {
+		"fr": "Catalogue architectural d'édifices réalisés",
+		"en": "Architectural catalogue of completed buildings"
+	},
+	"description": {
+		"fr": "Les architectes romains reproduisaient les mêmes designs mais sans système de documentation centralisé. Chaque nouveau projet repartait de zéro. Nous avons conçu un catalogage systématique : une tablette par bâtiment réalisé. Chaque tablette grave : type d'édifice (basilique, temple, théâtre), dimensions principales (longueur, largeur, hauteur en pied romain), matériaux utilisés et coûts (marbre blanc vs travertin vs tuf), ordre architectural (dorique, ionique, corinthien), date de construction, magistrat commanditaire. Des symboles géométriques dans les marges classent par fonction (commerce, religieux, public). Les architectes peut consulter rapidement : \"tous les temples en marbre de moins de 100 pieds\" ou \"toutes les basiliques avec colonnes corinthiennes construites depuis 10 ans\". Les proportions gagnantes sont gravées en détail. Les coûts sont comparés, permettant des devis plus précis pour les nouveaux projets.",
+		"en": "Roman architects repeated designs but lacked centralised documentation. Each new project started from scratch. We engineered systematic cataloguing: one tablet per completed building. Each tablet records: building type (basilica, temple, theatre), main dimensions (length, width, height in Roman feet), materials used and costs (white marble vs travertine vs tufa), architectural order (Doric, Ionic, Corinthian), construction date, commissioning magistrate. Geometric symbols in margins classify by function (commerce, religious, public). Architects quickly consult: \"all marble temples under 100 feet\" or \"all basilicas with Corinthian columns built in last 10 years\". Winning proportions are recorded in detail. Costs are compared, enabling more accurate quotes for new projects."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/basilica/cabinet-sections.webp"
+		},
+		{
+			"type": "image",
+			"src": "/basilica/tablet-specifications.png"
+		},
+		{
+			"type": "3d",
+			"models": [
+				{
+					"file": "basilica/models/architectural-order-example.stl",
+					"color": "#F5DEB3",
+					"textureParams": {
+						"scale": 1,
+						"rotation": 0,
+						"offsetX": 0,
+						"offsetY": 0
+					}
+				}
+			]
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Gestion de portfolio", "Documentation technique", "Analyse comparative de coûts"],
+		"en": ["Portfolio management", "Technical documentation", "Comparative cost analysis"]
+	}
+}

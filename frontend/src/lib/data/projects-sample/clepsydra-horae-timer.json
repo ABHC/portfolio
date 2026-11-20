@@ -1,0 +1,82 @@
+{
+	"origin": {
+		"label": {
+			"fr": "temporalis",
+			"en": "temporalis"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Livie",
+			"avatar": "/people/livie.png",
+			"fr": "Calibrage temporel",
+			"en": "Temporal calibration"
+		}
+	],
+	"abstract": {
+		"fr": "Clepsydre ajustable pour mesure d'heures",
+		"en": "Adjustable clepsydra for hourly measurement"
+	},
+	"description": {
+		"fr": "Les clepsydres (horloges à eau) romaines s'arrêtaient ou s'accéléraient selon la température. Les tribunaux ne pouvaient pas mesurer le temps de parole des avocats. Nous avons conçu une clepsydre avec un système de régulation : un flotteur dans le réservoir principal actionne un bouchon ajustable qui règle précisément le débit. Des graduations en relief permettent de calibrer chaque jour selon le nombre d'heures de lumière. Une tablette enregistre chaque ajustement.",
+		"en": "Roman clepsydrae (water clocks) stopped or accelerated based on temperature. Law courts couldn't measure lawyer speaking time. We engineered a clepsydra with a regulation system: a float in the main reservoir controls an adjustable plug that precisely regulates flow rate. Relief graduations allow daily calibration based on hours of daylight. A tablet records each adjustment."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/clepsydra/full-assembly.webp"
+		},
+		{
+			"type": "3d",
+			"models": [
+				{
+					"file": "clepsydra/models/main-reservoir.stl",
+					"color": "#708090",
+					"textureParams": {
+						"scale": 1,
+						"rotation": 0,
+						"offsetX": 0,
+						"offsetY": 0
+					}
+				},
+				{
+					"file": "clepsydra/models/float-mechanism.stl",
+					"color": "#DAA520",
+					"textureParams": {
+						"scale": 1,
+						"rotation": 0,
+						"offsetX": 0,
+						"offsetY": 0
+					}
+				},
+				{
+					"file": "clepsydra/models/adjustable-plug.stl",
+					"texture": "clepsydra/textures/cork.jpg",
+					"textureParams": {
+						"scale": 0.8,
+						"rotation": 0,
+						"offsetX": 0,
+						"offsetY": 0
+					}
+				},
+				{
+					"file": "clepsydra/models/measure-vessel.stl",
+					"color": "#B0C4DE",
+					"textureParams": {
+						"scale": 1,
+						"rotation": 0,
+						"offsetX": 0,
+						"offsetY": 0
+					}
+				}
+			]
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Horlogerie hydraulique", "Thermorégulation", "Métrologie temporelle"],
+		"en": ["Hydraulic horology", "Thermoregulation", "Temporal metrology"]
+	}
+}

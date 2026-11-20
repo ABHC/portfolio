@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     import { locale, trans } from '../../store';
     import Prose from '$lib/components/Prose.svelte';
-    import type { ProjectItem, Media } from '$lib/types/projects';
+    import type { ProjectItem, ProjectCategory, Media } from '$lib/types/projects';
     import { 
         Headline, 
         Badge, 
@@ -16,10 +16,18 @@
 
     interface PageData {
         project: ProjectItem;
-        section: 'hardware' | 'software';
+        section: ProjectCategory;
     }
 
     let { data }: { data: PageData } = $props();
+
+    const section_label = $derived(
+        data.section === 'hardware'
+            ? $trans?.summary.hardware
+            : data.section === 'software'
+                ? $trans?.summary.software
+                : $trans?.summary.graphic
+    );
 
     let active_media_index = $state(0);
     let info_section_height = $state(0);
@@ -83,7 +91,7 @@
             onclick={handleBack}
         >
             <icon class="material-symbols-outlined">arrow_back</icon>
-            {data.section === 'hardware' ? $trans?.summary.hardware : $trans?.summary.software}
+            {section_label}
         </Button>
     </nav>
 
@@ -95,11 +103,13 @@
         </div>
         <aside class="project-misc">
             <Badge palette="accent" elevation="hard" uppercase>
-                {data.project.origin}
+                {data.project.origin.label[$locale]}
             </Badge>
-            <Badge palette="neutral" elevation="hard" uppercase>
-                {data.project.years}
-            </Badge>
+            {#if data.project.years}
+                <Badge palette="neutral" elevation="hard" uppercase>
+                    {data.project.years.label[$locale]}
+                </Badge>
+            {/if}
         </aside>
     </div>
 

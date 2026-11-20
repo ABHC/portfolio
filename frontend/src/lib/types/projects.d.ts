@@ -2,6 +2,8 @@
 * PROJECTS.JSON TYPES
 * ----------------------------------------- */
 
+import type { TilePalette } from '@abhc/spektral-ui'
+
 /** Language-specific text */
 export interface LocalizedText {
     readonly fr: string
@@ -122,17 +124,39 @@ export interface Tags {
     readonly en: readonly string[]
 }
 
+/** Badge variant, mirrors spektral-ui's Badge `variant` prop */
+export type BadgeVariant = 'flat' | 'outlined'
+
+/** Badge-style metadata rendered via spektral-ui's Badge, in Tile's meta()/corner() snippets */
+export interface ProjectBadge {
+    readonly label: LocalizedText
+    readonly palette?: TilePalette
+    readonly variant?: BadgeVariant
+}
+
 /** Projects sub-categories */
 export type GenresTypes = 'app' | 'tool' | 'showcase' | 'backend' |'study' | 'design' | 'industrialisation';
-  
+
+/** Top-level project grouping, drives /#section-<category> anchors and routing */
+export type ProjectCategory = 'software' | 'hardware' | 'graphic'
+
+/** Catalog entry living in index.json — the only place display/hero/category are decided */
+export interface ProjectsIndexEntry {
+    readonly id: string
+    readonly category: ProjectCategory
+    readonly display: boolean
+    readonly hero: boolean
+}
+
 /** Common structure for each project entry */
 export interface ProjectItem {
     readonly id: string
+    readonly category: ProjectCategory
     readonly display: boolean
     readonly hero: boolean
     readonly name?: string
-    readonly origin: string
-    readonly years?: string
+    readonly origin: ProjectBadge
+    readonly years?: ProjectBadge
     readonly partners: readonly Partner[]
     readonly abstract: LocalizedText
     readonly description: LocalizedText
@@ -141,12 +165,8 @@ export interface ProjectItem {
     readonly links?: readonly Links[]
     readonly demo?: string
     readonly tags: Tags
-    readonly medal?: LocalizedText
+    readonly corner?: ProjectBadge
 }
   
-/** Root project structure */
-export interface ProjectsData {
-    readonly software: readonly ProjectItem[]
-    readonly hardware: readonly ProjectItem[]
-    readonly graphic: readonly ProjectItem[]
-}
+/** Root project structure — flat, filter by `category` for a given section */
+export type ProjectsData = readonly ProjectItem[]

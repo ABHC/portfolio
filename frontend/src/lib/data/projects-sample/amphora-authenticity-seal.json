@@ -1,0 +1,47 @@
+{
+	"origin": {
+		"label": {
+			"fr": "commerciale",
+			"en": "commerciale"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "César",
+			"avatar": "/people/cesar.png",
+			"fr": "Standardisation fiscale",
+			"en": "Fiscal standardisation"
+		},
+		{
+			"name": "Pline l'Ancien",
+			"avatar": "/people/pline.png",
+			"fr": "Documentation de procédé",
+			"en": "Process documentation"
+		}
+	],
+	"abstract": {
+		"fr": "Presse à cacheter amphores avec signature mécanique",
+		"en": "Amphora seal press with mechanical signature"
+	},
+	"description": {
+		"fr": "Les marchands contrefaisaient les sceaux des amphores de vin et d'huile. Impossible de vérifier l'authenticité sans détuire l'amphore. Nous avons conçu une presse mécanique à cadran rotatif gravé de symboles multiples. Le cabaletier positionne le cadran selon : jour du mois (symbole A-XXX), producteur (symbole romain I-XII), qualité du lot (symbole géométrique). Le sceau résultant est une combinaison unique, gravée en relief. Les douaniers disposent d'une \"clé de déchiffrage\" (tablette maîtresse) pour vérifier rapidement.",
+		"en": "Merchants counterfeited wine and oil amphora seals. No way to verify authenticity without destroying the vessel. We engineered a mechanical press with a rotary dial engraved with multiple symbols. The press operator positions the dial by: day of month (symbol A-XXX), producer (Roman numeral I-XII), batch quality (geometric symbol). The resulting seal is a unique combination, embossed in relief. Tax collectors have a \"decryption key\" (master tablet) for rapid verification."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/amphora/press-mechanism.webp"
+		},
+		{
+			"type": "image",
+			"src": "/amphora/seal-samples.png"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Mécanique de scellement", "Cryptographie mécanique", "Contrôle fiscal"],
+		"en": ["Sealing mechanics", "Mechanical cryptography", "Fiscal control"]
+	}
+}

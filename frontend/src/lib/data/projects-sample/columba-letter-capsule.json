@@ -1,0 +1,47 @@
+{
+	"origin": {
+		"label": {
+			"fr": "communicatio",
+			"en": "communicatio"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "Cléopâtre",
+			"avatar": "/people/cleopatre.png",
+			"fr": "Logistique de communication",
+			"en": "Communication logistics"
+		},
+		{
+			"name": "Cicéron",
+			"avatar": "/people/ciceron.png",
+			"fr": "Protocole de confidentialité",
+			"en": "Confidentiality protocol"
+		}
+	],
+	"abstract": {
+		"fr": "Capsule métallique pour pigeons courriers",
+		"en": "Metal capsule for messenger pigeons"
+	},
+	"description": {
+		"fr": "Les messages envoyés par pigeons se perdaient ou étaient interceptés. Nous avons conçu une capsule cylindrique en bronze avec un mécanisme à vis : la lettre s'enroule sur un mandrin, la capsule se verrouille. Seul le destinataire disposant de la clé peut l'ouvrir. Le pigeon porte la capsule à la patte. Si l'ennemi capture le pigeon, le message est inaccessible. Système utilisé pour les correspondances diplomatiques sensibles.",
+		"en": "Messages sent by pigeons were lost or intercepted. We engineered a bronze cylindrical capsule with a screw mechanism: the letter rolls onto a mandrel, the capsule locks. Only the recipient with the key can open it. The pigeon carries the capsule on its leg. If the enemy captures the pigeon, the message remains inaccessible. System used for sensitive diplomatic correspondence."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/columba/capsule-assembly.png"
+		},
+		{
+			"type": "gif",
+			"src": "/columba/locking-mechanism.gif"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Mécanique de verrouillage", "Sécurité cryptographique", "Logistique"],
+		"en": ["Locking mechanics", "Cryptographic security", "Logistics"]
+	}
+}

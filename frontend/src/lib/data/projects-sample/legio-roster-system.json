@@ -1,0 +1,51 @@
+{
+	"origin": {
+		"label": {
+			"fr": "militare",
+			"en": "militare"
+		},
+		"palette": "accent",
+		"variant": "flat"
+	},
+	"partners": [
+		{
+			"name": "César",
+			"avatar": "/people/cesar.png",
+			"fr": "Stratégie d'allocation",
+			"en": "Allocation strategy"
+		},
+		{
+			"name": "Pompée",
+			"avatar": "/people/pompee.png",
+			"fr": "Protocole de mobilité",
+			"en": "Mobility protocol"
+		}
+	],
+	"abstract": {
+		"fr": "Registre de gestion de légion en tablettes",
+		"en": "Legion management roster in tablets"
+	},
+	"description": {
+		"fr": "Les légions comptaient 5 000 hommes. Les centurions ne savaient pas qui était où, qui était blessé, qui était en permission. Nous avons conçu un système de tablettes organisées par cohorte, puis par centurie. Chaque légionnaire a sa propre tablette : nom, rang (hastatus, princeps, pilus), affectation actuelle, historique de blessures, permissions prises, dates de récupération. Un casier central avec index par grade permet au préfet de localiser instantanément tous les centurions disponibles ou d'identifier les hommes prêts à la retraite. Les mutations et changements sont gravés chaque jour. Les statistiques (taux de blessures, absentéisme, promotions) sont compilées mensuellement sur tablette de synthèse.",
+		"en": "Legions numbered 5,000 men. Centurions didn't know who was where, who was injured, who was on leave. We engineered a tablet system organised by cohort, then by century. Each legionnaire has his own tablet: name, rank (hastatus, princeps, pilus), current assignment, injury history, leaves taken, recovery dates. A central cabinet with index by grade lets the prefect instantly locate available centurions or identify men ready for discharge. Transfers and changes are engraved daily. Statistics (injury rates, absenteeism, promotions) are compiled monthly on summary tablets."
+	},
+	"media": [
+		{
+			"type": "image",
+			"src": "/legio/cabinet-organisation.png"
+		},
+		{
+			"type": "image",
+			"src": "/legio/legionnaire-tablet-format.webp"
+		},
+		{
+			"type": "image",
+			"src": "/legio/index-system.png"
+		}
+	],
+	"demo": "",
+	"tags": {
+		"fr": ["Gestion de ressources humaines", "Système d'indexation", "Historique et traçabilité"],
+		"en": ["Human resources management", "Indexing system", "History and traceability"]
+	}
+}

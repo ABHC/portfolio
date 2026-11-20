@@ -1,0 +1,11 @@
+[
+	{ "id": "tabula-banquet-archive", "category": "software", "display": true, "hero": false },
+	{ "id": "legio-roster-system", "category": "software", "display": true, "hero": false },
+	{ "id": "horrea-inventory-ledger", "category": "software", "display": true, "hero": false },
+	{ "id": "viae-relay-navigator", "category": "software", "display": true, "hero": false },
+	{ "id": "basilica-architect-portfolio", "category": "software", "display": true, "hero": false },
+	{ "id": "amphora-authenticity-seal", "category": "hardware", "display": true, "hero": false },
+	{ "id": "milliarium-distance-gauge", "category": "hardware", "display": true, "hero": false },
+	{ "id": "columba-letter-capsule", "category": "hardware", "display": true, "hero": false },
+	{ "id": "clepsydra-horae-timer", "category": "hardware", "display": true, "hero": false }
+]
