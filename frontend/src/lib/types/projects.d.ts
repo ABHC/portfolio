@@ -116,6 +116,7 @@ export type Media = ImageMedia | VideoMedia
 export interface Links {
     readonly type: 'demo' | 'github' | 'gitlab' | 'npm'
     readonly url: string
+    readonly offline?: boolean
 }
 
 /** Tags */
@@ -133,9 +134,6 @@ export interface ProjectBadge {
     readonly palette?: TilePalette
     readonly variant?: BadgeVariant
 }
-
-/** Projects sub-categories */
-export type GenresTypes = 'app' | 'tool' | 'showcase' | 'backend' |'study' | 'design' | 'industrialisation';
 
 /** Top-level project grouping, drives /#section-<category> anchors and routing */
 export type ProjectCategory = 'software' | 'hardware' | 'graphic'

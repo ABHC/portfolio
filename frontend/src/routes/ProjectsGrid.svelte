@@ -35,6 +35,7 @@
         pattern_mask?: TileGridMask;
         pattern_mask_direction?: TileGridMaskDirection;
         pattern_mask_size?: number;
+        aspect_ratio?: string;
     }
 
     let {
@@ -51,7 +52,8 @@
         pattern_effect_opacity = 1,
         pattern_mask = "none",
         pattern_mask_direction = "left",
-        pattern_mask_size = 70
+        pattern_mask_size = 70,
+        aspect_ratio = "4/3"
     }: Props = $props();
 
     const tiles = $derived(
@@ -107,6 +109,7 @@
         pattern_mask_size={pattern_mask_size}
         hero_span={hero_span}
         elevation="hard"
+        aspect_ratio={aspect_ratio}
     >
         {#each tiles as tile (tile.id)}
             <Tile
@@ -121,6 +124,7 @@
                         <Badge 
                             palette={tile.corner.palette ?? 'tone'} 
                             variant={tile.corner.variant} 
+                            elevation="subtle"
                             size="sm"
                         >
                             {tile.corner.label}
@@ -133,6 +137,7 @@
                         <Badge 
                             palette={tile.origin.palette ?? 'accent'} 
                             variant={tile.origin.variant} 
+                            elevation="subtle"
                             uppercase
                             size="sm"
                         >
@@ -144,6 +149,7 @@
                         <Badge 
                             palette={tile.years.palette ?? 'accent'} 
                             variant={tile.years.variant} 
+                            elevation="subtle"
                             uppercase
                             size="sm"
                         >

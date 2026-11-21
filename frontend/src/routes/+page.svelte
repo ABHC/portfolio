@@ -1,8 +1,5 @@
 <script lang="ts">
 	import StoreTest from './StoreTest.svelte';
-    import DesignGallery from './DesignGallery.svelte';
-    import AppsGallery from './AppsGallery.svelte';
-    import ProjectsGallery from './ProjectsGallery.svelte';
     import ProjectsGrid from './ProjectsGrid.svelte';
     import Clients from './clients.svelte';
     import Profile from './Profile.svelte';

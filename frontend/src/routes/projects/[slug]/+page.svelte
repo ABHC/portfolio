@@ -248,11 +248,11 @@
                     {#each data.project.links as link}
                         <Button
                             variant="flat"
-                            palette="accent"
+                            palette={link.offline ? "error" : "accent"}
                             elevation="hard"
                             elevation_persist
                             size="lg"
-                            onclick={() => openExternal(link.url)}
+                            onclick={link.offline ? undefined : () => openExternal(link.url)}
                         >
                             {#if link.type === "github"}
                                 <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
