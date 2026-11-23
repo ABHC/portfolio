@@ -21,7 +21,6 @@
         isValidIconKey
     } from '$lib/utils/iconsBank'
 
-	import { resumePromise } from '$lib/utils/projectsLoader';
 	import Prose from '$lib/components/Prose.svelte';
 
 	import type { ResumeData, Job, Language } from '$lib/types/resume';
@@ -29,7 +28,9 @@
 	import {
 		trans,
 		locale,
-		theme_color,
+		resume,
+		tagline,
+		adapted_color,
 	} from '../store';
 
 	// Constants ---------------------------------------------------------------
@@ -90,29 +91,18 @@
 			.join(' ');
 	}
 
-	// State -------------------------------------------------------------------
-
-	let profile = $state<ResumeData | null>(null);
-	let load_error = $state<Error | null>(null);
-
-	resumePromise
-		.then((p) => (profile = p))
-		.catch((e) => (load_error = e));
-
 	// Reactive ----------------------------------------------------------------
 
-	const adapted_color: string = $derived($theme_color === 'dark' ? 'white' : 'black');
-	const full_name = $derived(profile ? getFullName(profile) : '');
-    const tagline = $derived(profile?.me.tagline[$locale]?.join(' | ') ?? '');
-	const visible_jobs = $derived(profile?.jobs.filter((j) => j.display) ?? []);
-	const visible_studies = $derived(profile?.studies.filter((s) => s.display) ?? []);
-	const visible_langs = $derived(profile?.languages.filter((l) => l.display) ?? []);
-	const visible_refs = $derived(profile?.references.filter((r) => r.display) ?? []);
-	const visible_contacts = $derived(profile?.contact.filter((c) => c.display) ?? []);
-	const visible_key_figures = $derived(profile?.keyFigures.filter((k) => k.display) ?? []);
+	const full_name = $derived($resume ? getFullName($resume) : '');
+	const visible_jobs = $derived($resume?.jobs.filter((j) => j.display) ?? []);
+	const visible_studies = $derived($resume?.studies.filter((s) => s.display) ?? []);
+	const visible_langs = $derived($resume?.languages.filter((l) => l.display) ?? []);
+	const visible_refs = $derived($resume?.references.filter((r) => r.display) ?? []);
+	const visible_contacts = $derived($resume?.contact.filter((c) => c.display) ?? []);
+	const visible_key_figures = $derived($resume?.keyFigures.filter((k) => k.display) ?? []);
 
     const tools_icons = $derived(
-        profile?.tools.map(tool => {
+        $resume?.tools.map(tool => {
             const icon = getIcon(tool.name);
             const bgColor = getIconColor(tool.name);
             return { ...tool, icon, bgColor };
@@ -121,14 +111,7 @@
 
 </script>
 
-{#if load_error}
-	<Callout palette="error" bordered>
-		{#snippet leading()}
-    		<span class="material-symbols-outlined">error</span>
-		{/snippet} 
-        {$trans?.alerts.loading_error}&nbsp;{load_error.message}
-    </Callout>
-{:else if !profile}
+{#if !$resume}
 	<Callout palette="accent" bordered>
 		{#snippet leading()}
     		<span class="material-symbols-outlined">info</span>
@@ -149,7 +132,7 @@
             layout="two-cols"
             palette="transparent"
             pattern="sunrise"
-            pattern_color={adapted_color}
+            pattern_color={$adapted_color}
             pattern_size="150px"
             pattern_opacity={0.03}
             pattern_mask="ellipse"
@@ -166,7 +149,7 @@
                         {full_name}
                     </Headline>
 
-                    <span class="cv-2tagline">{tagline}</span>
+                    <span class="cv-2tagline">{$tagline.join(' | ')}</span>
 
                     <!--<div class="cv-tagline">
                         {#each profile.me.tagline[$locale] as t}
@@ -175,7 +158,7 @@
                     </div>-->
 
                     <div class="cv-hero-bio">
-                        <Prose source={profile!.me.about[$locale].join('')} />
+                        <Prose source={$resume!.me.about[$locale].join('')} />
                     </div>
 
                     <div class="cv-hero-actions">
@@ -209,7 +192,7 @@
                         label="ABHC"
                         shape="square"
                         elevation="hard"
-                        src={profile!.me.portrait}
+                        src={$resume!.me.portrait}
                         alt={full_name}
                     />
                 </div>
@@ -219,7 +202,7 @@
         <!-- Marquee ------------------------------------------------------------- -->
 
         <Marquee>
-            {#each profile.marquee[$locale] as it}
+            {#each $resume.marquee[$locale] as it}
                 <span class="cv-marquee-item">{it}</span>
             {/each}
         </Marquee>
@@ -354,7 +337,7 @@
 
                     <Card variant="outlined" elevation="hard">
                         <div class="cv-skill-groups">
-                            {#each Object.entries(profile.skills[$locale]) as [cat, items]}
+                            {#each Object.entries($resume.skills[$locale]) as [cat, items]}
                                 <div class="cv-skill-group">
                                     <div class="cv-skill-cat">
                                         {$trans?.skills[cat as keyof typeof $trans.skills] ?? cat}

@@ -3,7 +3,7 @@
 
     import {
         locale,
-        theme_color
+        adapted_color
     } from './store';
 
     import type {
@@ -87,10 +87,6 @@
                     : undefined,
             }))
     );
-
-    let adapted_color : string = $derived(
-        $theme_color === "dark" ? "white" : "black"
-    );
 </script>
 
 <section class="grid-container">
@@ -99,7 +95,7 @@
         image_position={image_position}
         elevation_persist={true}
         pattern={pattern}
-        pattern_color={pattern_color ?? adapted_color}
+        pattern_color={pattern_color ?? $adapted_color}
         pattern_opacity={pattern_opacity}
         pattern_size={pattern_size}
         pattern_effect={pattern_effect}

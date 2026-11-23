@@ -1,8 +1,11 @@
 // frontend/src/routes/store.ts
-import { derived, writable, type Writable, get } from 'svelte/store';
+import { derived, writable, type Writable, type Readable, get } from 'svelte/store';
 import { browser } from '$app/env';
 import { translations, available_locales } from './translations';
 import type { Locale, Translation } from "$lib/types/translations";
+import { resumePromise, projectsPromise } from '$lib/utils/projectsLoader';
+import type { ResumeData } from '$lib/types/resume';
+import type { ProjectsData } from '$lib/types/projects';
 
 /* -----------------------------------------
  * Types
@@ -196,6 +199,28 @@ export const theme_color: Writable<"light" | "dark"> = writable("dark");
 
 export const landing_on: Writable<string> = writable('');
 export const api_url: Writable<string> = writable('https://deck.cairngit.eu/v1');
+
+/* -----------------------------------------
+ * Content Stores
+ * ----------------------------------------- */
+function promiseToStore<T>(promise: Promise<T>): Writable<T | null> {
+    const store = writable<T | null>(null);
+    promise.then((value) => store.set(value));
+    return store;
+}
+
+export const resume: Writable<ResumeData | null> = promiseToStore(resumePromise);
+export const projects: Writable<ProjectsData | null> = promiseToStore(projectsPromise);
+
+export const tagline: Readable<string[]> = derived(
+    [resume, locale],
+    ([$resume, $locale]) => $resume?.me.tagline[$locale] ?? []
+);
+
+export const adapted_color: Readable<'white' | 'black'> = derived(
+    theme_color,
+    ($theme_color) => ($theme_color === 'dark' ? 'white' : 'black')
+);
 
 /* -----------------------------------------
  * Responsive Stores

@@ -11,6 +11,7 @@
     import BrandABHC from "$lib/brand/BrandABHC.svelte"
     import LangPopover from './LangPopover.svelte';
     import MenuPopover from './MenuPopover.svelte';
+    import Rotator from './Rotator.svelte';
     import { getIcon } from '$lib/utils/iconsBank';
 
     import { 
@@ -34,6 +35,7 @@
 		window_height,
         theme_color,
         responsive,
+        tagline,
 	} from './store';
 
     // Types ----------
@@ -257,7 +259,12 @@
             return;
         }
 
-        const nav_element = nav_wrap_element;
+        const nav_element = nav_wrap_element.querySelector('nav');
+        if (!nav_element) {
+            top_offset = 0;
+            return;
+        }
+
         const measure = () => {
             top_offset = nav_element.getBoundingClientRect().height;
             document.documentElement.style.setProperty('--top-offset', `${top_offset}px`);
@@ -312,6 +319,18 @@
 
 {#snippet mobile_brand()}
     <BrandABHC size="sm"/>
+{/snippet}
+
+{#snippet tagline_in_header()}
+    <div style="height: 79px;">
+        <Rotator
+            items={$tagline}
+            interval={4000}
+            pause_on_hover={false}
+            transition="slide"
+            class_name="marquee-word"
+        />
+    </div>
 {/snippet}
 
 <!-- Nav snippets -->
@@ -453,6 +472,7 @@
         <Header
             palette="tone"
             leading={desktop_brand}
+            trailing={tagline_in_header}
             bind:visible={header_visible}
         />
     {/if}
@@ -461,8 +481,13 @@
 <!-- Nav (desktop) --------------------------------------------------------------------------- -->
 
 {#if !$responsive.isBelow(1024)}
-    <!-- bind:this here only measures the nav's rendered height for the summary scroll offset -->
-    <div bind:this={nav_wrap_element}>
+    <!--
+        bind:this here only measures the nav's rendered height for the summary scroll offset.
+        display: contents keeps this div out of the box tree — otherwise it becomes the sticky
+        Nav's containing block, and since it shrink-wraps to exactly the Nav's own height, the
+        Nav would have zero room to stick and would just scroll away with the page.
+    -->
+    <div class="nav-measure-wrap" bind:this={nav_wrap_element}>
         <Nav
             position="floating"
             direction="top"
@@ -623,6 +648,10 @@
         color: var(--spk-text);
         font-family: var(--spk-font-body);
         font-size: 14px;
+    }
+
+    .nav-measure-wrap {
+        display: contents;
     }
 
     .nav-trailing-group {
